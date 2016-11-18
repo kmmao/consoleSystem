@@ -21,7 +21,7 @@ __mtime__ = '2016/11/17'
 """
 
 from django.test import TestCase
-import httplib,urllib
+import httplib,json
 
 
 
@@ -51,12 +51,11 @@ class test_httpClient(TestCase):
     def httpClientForPost(self):
         httpClient = None
         try:
-            params = urllib.urlencode({'name': 'tom', 'age': 22})
-            headers = {"Content-type": "application/x-www-form-urlencoded"
-                , "Accept": "text/plain"}
+            params = ({"dir":"/"})
+            headers = {'Content-Type': 'application/json'}
 
-            httpClient = httplib.HTTPConnection("localhost", 8000, timeout=30)
-            httpClient.request("POST", "/test", params, headers)
+            httpClient = httplib.HTTPConnection("192.168.250.62", 9191, timeout=30)
+            httpClient.request("POST", "/dir?action=scan", json.JSONEncoder().encode(params), headers)
 
             response = httpClient.getresponse()
             print response.status
