@@ -16,7 +16,6 @@ Including another URLconf
 """
 from __future__ import unicode_literals
 
-import patterns as patterns
 from django.conf.urls import url
 
 from console.views import HomePageView, FormHorizontalView, FormInlineView, PaginationView, FormWithFilesView, \
