@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 __title__ = ''
-__author__ = 'apple'
+__author__ = 'liukai'
 __mtime__ = '2016/11/19'
 # code is far away from bugs with the god animal protecting
     I love animals. They taste delicious.
@@ -19,30 +19,5 @@ __mtime__ = '2016/11/19'
                   ┃┫┫  ┃┫┫
                   ┗┻┛  ┗┻┛
 """
-
-class requestDict(dict):
-	def __init__(self):
-		pass
-
-	def dirCreateDict(self,dirPath):
-		self.__dict__={'dir':dirPath}
-		return self.__dict__
-
-	def dirDeleteDict(self,dirPath):
-		self.__dict__ = {'dir': dirPath}
-		return self.__dict__
-
-	def dirRenameDict(self,parentDir,newName,oldName):
-		self.__dict__ = {'parentdir': parentDir,'newname':newName,'oldname':oldName}
-		return self.__dict__
-
-	def dirScanDict(self,dirPath):
-		self.__dict__ = {'dir': dirPath}
-		return self.__dict__
-
-	def fileCreateDict(self,fileEntity):
-		self.__dict__ = fileEntity
-		return self.__dict__
-
 
 

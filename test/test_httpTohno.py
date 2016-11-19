@@ -31,9 +31,10 @@ from httpTohno.requestDict import requestDict
 class TestHttpTohno(TestCase):
 
 	def test_httpWithPost(self):
-		params = {"dir": "/"}
-		httpTohnoWithPost = httpTohnoUtils(params,methodEnum.dir_scan)
-		jsonData = httpTohnoWithPost.httpWithPost()
+		#params = {"file": "/allen/allenFileName","content": "allenFileName_content","backupcount": 5,"syncfile": {"infos": [{"host": "192.168.250.178","file": "/home/allenFileName"}]}}
+		params = {'file':'/allen/allenFileName'}
+		httpTohnoWithPost = httpTohnoUtils(params,methodEnum.file_get)
+		jsonData = httpTohnoWithPost.httpTohnoWithPost()
 		print "JSON反馈信息=%s"%jsonData
 	def test_methodEmum(self):
 		print methodEnum.file_create

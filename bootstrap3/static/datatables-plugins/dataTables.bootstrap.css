@@ -129,14 +129,11 @@ table.table-bordered thead th,
 table.table-bordered thead td {
 	border-left-width: 0;
 	border-top-width: 0;
-	border: 0;
 }
 table.table-bordered tbody th,
 table.table-bordered tbody td {
 	border-left-width: 0;
 	border-bottom-width: 0;
-	border: 0;	
-	border-top: 1px solid #ddd;
 }
 table.table-bordered th:last-child,
 table.table-bordered td:last-child {

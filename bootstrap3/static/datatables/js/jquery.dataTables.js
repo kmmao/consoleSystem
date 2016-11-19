@@ -29,7 +29,7 @@
 
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery'], function ($ ) {
+		define( ['jquery'], function ( $ ) {
 			return factory( $, window, document );
 		} );
 	}
@@ -6008,7 +6008,7 @@
 	}
 	
 	
-	/*function _fnSortAria ( settings ) // 2016-11-12
+	function _fnSortAria ( settings )
 	{
 		var label;
 		var nextSort;
@@ -6027,12 +6027,12 @@
 	
 			// IE7 is throwing an error when setting these properties with jQuery's
 			// attr() and removeAttr() methods...
-			//th.removeAttribute('aria-sort');
+			th.removeAttribute('aria-sort');
 	
 			/* In ARIA only the first sorting column can be marked as sorting - no multi-sort option */
-			/*if ( col.bSortable ) {
+			if ( col.bSortable ) {
 				if ( aSort.length > 0 && aSort[0].col == i ) {
-					//th.setAttribute('aria-sort', aSort[0].dir=="asc" ? "ascending" : "descending" );
+					th.setAttribute('aria-sort', aSort[0].dir=="asc" ? "ascending" : "descending" );
 					nextSort = asSorting[ aSort[0].index+1 ] || asSorting[0];
 				}
 				else {
@@ -6048,9 +6048,9 @@
 				label = sTitle;
 			}
 	
-			//th.setAttribute('aria-label', label);
+			th.setAttribute('aria-label', label);
 		}
-	}*/
+	}
 	
 	
 	/**
@@ -14347,8 +14347,8 @@
 		"sProcessing": "dataTables_processing",
 	
 		/* Sorting */
-		//"sSortAsc": "sorting_asc",
-		//"sSortDesc": "sorting_desc",
+		"sSortAsc": "sorting_asc",
+		"sSortDesc": "sorting_desc",
 		"sSortable": "sorting", /* Sortable in both directions */
 		"sSortableAsc": "sorting_asc_disabled",
 		"sSortableDesc": "sorting_desc_disabled",
@@ -14410,8 +14410,8 @@
 			"ui-buttonset-multi paging_", /* Note that the type is postfixed */
 	
 		/* Sorting */
-		//"sSortAsc":            _stateDefault+" sorting_asc",
-		//"sSortDesc":           _stateDefault+" sorting_desc",
+		"sSortAsc":            _stateDefault+" sorting_asc",
+		"sSortDesc":           _stateDefault+" sorting_desc",
 		"sSortable":           _stateDefault+" sorting",
 		"sSortableAsc":        _stateDefault+" sorting_asc_disabled",
 		"sSortableDesc":       _stateDefault+" sorting_desc_disabled",

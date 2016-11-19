@@ -30,7 +30,9 @@ class methodEnum(Enum):
 	# 文件删除
 	file_delete = '/file?action=delete'
 	# 文件获取
-	file_get = '/file?action=rename'
+	file_get = '/file?action=get'
+	# 文件重命名
+	file_rename = '/file?action=rename'
 	# 备份文件内容获取
 	file_backupget = '/file?action=backupget'
 	# 目录创建

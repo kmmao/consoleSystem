@@ -40,11 +40,14 @@ class httpTohnoUtils:
 			httpClient.request("POST", self.method, json.JSONEncoder().encode(self.params), headers)
 
 			response = httpClient.getresponse()
-			print "状态=%s"%(response.status)
-			print "结果=%s"%(response.reason)
+			#print "状态=%s"%(response.status)
+			#print "结果=%s"%(response.reason)
 			#print response.read()
-			print "头信息=%s"%(response.getheaders())  # 获取头信息
-			return response.read()
+			#print "头信息=%s"%(response.getheaders())  # 获取头信息
+			if response.status == 200:
+				return response.read()
+			else:
+				return '数据异常'
 		except Exception, e:
 			print e
 		finally:
