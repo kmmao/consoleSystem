@@ -18,7 +18,10 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <div class="toolbar"></div>
+                    <div class="toolbar "><a class="btn btn-primary" href="javascript:void(0)"><i class="fa fa-folder"></i> 文件夹添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)"><i class="fa fa-folder"></i> 文件夹编辑</a>&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:void(0)"><i class="fa fa-file"></i> 文件添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)"><i class="fa fa-file"></i> 文件编辑</a>&nbsp;&nbsp;<a class="btn btn-danger" href="javascript:void(0)"><i class="fa fa-trash-o"></i> 删除</a></div><br/>
+                    <ul class="breadcrumb" id="my-breadcrumb">
+                    </ul>
+                    <br/>
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-configFileManage">
                         <thead>
                             <tr>
@@ -37,6 +40,7 @@
 {% endblock %}
 
 {% block base_extra_script %}
+    <script src="/static/bootstrap-breadcrumb/bootstrap-breadcrumb.js"></script>
     <script src="{% bootstrap_datatables_url %}js/jquery.dataTables.js"></script>
     <script src="{% bootstrap_datatables_plugins_url %}dataTables.bootstrap.js"></script>
     <script src="{% bootstrap_datatables_responsive_url %}dataTables.responsive.js"></script>

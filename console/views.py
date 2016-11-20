@@ -11,6 +11,9 @@ from django.views.generic.base import TemplateView
 from django.contrib import messages
 
 from console.models import Student
+from httpTohno.httpTohnoUtils import httpTohnoUtils
+from httpTohno.methodEnum import methodEnum
+from httpTohno.requestDict import requestDict
 from .forms import ContactForm, FilesForm, ContactFormSet
 
 
@@ -24,6 +27,14 @@ fieldfile = FieldFile(None, FakeField, 'dummy.txt')
 
 def test(request):
     return HttpResponse('abc')
+
+def dirScan(request):
+	if request.is_ajax() and request.method == 'POST':
+		params = requestDict().dirScanDict(request.POST['dirPath'])
+		print params
+		jsonData = httpTohnoUtils(params, methodEnum.dir_scan).httpTohnoWithPost()
+		print jsonData
+		return HttpResponse(jsonData)
 
 def showRealStudents(request):
     list = Student.objects.all()

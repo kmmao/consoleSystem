@@ -19,22 +19,60 @@
          * layout
          */
         layout: function() {
-            var jsonData = [
-                [
-                    "",
-                    "ERP"
-                ],
-                [
-                    "",
-                    "AB"
-                ],
-            ];
 
-            $(document).ready(function() {
+            // $.post('/dirScan',{
+            //     dirPath:'/'
+            // },function(res){
+            //     initTable(res);
+            // });
+
+            // var jsonData = {
+            //     "dir":"/",
+            //     "data":[
+            //         {
+            //             "name":"erp",
+            //             "isdir":true
+            //         },
+            //         {
+            //             "name":"AB",
+            //             "isdir":false
+            //         }
+            //     ]
+            // };
+            // $(document).ready(function() {
+                
+            // });
+
+            // var jsonData = {"dir":"/","infos":[{"name":"allen","isdir":true},{"name":"erp","isdir":true},{"name":"kaokao","isdir":false},{"name":"qa","isdir":true}]};
+
+            var breadcrumb = $('#my-breadcrumb').breadcrumb();
+            breadcrumb.push('/');
+            breadcrumb.push('Level');
+            breadcrumb.push('Level1');
+            breadcrumb.push('Level2');
+            breadcrumb.push('Level3');
+            //breadcrumb.pop();
+
+            $('#my-breadcrumb').on('change', function (el, path) {
+                console.log(path);
+            });
+
+            initTable();
+
+            function initTable(){
                 $('#dataTables-configFileManage').DataTable({
                     responsive: true,
-                    //'ajax':jsonData.json
-                    data: jsonData,
+                    "ServerSide":true, 
+                    //data: jsonData["infos"],
+                    //post request
+                    "processing": true,
+                    "ajax": {
+                        "url":"/dirScan",
+                        "dataSrc":"infos",
+                        "type":"POST",
+                        "data":{dirPath:"/"}
+                    },
+                    //"sAjaxDataProp": "data.infos"，
                     "language": {
                         "lengthMenu": "每页 _MENU_ 条记录",
                         "zeroRecords": "没有找到记录",
@@ -49,20 +87,33 @@
                             "next": "下一页"
                         }
                     },
+                    "columns": [
+                        { "data": "" },
+                        { "data": "name" }
+                    ],
                     "columnDefs": [{
                         "render": function(data, type, row) {
                             return '<input type="checkbox" name="checkList">';
                         },
                         orderable: false,
                         targets: 0
+                    },{
+                        "render": function(data, type, row) {
+                            //console.log(row["isdir"])
+                            if(row["isdir"]==true){
+                                return '<p><i class="dir"></i>&nbsp&nbsp'+data+'</p>';
+                            }else{
+                                return '<p><i class="file"></i>&nbsp&nbsp'+data+'</p>';
+                            }
+                            
+                        },
+                        targets: 1
                     }], //第一列禁止排序
                     "order": [
                         [0, null]
                     ], //第一列排序图标改为默认
                 });
-
-                $("div.toolbar").html('<b style="color:red">自定义文字、图片等等</b>');
-            });
+            }
         },
         /**
          * base event

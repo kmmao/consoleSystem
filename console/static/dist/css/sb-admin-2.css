@@ -200,6 +200,19 @@ table.dataTable thead .sorting:after {
   font-family: fontawesome;
   color: rgba(50, 50, 50, 0.5);
 }
+
+table.dataTable .dir:after{
+  content: "\f01c";
+  float: left;
+  font-family: fontawesome;
+}
+
+table.dataTable .file:after{
+  content: "\f016";
+  float: left;
+  font-family: fontawesome;
+}
+
 .btn-circle {
   width: 30px;
   height: 30px;

@@ -20,9 +20,10 @@ from django.conf.urls import url
 
 from console.views import HomePageView, FormHorizontalView, FormInlineView, PaginationView, FormWithFilesView, \
     DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView, showRealStudents, indexView, \
-    configFileManage, templatesManage,test
+    configFileManage, templatesManage,test,dirScan
 
 urlpatterns = [
+    url(r'^dirScan$',dirScan),
     url(r'^test$', test),
     url(r'^$', indexView.as_view(), name='indexView'),
     url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
