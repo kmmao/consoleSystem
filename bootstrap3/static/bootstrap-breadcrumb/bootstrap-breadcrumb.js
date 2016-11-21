@@ -78,7 +78,8 @@
     }
     path.push(label);
     this.$element.append("<li data-breadcrumb-level='"+path.length+"' class='active'>"+label+"</li>");
-    this.$element.trigger('change', [path]);
+    //this.$element.trigger('change', [path]);
+    this.$element.trigger('change', extractPwd(this.$element.children('li')));
   }
  
   Breadcrumb.prototype.pop = function(iteration) {

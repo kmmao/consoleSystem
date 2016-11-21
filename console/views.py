@@ -10,7 +10,7 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from console.models import Student
+from console.models import Student, sever_url_info
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
 from httpTohno.requestDict import requestDict
@@ -28,13 +28,12 @@ fieldfile = FieldFile(None, FakeField, 'dummy.txt')
 def test(request):
     return HttpResponse('abc')
 
-def dirScan(request):
+def dir(request,action):
 	if request.is_ajax() and request.method == 'POST':
-		params = requestDict().dirScanDict(request.POST['dirPath'])
-		print params
-		jsonData = httpTohnoUtils(params, methodEnum.dir_scan).httpTohnoWithPost()
-		print jsonData
-		return HttpResponse(jsonData)
+		if action == 'scan':
+			params = requestDict().dirScanDict(request.POST['dirPath'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_scan).httpTohnoWithPost()
+			return HttpResponse(jsonData)
 
 def showRealStudents(request):
     list = Student.objects.all()
@@ -53,9 +52,14 @@ class indexView(FormView):
     template_name = 'console/index.html'
     form_class = ContactFormSet
 
-class configFileManage(FormView):
+class configFileManage(TemplateView):
     template_name = 'console/config/configFileManage.html'
-    form_class = ContactFormSet
+    #form_class = ContactFormSet
+
+    def get_context_data(self, **kwargs):
+        context = super(configFileManage, self).get_context_data(**kwargs)
+        context['serverUrlInfos'] = sever_url_info.objects.all()
+        return context
 
 class templatesManage(FormView):
     template_name = 'console/config/templatesManage.html'

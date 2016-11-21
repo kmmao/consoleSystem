@@ -20,10 +20,10 @@ from django.conf.urls import url
 
 from console.views import HomePageView, FormHorizontalView, FormInlineView, PaginationView, FormWithFilesView, \
     DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView, showRealStudents, indexView, \
-    configFileManage, templatesManage,test,dirScan
+    configFileManage, templatesManage,test,dir
 
 urlpatterns = [
-    url(r'^dirScan$',dirScan),
+    url(r'^dir/(?P<action>\w+)/$',dir),
     url(r'^test$', test),
     url(r'^$', indexView.as_view(), name='indexView'),
     url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
@@ -38,5 +38,4 @@ urlpatterns = [
     url(r'^pagination$', PaginationView.as_view(), name='pagination'),
     url(r'^misc$', MiscView.as_view(), name='misc'),
     url(r'^showRealStudents/$', showRealStudents),
-    #url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_ROOT}),
 ]

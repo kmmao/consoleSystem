@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting,fontAwesome_url,
-    metisMenu_url,datatables_url,datatables_plugins_url,datatables_responsive_url
+    metisMenu_url,datatables_url,datatables_plugins_url,datatables_responsive_url,layer_url
 )
 from ..components import render_icon, render_alert
 from ..forms import (
@@ -134,6 +134,10 @@ def bootstrap_metisMenu_url():
 @register.simple_tag
 def bootstrap_datatables_url():
     return datatables_url()
+
+@register.simple_tag
+def bootstrap_layer_url():
+    return layer_url()
 
 @register.simple_tag
 def bootstrap_datatables_plugins_url():
