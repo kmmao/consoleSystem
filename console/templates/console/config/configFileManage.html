@@ -18,7 +18,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <div class="toolbar "><a class="btn btn-primary data-title" id="addDir" href="javascript:void(0)"><i class="fa fa-folder"></i> 文件夹添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)"><i class="fa fa-folder"></i> 文件夹重命名</a>&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:void(0)"><i class="fa fa-file"></i> 文件添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)"><i class="fa fa-file"></i> 文件重命名</a>&nbsp;&nbsp;<a class="btn btn-danger" href="javascript:void(0)"><i class="fa fa-trash-o"></i> 删除</a></div><br/>
+                    <div class="toolbar "><a class="btn btn-primary data-title" id="addDir" href="javascript:void(0)"><i class="fa fa-folder"></i> 文件夹添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)" id="dirRename"><i class="fa fa-folder"></i> 文件夹重命名</a>&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:void(0)" id="addFile"><i class="fa fa-file"></i> 文件添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)" id="fileRename"><i class="fa fa-file"></i> 文件重命名</a>&nbsp;&nbsp;<a class="btn btn-danger" href="javascript:void(0)" id="delete"><i class="fa fa-trash-o"></i> 删除</a></div><br/>
                     <div class="col-xs-2">
                         <select class="form-control" id="envSelect">
                             {% for serverUrlInfo in serverUrlInfos %}
@@ -54,7 +54,18 @@
             <div class="panel-body">
                <div class="form-group">
                     <label>文件夹名</label>
-                    <input class="form-control">
+                    <input class="form-control" id="dirName">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="file-dialog" style="display:none;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <div class="form-group">
+                    <label>文件名</label>
+                    <input class="form-control" id="fileName">
                 </div>
             </div>
         </div>

@@ -44,5 +44,9 @@ class requestDict(dict):
 		self.__dict__ = fileEntity
 		return self.__dict__
 
+	def fileRenameDict(self,parentDir,newName,oldName):
+		self.__dict__ = {'parentdir': parentDir,'newname':newName,'oldname':oldName}
+		return self.__dict__
+
 
 

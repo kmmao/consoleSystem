@@ -61,6 +61,20 @@
     return path;
   }
 
+  Breadcrumb.prototype.extractPwd = function(elements){
+    var path ='/';
+    for (var i = 0; i < elements.length; i++) {
+      if(i!=0){
+        if(i == elements.length-1){
+        path+=extractLabel(elements[i]);
+        }else{
+          path+=extractLabel(elements[i])+'/';
+        }
+      }
+    }
+    return path;
+  }
+
   Breadcrumb.prototype.push = function(label) {
     var path = extractPath(this.$element.children('li'));
     if (path.length > 0) {

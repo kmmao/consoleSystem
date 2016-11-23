@@ -34,6 +34,25 @@ def dir(request,action):
 			params = requestDict().dirScanDict(request.POST['dirPath'])
 			jsonData = httpTohnoUtils(params, methodEnum.dir_scan).httpTohnoWithPost()
 			return HttpResponse(jsonData)
+		if action == 'addDir':
+			params = requestDict().dirCreateDict(request.POST['dirPath'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_create).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+		if action == 'deleteDir':
+			params = requestDict().dirDeleteDict(request.POST['dirPath'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_delete).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+		if action == 'renameDir':
+			params = requestDict().dirRenameDict(request.POST['parentDir'],request.POST['newName'],request.POST['oldName'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_rename).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+
+def fileHandle(request,action):
+	if request.is_ajax() and request.method == 'POST':
+		if action == 'renameFile':
+			params = requestDict().fileRenameDict(request.POST['parentDir'], request.POST['newName'],request.POST['oldName'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_rename).httpTohnoWithPost()
+			return HttpResponse(jsonData)
 
 def showRealStudents(request):
     list = Student.objects.all()

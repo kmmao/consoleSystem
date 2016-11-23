@@ -51,3 +51,4 @@ class TestHttpTohno(TestCase):
 		jsonData = json.dumps(rd)
 		print type(jsonData)
 
+

@@ -5,7 +5,15 @@
  */
 
 (function($) {
-
+    /**
+     * [breadcrumb 初始化路径]
+     * @type {[type]}
+     */
+    var breadcrumb = $('#my-breadcrumb').breadcrumb();
+    /**
+     * [configFileManage 主体内容]
+     * @type {Object}
+     */
     var configFileManage = {
         /**
          * init
@@ -21,7 +29,6 @@
         layout: function() {
             var path = $("#envSelect").val();
             $('#my-breadcrumb').find("li").remove();
-            var breadcrumb = $('#my-breadcrumb').breadcrumb();
             breadcrumb.push(path);
             initTable(path);
         },
@@ -36,7 +43,6 @@
              */
             $("#envSelect").change(function() {
                 $('#my-breadcrumb').find("li").remove();
-                var breadcrumb = $('#my-breadcrumb').breadcrumb();
                 breadcrumb.push($(this).val());
             });
             /**
@@ -74,10 +80,6 @@
                 } else {
                     $(this).prop('checked', false);
                 }
-                // var $tr = $(this).parents('tr');
-                // $tr.toggleClass('selected');
-                // var $tmp = $('[name=checkList]:checkbox');
-                // $('#checkAll').prop('checked', $tmp.length == $tmp.filter(':checked').length);
             });
 
             /**
@@ -87,8 +89,164 @@
              */
             $("#dataTables-configFileManage").on('click', '.dirClick', function() {
                 var path = $(this).attr("data");
-                var breadcrumb = $('#my-breadcrumb').breadcrumb();
                 breadcrumb.push(path.split("/").pop());
+            });
+            /**
+             * [文件重命名]
+             * @param  {[type]} )             {                           $("#dirName").val("");                var parentDir [description]
+             * @param  {[type]} function(res) {                                                                                              layer.msg(res.info);                                    if (res.status [description]
+             * @return {[type]}               [description]
+             */
+            $("#fileRename").click(function() {
+                $("#fileName").val("");
+                var parentDir = breadcrumb.extractPwd($('#my-breadcrumb').children('li'));
+                var $tmp = $('[name=checkList]:checkbox');
+                if ($tmp.filter(':checked').length == 0) {
+                    layer.msg("未选择。");
+                } else {
+                    var $select = $tmp.filter(':checked');
+                    if ($select.attr("isdir") == "false") {
+                        var oldName = $select.attr("data").split('/').pop();
+                        layer.open({
+                            type: 1,
+                            title: '文件重命名', //不显示标题
+                            area: ['auto', 'auto'],
+                            btn: ['保存', '取消'],
+                            shadeClose: false,
+                            content: $("#file-dialog"), //捕获的元素
+                            yes: function() {
+                                $.post('/file/renameFile/', {
+                                    parentDir: parentDir,
+                                    newName: $("#fileName").val(),
+                                    oldName: oldName
+                                }, function(res) {
+                                    layer.msg(res.info);
+                                    if (res.status == 200) {
+                                        window.setTimeout(function() {
+                                            layer.closeAll();
+                                            breadcrumb.pop(0);
+                                        }, 1000);
+                                    }
+                                }, 'json');
+                            },
+                            cancel: function() {
+                                layer.closeAll();
+                            }
+                        });
+                    } else {
+                        layer.msg("请选择文件");
+                    }
+                }
+            });
+            /**
+             * [文件夹重命名]
+             * @param  {[type]} ){                         } [description]
+             * @return {[type]}     [description]
+             */
+            $("#dirRename").click(function() {
+                $("#dirName").val("");
+                var parentDir = breadcrumb.extractPwd($('#my-breadcrumb').children('li'));
+                var $tmp = $('[name=checkList]:checkbox');
+                if ($tmp.filter(':checked').length == 0) {
+                    layer.msg("未选择。");
+                } else {
+                    var $select = $tmp.filter(':checked');
+                    if ($select.attr("isdir") == "true") {
+                        var oldName = $select.attr("data").split('/').pop();
+                        layer.open({
+                            type: 1,
+                            title: '文件夹重命名', //不显示标题
+                            area: ['auto', 'auto'],
+                            btn: ['保存', '取消'],
+                            shadeClose: false,
+                            content: $("#dir-dialog"), //捕获的元素
+                            yes: function() {
+                                $.post('/dir/renameDir/', {
+                                    parentDir: parentDir,
+                                    newName: $("#dirName").val(),
+                                    oldName: oldName
+                                }, function(res) {
+                                    layer.msg(res.info);
+                                    if (res.status == 200) {
+                                        window.setTimeout(function() {
+                                            layer.closeAll();
+                                            breadcrumb.pop(0);
+                                        }, 1000);
+                                    }
+                                }, 'json');
+                            },
+                            cancel: function() {
+                                layer.closeAll();
+                            }
+                        });
+                    } else {
+                        layer.msg("请选择文件夹");
+                    }
+                }
+            });
+            /**
+             * [删除]
+             * @param  {[type]} ){                         } [description]
+             * @return {[type]}     [description]
+             */
+            $("#delete").click(function() {
+                var $tmp = $('[name=checkList]:checkbox');
+                if ($tmp.filter(':checked').length == 0) {
+                    layer.msg("未选择。");
+                } else {
+                    var $select = $tmp.filter(':checked');
+                    if ($select.attr("isdir") == "true") {
+                        $.post('/dir/deleteDir/', {
+                            dirPath: $select.attr('data')
+                        }, function(res) {
+                            layer.msg(res.info);
+                            if (res.status == 200) {
+                                window.setTimeout(function() {
+                                    layer.closeAll();
+                                    breadcrumb.pop(0);
+                                }, 1000);
+                            }
+                        }, 'json');
+                    } else {
+
+                    }
+                }
+            });
+            /**
+             * [文件添加]
+             * @param  {[type]} ){                         } [description]
+             * @return {[type]}     [description]
+             */
+            $("#addFile").click(function() {
+                var dirPath = breadcrumb.extractPwd($('#my-breadcrumb').children('li'));
+                //清空数据
+                $("#fileName").val("");
+
+                layer.open({
+                    type: 1,
+                    title: '新增文件', //不显示标题
+                    area: ['auto', 'auto'],
+                    btn: ['保存', '取消'],
+                    shadeClose: false,
+                    content: $("#file-dialog"), //捕获的元素
+                    yes: function() {
+                        //进行新增操作
+                        $.post('/file/addFile/', {
+                            dirPath: dirPath + "/" + $("#fileName").val()
+                        }, function(res) {
+                            layer.msg(res.info);
+                            if (res.status == 200) {
+                                window.setTimeout(function() {
+                                    layer.closeAll();
+                                    breadcrumb.pop(0);
+                                }, 1000);
+                            }
+                        }, 'json');
+                    },
+                    cancel: function() {
+                        layer.closeAll();
+                    }
+                });
             });
             /**
              * [文件夹添加]
@@ -96,24 +254,33 @@
              * @return {[type]}       [description]
              */
             $("#addDir").click(function() {
-                // var $tmp = $('[name=checkList]:checkbox');
-                // if($tmp.filter(':checked').length==0){
-                //     $.scojs_message('未选择', $.scojs_message.TYPE_ERROR);
-                // }else{
+                var dirPath = breadcrumb.extractPwd($('#my-breadcrumb').children('li'));
+                //清空数据
+                $("#dirName").val("");
 
-                // }
                 layer.open({
                     type: 1,
                     title: '新增文件夹', //不显示标题
-                    area:['auto','auto'],
-                    btn:['保存','取消'],
+                    area: ['auto', 'auto'],
+                    btn: ['保存', '取消'],
                     shadeClose: false,
                     content: $("#dir-dialog"), //捕获的元素
-                    yes:function(){
+                    yes: function() {
                         //进行新增操作
-                        $.post()
+                        $.post('/dir/addDir/', {
+                            dirPath: dirPath + "/" + $("#dirName").val()
+                        }, function(res) {
+                            layer.msg(res.info);
+                            if (res.status == 200) {
+                                window.setTimeout(function() {
+                                    layer.closeAll();
+                                    breadcrumb.pop(0);
+                                    //breadcrumb.push(dirPath.split('/').pop());
+                                }, 1000);
+                            }
+                        }, 'json');
                     },
-                    cancel:function() {
+                    cancel: function() {
                         layer.closeAll();
                     }
                 });
@@ -165,7 +332,11 @@
             }],
             "columnDefs": [{
                 "render": function(data, type, row) {
-                    return '<input type="checkbox" name="checkList">';
+                    if (path == '/') {
+                        return '<input type="checkbox" name="checkList" isdir="' + row["isdir"] + '" data="' + path + row["name"] + '">';
+                    } else {
+                        return '<input type="checkbox" name="checkList" isdir="' + row["isdir"] + '" data="' + path + '/' + row["name"] + '">';
+                    }
                 },
                 orderable: false,
                 targets: 0
