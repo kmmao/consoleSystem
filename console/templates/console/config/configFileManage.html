@@ -3,11 +3,6 @@
 
 {% block title %}配置文件管理{% endblock %}
 
-{% block base_extra_head %}
-    <link href="{% bootstrap_datatables_plugins_url %}dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="{% bootstrap_datatables_responsive_url %}dataTables.responsive.css" rel="stylesheet" type="text/css">
-{% endblock %}
-
 {% block content %}
     <!-- /.row -->
     <div class="row">
@@ -74,8 +69,7 @@
 
 {% block base_extra_script %}
     <script src="/static/bootstrap-breadcrumb/bootstrap-breadcrumb.js"></script>
-    <script src="{% bootstrap_datatables_url %}js/jquery.dataTables.js"></script>
-    <script src="{% bootstrap_datatables_plugins_url %}dataTables.bootstrap.js"></script>
-    <script src="{% bootstrap_datatables_responsive_url %}dataTables.responsive.js"></script>
+{% endblock %}
+{% block self_script %}
     <script src="/static/dist/js/configFileManage.js"></script>
 {% endblock %}

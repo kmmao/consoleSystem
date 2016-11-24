@@ -12,7 +12,8 @@ from django.utils.safestring import mark_safe
 
 from ..bootstrap import (
     css_url, javascript_url, jquery_url, theme_url, get_bootstrap_setting,fontAwesome_url,
-    metisMenu_url,datatables_url,datatables_plugins_url,datatables_responsive_url,layer_url
+    metisMenu_url,datatables_url,datatables_plugins_url,datatables_responsive_url,layer_url,
+    jquery_steps_url,jquery_validate_url
 )
 from ..components import render_icon, render_alert
 from ..forms import (
@@ -128,8 +129,16 @@ def bootstrap_fontAwesome_url():
     return fontAwesome_url()
 
 @register.simple_tag
+def bootstrap_jquery_validate_url():
+	return jquery_validate_url()
+
+@register.simple_tag
 def bootstrap_metisMenu_url():
     return metisMenu_url()
+
+@register.simple_tag
+def bootstrap_jquery_steps_url():
+	return jquery_steps_url()
 
 @register.simple_tag
 def bootstrap_datatables_url():

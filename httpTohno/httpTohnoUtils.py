@@ -45,6 +45,8 @@ class httpTohnoUtils:
 			#print response.read()
 			#print "头信息=%s"%(response.getheaders())  # 获取头信息
 			jsonData = json.loads(response.read())
+			if not jsonData["infos"] :
+				jsonData["infos"] = []
 			jsonData['status'] = response.status
 			return json.dumps(jsonData)
 		except Exception, e:

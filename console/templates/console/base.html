@@ -6,6 +6,8 @@
     <link href="{% bootstrap_metisMenu_url %}metisMenu.css" rel="stylesheet" type="text/css">
     <link href="{% bootstrap_fontAwesome_url %}" rel="stylesheet" type="text/css">
     <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="{% bootstrap_datatables_plugins_url %}dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="{% bootstrap_datatables_responsive_url %}dataTables.responsive.css" rel="stylesheet" type="text/css">
     {% block base_extra_head %}{% endblock %}
 {% endblock %}
 
@@ -86,6 +88,10 @@
 {% block bootstrap3_extra_script %}
     <script src="{% bootstrap_metisMenu_url %}metisMenu.min.js"></script>
     <script src="{% bootstrap_layer_url %}"></script>
+    <script src="{% bootstrap_datatables_url %}js/jquery.dataTables.js"></script>
+    <script src="{% bootstrap_datatables_plugins_url %}dataTables.bootstrap.js"></script>
+    <script src="{% bootstrap_datatables_responsive_url %}dataTables.responsive.js"></script>
     {% block base_extra_script %}{% endblock %}
+    {% block self_script %}{% endblock %}
     <script src="/static/dist/js/sb-admin-2.js"></script>
 {% endblock %}

@@ -54,6 +54,14 @@ def fileHandle(request,action):
 			jsonData = httpTohnoUtils(params, methodEnum.dir_rename).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 
+class fileIframe(TemplateView):
+	template_name = 'console/config/fileIframe.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(fileIframe, self).get_context_data(**kwargs)
+		messages.info(self.request, 'hello http://example.com')
+		return context
+
 def showRealStudents(request):
     list = Student.objects.all()
     return render_to_response('console/other/student.html', {'students': list})

@@ -218,35 +218,15 @@
              * @return {[type]}     [description]
              */
             $("#addFile").click(function() {
-                var dirPath = breadcrumb.extractPwd($('#my-breadcrumb').children('li'));
-                //清空数据
-                $("#fileName").val("");
-
-                layer.open({
-                    type: 1,
-                    title: '新增文件', //不显示标题
-                    area: ['auto', 'auto'],
-                    btn: ['保存', '取消'],
-                    shadeClose: false,
-                    content: $("#file-dialog"), //捕获的元素
-                    yes: function() {
-                        //进行新增操作
-                        $.post('/file/addFile/', {
-                            dirPath: dirPath + "/" + $("#fileName").val()
-                        }, function(res) {
-                            layer.msg(res.info);
-                            if (res.status == 200) {
-                                window.setTimeout(function() {
-                                    layer.closeAll();
-                                    breadcrumb.pop(0);
-                                }, 1000);
-                            }
-                        }, 'json');
-                    },
-                    cancel: function() {
-                        layer.closeAll();
-                    }
+                var index = layer.open({
+                    title: '文件添加',
+                    type: 2,
+                    area: ['1200px', '760px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: '/fileIframe'
                 });
+                //layer.full(index);
             });
             /**
              * [文件夹添加]
@@ -313,13 +293,13 @@
             //"sAjaxDataProp": "data.infos"，
             "language": {
                 "lengthMenu": "每页 _MENU_ 条记录",
-                "zeroRecords": "没有找到记录",
+                "zeroRecords": "",
                 "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
                 "infoEmpty": "无记录",
                 "infoFiltered": "(从 _MAX_ 条记录过滤)",
                 "loadingRecords": "加载中...",
                 "search": "过滤目录及文件:",
-                "sEmptyTable": "未有相关数据",
+                "sEmptyTable": "",
                 "paginate": {
                     "previous": "上一页",
                     "next": "下一页"

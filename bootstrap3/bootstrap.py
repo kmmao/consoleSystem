@@ -13,7 +13,9 @@ BOOTSTRAP3_DEFAULTS = {
     'base_url': '/static/bootstrap/',
     'metisMenu_url':'/static/metisMenu/',
     'sco_url':'/static/sco/',
-    'layer_url':'static/layer/layer.js',
+    'layer_url':'/static/layer/layer.js',
+    'jquery_steps':'/static/jquery-steps/',
+    'jquery_validate':'/static/jquery-validate/',
     'datatables_url':'/static/datatables/',
     'datatables_plugins_url':'/static/datatables-plugins/',
     'datatables_responsive_url':'/static/datatables-responsive/',
@@ -69,6 +71,12 @@ def sco_url():
 
 def layer_url():
     return get_bootstrap_setting('layer_url')
+
+def jquery_validate_url():
+    return get_bootstrap_setting('jquery_validate')
+
+def jquery_steps_url():
+    return get_bootstrap_setting('jquery_steps')
 
 def datatables_url():
     return get_bootstrap_setting('datatables_url')
