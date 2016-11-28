@@ -1,88 +1,123 @@
-{% extends 'console/base.html' %}
-{% load bootstrap3 %}
-
-{% block title %}Dashboard{% endblock %}
-
-{% block base_extra_head %}
-	<link href="{% bootstrap_jquery_steps_url %}normalize.css" rel="stylesheet" type="text/css">
-	<link href="{% bootstrap_jquery_steps_url %}main.css" rel="stylesheet" type="text/css">
-    <link href="{% bootstrap_jquery_steps_url %}jquery.steps.css" rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block bootstrap3_content %}
-    <form id="file-form" action="#">
+{% extends 'console/base.html' %} {% load bootstrap3 %} {% block title %}Dashboard{% endblock %} {% block base_extra_head %}
+<link href="{% bootstrap_jquery_steps_url %}normalize.css" rel="stylesheet" type="text/css">
+<link href="{% bootstrap_jquery_steps_url %}main.css" rel="stylesheet" type="text/css">
+<link href="{% bootstrap_jquery_steps_url %}jquery.steps.css" rel="stylesheet" type="text/css"> {% endblock %} {% block bootstrap3_content %}
+<form id="file-form" role="form" action="#">
     <div>
         <h3>填写文件</h3>
         <section>
-        	<div class="row" style="overflow-y:auto;overflow-x:auto;height:500px;">
-        		<div class="col-md-12">
-	        		<table width="100%" class="table table-responsive table-striped table-bordered table-hover" id="dataTables">
-		                <thead>
-		                    <tr>
-		                        <th style="width:20%;">内网ip</th>
-		                        <th style="width:75%;">路径</th>
-		                        <th style="width:5%;"><a href="javascript:void(0)" id="addRow"><i class="fa fa-plus-circle fa-lg"/></a></th>
-		                    </tr>
-		                </thead>
-	            	</table>
-            	</div>
-        	</div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">文件名</div>
+                            <input id="fileName" name="fileName" class="form-control required" type="text" placeholder="请输入文件名">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <small>打开现有模板</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <textarea id="fileContent" class="form-control required" name="fileContent" rows="18" placeholder="请输入内容"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <textarea class="form-control" rows="18"></textarea>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">备份版本数量</div>
+                            <input id='backupcount' name="backupcount" class="required digits form-control" type="text" placeholder="不填默认为5">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8"></div>
+            </div>
         </section>
         <h3>关联主机</h3>
         <section>
-        	<div class="row">
-			  <div class="col-md-8">
-			  	<div class="form-group">
-				    <div class="input-group">
-				      	<div class="input-group-addon">文件名</div>
-				      	<input class="form-control" type="text" placeholder="请输入文件名">
-				    </div>
-				</div>
-			  </div>
-			  <div class="col-md-4 text-center">
-			  	<small>打开现有模板</small>
-			  </div>
-			</div>
-			<div class="row">
-			  <div class="col-md-8">
-			  	<textarea class="form-control" rows="18"></textarea>
-			  </div>
-			  <div class="col-md-4">
-			  	<textarea class="form-control" rows="18"></textarea>
-			  </div>
-			</div>
-			<br/>
-			<div class="row">
-			  <div class="col-md-4">
-			  	<div class="form-group">
-				    <div class="input-group">
-				      	<div class="input-group-addon">备份版本数量</div>
-				      	<input class="form-control" type="text" placeholder="不填默认为5">
-				    </div>
-				</div>
-			  </div>
-			  <div class="col-md-8"></div>
-			</div>
+            <div class="row" style="overflow-y:auto;overflow-x:auto;height:450px;">
+                <div class="col-md-12">
+                    <table width="100%" class="table table-responsive table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th style="width:20%;">内网ip</th>
+                                <th style="width:75%;">路径</th>
+                                <th style="width:5%;">
+                                    <a href="javascript:void(0)" id="addRow"><i class="fa fa-plus-circle fa-lg"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
         </section>
         <h3>下发执行</h3>
         <section>
-            <ul>
-                <li>Foo</li>
-                <li>Bar</li>
-                <li>Foobar</li>
-            </ul>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">文件名</div>
+                            <input class="form-control" id="showFileName" readonly="readonly" type="text" placeholder="请输入文件名">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea class="form-control" id="showFileContent" readonly="readonly" rows="8">
+                    </textarea>
+                </div>
+            </div>
+            <br/>
+            <div class="row" style="overflow-y:auto;overflow-x:auto;height:200px;">
+                <div class="col-md-12">
+                    <table width="100%" class="table table-responsive table-striped table-bordered table-hover" id="dataTablesFinal">
+                        <thead>
+                            <tr>
+                                <th style="width:15%;">下发ip地址及路径</th>
+                                <th style="width:85%;"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+				        <input type="checkbox" name="artCheck" class="required">
+				      	</span>
+                        <input type="text" class="form-control" readonly="readonly" value="是否确认执行并下发？">
+                    </div>
+                </div>
+            </div>
         </section>
         <h3>执行反馈</h3>
         <section>
-            <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">I agree with the Terms and Conditions.</label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="loading"><i class="fa fa-spinner fa-pulse"></i>下发执行中</div>
+                    <pre class="pre-scrollable" id="opinfo"></pre>
+                </div>
+            </div>
         </section>
     </div>
 </form>
-{% endblock %}
-{% block self_script %}
-	<script src="{% bootstrap_jquery_steps_url %}jquery.steps.js"></script>
-	<script src="{% bootstrap_jquery_validate_url %}jquery.validate.js"></script>
-	<script src="{% bootstrap_jquery_validate_url %}jquery.metadata.js"></script>
-    <script src="/static/dist/js/fileIframe.js"></script>
-    <script src="/static/modernizr/modernizr-2.6.2.min.js"></script>
+{% endblock %} {% block self_script %}
+<script src="{% bootstrap_jquery_steps_url %}jquery.steps.js"></script>
+<script src="{% bootstrap_jquery_validate_url %}jquery.validate.js"></script>
+<script src="{% bootstrap_jquery_validate_url %}jquery.metadata.js"></script>
+<script src="/static/dist/js/fileIframe.js"></script>
+<script src="/static/modernizr/modernizr-2.6.2.min.js"></script>
 {% endblock %}

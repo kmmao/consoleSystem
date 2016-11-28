@@ -22,6 +22,7 @@ __mtime__ = '2016/11/19'
 import httplib,json
 
 from consoleSystem.settings import TOHNO_HTTP_URL, TOHNO_HTTP_PORT, TOHNO_HTTP_OUTTIME
+from httpTohno.methodEnum import methodEnum
 
 
 class httpTohnoUtils:
@@ -45,8 +46,9 @@ class httpTohnoUtils:
 			#print response.read()
 			#print "头信息=%s"%(response.getheaders())  # 获取头信息
 			jsonData = json.loads(response.read())
-			if not jsonData["infos"] :
-				jsonData["infos"] = []
+			if(self.method == methodEnum.dir_scan):
+				if not jsonData["infos"] :
+					jsonData["infos"] = []
 			jsonData['status'] = response.status
 			return json.dumps(jsonData)
 		except Exception, e:

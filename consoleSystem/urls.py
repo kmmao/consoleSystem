@@ -20,12 +20,13 @@ from django.conf.urls import url
 
 from console.views import HomePageView, FormHorizontalView, FormInlineView, PaginationView, FormWithFilesView, \
     DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView, showRealStudents, indexView, \
-    configFileManage, templatesManage,test,dir, fileHandle, fileIframe
+    configFileManage, templatesManage,test,dir, fileHandle, fileIframe, getServerUrlInfo
 
 urlpatterns = [
     url(r'^dir/(?P<action>\w+)/$',dir),
     url(r'^file/(?P<action>\w+)/$',fileHandle),
 	url(r'^fileIframe$', fileIframe.as_view(),name='fileIframe'),
+    url(r'^getServerUrlInfo$',getServerUrlInfo),
     url(r'^test$', test),
     url(r'^$', indexView.as_view(), name='indexView'),
     url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),

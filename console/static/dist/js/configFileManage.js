@@ -91,6 +91,36 @@
                 var path = $(this).attr("data");
                 breadcrumb.push(path.split("/").pop());
             });
+
+            /**
+             * [文件点击]
+             * @param  {[type]} ) {                           var path [description]
+             * @return {[type]}   [description]
+             */
+            $("#dataTables-configFileManage").on('click', '.fileClick', function() {
+                //清空localStorage-configFileInfo
+                localStorage.removeItem('configFileInfo');
+                var path = $(this).attr("data"); //得到全路径
+                //获取文件
+                $.post('/file/getFile/', { filePath: path }, function(res) {
+                    if (res.status == 200) {
+                        //封装到localStorage
+                        saveConfigFileInfo(res);
+                        window.localStorage.isEditForFile = true;
+                        var index = layer.open({
+                            title: '文件编辑',
+                            type: 2,
+                            area: ['1200px', '760px'],
+                            fixed: false, //不固定
+                            maxmin: true,
+                            content: '/fileIframe'
+                        });
+                    } else {
+                        layer.msg('系统异常，请联系管理员。');
+                    }
+                },'json');
+            });
+
             /**
              * [文件重命名]
              * @param  {[type]} )             {                           $("#dirName").val("");                var parentDir [description]
@@ -208,7 +238,17 @@
                             }
                         }, 'json');
                     } else {
-
+                        $.post('/file/deleteFile/', {
+                            filePath: $select.attr('data')
+                        }, function(res) {
+                            layer.msg(res.info);
+                            if (res.status == 200) {
+                                window.setTimeout(function() {
+                                    layer.closeAll();
+                                    breadcrumb.pop(0);
+                                }, 1000);
+                            }
+                        }, 'json');
                     }
                 }
             });
@@ -218,6 +258,8 @@
              * @return {[type]}     [description]
              */
             $("#addFile").click(function() {
+                localStorage.removeItem('configFileInfo');
+                window.localStorage.isEditForFile = false;
                 var index = layer.open({
                     title: '文件添加',
                     type: 2,
@@ -330,7 +372,11 @@
                             return '<p><i class="dir"></i>&nbsp&nbsp<a href="javascript:void(0)" class="dirClick" data="' + path + '/' + data + '">' + data + '</a></p>';
                         }
                     } else {
-                        return '<p><i class="file"></i>&nbsp&nbsp' + data + '</p>';
+                        if (path == '/') {
+                            return '<p><i class="file"></i>&nbsp&nbsp<a href="javascript:void(0)" class="fileClick" data="' + path + data + '">' + data + '</a></p>';
+                        } else {
+                            return '<p><i class="file"></i>&nbsp&nbsp<a href="javascript:void(0)" class="fileClick" data="' + path + '/' + data + '">' + data + '</a></p>';
+                        }
                     }
 
                 },

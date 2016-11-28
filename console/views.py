@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+import json
+
+from django.core import serializers
 from django.core.files.storage import default_storage
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -53,6 +57,26 @@ def fileHandle(request,action):
 			params = requestDict().fileRenameDict(request.POST['parentDir'], request.POST['newName'],request.POST['oldName'])
 			jsonData = httpTohnoUtils(params, methodEnum.dir_rename).httpTohnoWithPost()
 			return HttpResponse(jsonData)
+		if action == 'createFile':
+			params = requestDict().fileCreateDict(json.loads(request.POST['configFileInfo']))
+			jsonData = httpTohnoUtils(params, methodEnum.file_create).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+		if action == 'updateFile':
+			params = requestDict().fileUpdateDict(json.loads(request.POST['configFileInfo']))
+			jsonData = httpTohnoUtils(params, methodEnum.file_update).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+		if action == 'getFile':
+			params = requestDict().fileGetDict(request.POST['filePath'])
+			jsonData = httpTohnoUtils(params, methodEnum.file_get).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+		if action == 'getFileBackup':
+			params = requestDict().fileGetBackupDict(request.POST['filePath'],request.POST['backupfile'])
+			jsonData = httpTohnoUtils(params, methodEnum.file_backupget).httpTohnoWithPost()
+			return HttpResponse(jsonData)
+		if action == 'deleteFile':
+			params = requestDict().fileDeleteDict(request.POST['filePath'])
+			jsonData = httpTohnoUtils(params, methodEnum.file_delete).httpTohnoWithPost()
+			return HttpResponse(jsonData)
 
 class fileIframe(TemplateView):
 	template_name = 'console/config/fileIframe.html'
@@ -65,6 +89,11 @@ class fileIframe(TemplateView):
 def showRealStudents(request):
     list = Student.objects.all()
     return render_to_response('console/other/student.html', {'students': list})
+
+def getServerUrlInfo(request):
+	#obj = sever_url_info.objects.get(name__exact='qa')
+	list = serializers.serialize("json", sever_url_info.objects.all())
+	return  HttpResponse(list)
 
 
 class HomePageView(TemplateView):

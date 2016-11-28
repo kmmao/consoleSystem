@@ -22,6 +22,7 @@ __mtime__ = '2016/11/19'
 
 from django.test import TestCase
 
+from console.models import sever_url_info
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
 import json
@@ -50,5 +51,9 @@ class TestHttpTohno(TestCase):
 		print type(rd)
 		jsonData = json.dumps(rd)
 		print type(jsonData)
+
+	def test_sqlite(self):
+		envObj = sever_url_info.objects.all()
+		print type(envObj)
 
 

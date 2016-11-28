@@ -44,8 +44,24 @@ class requestDict(dict):
 		self.__dict__ = fileEntity
 		return self.__dict__
 
+	def fileUpdateDict(self,fileEntity):
+		self.__dict__ = fileEntity
+		return self.__dict__
+
 	def fileRenameDict(self,parentDir,newName,oldName):
 		self.__dict__ = {'parentdir': parentDir,'newname':newName,'oldname':oldName}
+		return self.__dict__
+
+	def fileGetDict(self,filePath):
+		self.__dict__ = {'file':filePath}
+		return self.__dict__
+
+	def fileGetBackupDict(self,filePath,backupfile):
+		self.__dict__ = {'file':filePath,'backupfile':backupfile}
+		return self.__dict__
+
+	def fileDeleteDict(self,filePath):
+		self.__dict__ = {'file':filePath}
 		return self.__dict__
 
 
