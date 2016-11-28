@@ -21,14 +21,17 @@ __mtime__ = '2016/11/19'
 """
 import httplib,json
 
+from console.models import sever_url_info
 from consoleSystem.settings import TOHNO_HTTP_URL, TOHNO_HTTP_PORT, TOHNO_HTTP_OUTTIME
 from httpTohno.methodEnum import methodEnum
+import base64
 
 
 class httpTohnoUtils:
-	def __init__(self,params,method):
+	def __init__(self,params,method,env):
 		self.params = params
 		self.method = method
+		self.env = env
 		pass
 	def httpTohnoWithPost(self):
 		"""
@@ -37,7 +40,9 @@ class httpTohnoUtils:
 		"""
 		try:
 			headers = {'Content-Type': 'application/json'}
-			httpClient = httplib.HTTPConnection(TOHNO_HTTP_URL, TOHNO_HTTP_PORT, timeout=TOHNO_HTTP_OUTTIME)
+
+			severUrlInfo = sever_url_info.objects.get(name__exact=self.env)
+			httpClient = httplib.HTTPConnection(severUrlInfo.url, int(severUrlInfo.port), timeout=int(severUrlInfo.out_time))
 			httpClient.request("POST", self.method, json.JSONEncoder().encode(self.params), headers)
 
 			response = httpClient.getresponse()
@@ -49,6 +54,9 @@ class httpTohnoUtils:
 			if(self.method == methodEnum.dir_scan):
 				if not jsonData["infos"] :
 					jsonData["infos"] = []
+			if(self.method == methodEnum.file_get or self.method == methodEnum.file_backupget):
+				if jsonData['content'] != '':
+					jsonData['content'] = base64.b64decode(jsonData['content'])
 			jsonData['status'] = response.status
 			return json.dumps(jsonData)
 		except Exception, e:

@@ -20,6 +20,8 @@ from httpTohno.methodEnum import methodEnum
 from httpTohno.requestDict import requestDict
 from .forms import ContactForm, FilesForm, ContactFormSet
 
+import base64
+
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
 class FakeField(object):
@@ -32,50 +34,52 @@ fieldfile = FieldFile(None, FakeField, 'dummy.txt')
 def test(request):
     return HttpResponse('abc')
 
-def dir(request,action):
+def dir(request,action,env):
 	if request.is_ajax() and request.method == 'POST':
 		if action == 'scan':
 			params = requestDict().dirScanDict(request.POST['dirPath'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_scan).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_scan,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'addDir':
 			params = requestDict().dirCreateDict(request.POST['dirPath'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_create).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_create,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'deleteDir':
 			params = requestDict().dirDeleteDict(request.POST['dirPath'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_delete).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_delete,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'renameDir':
 			params = requestDict().dirRenameDict(request.POST['parentDir'],request.POST['newName'],request.POST['oldName'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_rename).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_rename,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 
-def fileHandle(request,action):
+def fileHandle(request,action,env):
 	if request.is_ajax() and request.method == 'POST':
 		if action == 'renameFile':
 			params = requestDict().fileRenameDict(request.POST['parentDir'], request.POST['newName'],request.POST['oldName'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_rename).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_rename,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'createFile':
 			params = requestDict().fileCreateDict(json.loads(request.POST['configFileInfo']))
-			jsonData = httpTohnoUtils(params, methodEnum.file_create).httpTohnoWithPost()
+			params['content'] = base64.b64encode(params['content'])
+			jsonData = httpTohnoUtils(params, methodEnum.file_create,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'updateFile':
 			params = requestDict().fileUpdateDict(json.loads(request.POST['configFileInfo']))
-			jsonData = httpTohnoUtils(params, methodEnum.file_update).httpTohnoWithPost()
+			params['content'] = base64.b64encode(params['content'])
+			jsonData = httpTohnoUtils(params, methodEnum.file_update,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'getFile':
 			params = requestDict().fileGetDict(request.POST['filePath'])
-			jsonData = httpTohnoUtils(params, methodEnum.file_get).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.file_get,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'getFileBackup':
 			params = requestDict().fileGetBackupDict(request.POST['filePath'],request.POST['backupfile'])
-			jsonData = httpTohnoUtils(params, methodEnum.file_backupget).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.file_backupget,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'deleteFile':
 			params = requestDict().fileDeleteDict(request.POST['filePath'])
-			jsonData = httpTohnoUtils(params, methodEnum.file_delete).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.file_delete,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 
 class fileIframe(TemplateView):

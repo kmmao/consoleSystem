@@ -5,7 +5,8 @@
  */
 
 (function($) {
-    var jsonData, serverUrlInfos,dirPath='',index = parent.layer.getFrameIndex(window.name); //获取窗口索引;
+    var jsonData, serverUrlInfos, dirPath = '',
+        index = parent.layer.getFrameIndex(window.name); //获取窗口索引;
     // var jsonData = {
     //     "file": "/wms/hello",
     //     "content": "helooasdasdsadasda",
@@ -42,12 +43,30 @@
             dirPath = parent.$('#my-breadcrumb').breadcrumb().extractPwd(parent.$('#my-breadcrumb').children('li'));
             console.log(dirPath);
             jsonData = getConfigFileInfo();
-            if(window.localStorage.isEditForFile){
+            if (window.localStorage.isEditForFile == 'true') {
                 delete jsonData['status'];
-                delete jsonData['backupfiles'];
+                //delete jsonData['backupfiles'];
                 $("#fileName").val(jsonData['file'].split('/').pop());
+                console.log(jsonData['file']);
                 $('#fileContent').val(jsonData['content']);
                 $('#backupcount').val(jsonData['backupcount']);
+                //备份文件显示
+                $("#showContent").html('备份文件');
+                //封装备份文件列表
+                var backupfilesLst = '';
+                $.each(jsonData['backupfiles'], function(i, val) {
+                    // alert(i);
+                    // alert(val);
+                    backupfilesLst += '<a href="javascript:void(0)" fileName="' + jsonData['file'] + '" class="list-group-item backupfileClick">' + val + '</a>';
+                });
+                if (backupfilesLst != '') {
+                    //去除无
+                    $("backupfilesLst").find('li').remove();
+                    //更新列表
+                    $("backupfilesLst").find('a').after(backupfilesLst);
+                }
+            } else {
+                $("#showContent").html('模板文件');
             }
             //初始化下拉列表
             $.post('/getServerUrlInfo', function(res) {
@@ -60,12 +79,26 @@
          * layout
          */
         layout: function() {
-            
+
         },
         /**
          * base event
          */
         domEvent: function() {
+            $(document).on('click', '.backupfileClick', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                $.$.post('/file/getFileBackup/' + window.localStorage.env, { filePath: $(this).attr('fileName'), backupfile: $(this).html().trim() }, function(data, textStatus, xhr) {
+                    //取得备份文件数据，并弹窗展现
+                    // layer.open({
+                    //     type: 2,
+                    //     area: ['700px', '530px'],
+                    //     fixed: false, //不固定
+                    //     maxmin: true,
+                    //     content: 'test/iframe.html'
+                    // });
+                });
+            });
             /**
              * [添加行]
              * @param  {[type]} ){                         } [description]
@@ -206,21 +239,21 @@
                         //处理转换
                         //Integer.parseInt(String)
                         jsonData['backupcount'] = Number(jsonData['backupcount']);
-                        if(dirPath == '/'){
+                        if (dirPath == '/') {
                             jsonData['file'] = dirPath + jsonData['file'];
-                        }else{
+                        } else {
                             jsonData['file'] = dirPath + "/" + jsonData['file'];
                         }
                         console.log(jsonData['file']);
                         //请求下发数据，并返回数据，展示
-                        if (window.localStorage.isEditForFile) {
-                            $.post('/file/updateFile/', { configFileInfo: JSON.stringify(jsonData) }, function(res) {
+                        if (window.localStorage.isEditForFile == 'true') {
+                            $.post('/file/updateFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
                                 //layer.msg(res.info);
                                 $("#loading").remove();
                                 $("#opinfo").html(res.info);
                             }, 'json');
                         } else {
-                            $.post('/file/createFile/', { configFileInfo: JSON.stringify(jsonData) }, function(res) {
+                            $.post('/file/createFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
                                 //layer.msg(res.info);
                                 $("#loading").remove();
                                 $("#opinfo").html(res.info);
@@ -387,7 +420,7 @@
         } else {
             selectTemp = "<select>";
         }
-        if(typeof(serverUrlInfos) == 'undefined'){
+        if (typeof(serverUrlInfos) == 'undefined') {
 
         }
         // 添加选项

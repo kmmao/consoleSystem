@@ -27,6 +27,9 @@
          * layout
          */
         layout: function() {
+            //定义环境
+            window.localStorage.env = $("#envSelect").find("option:selected").text().trim();
+
             var path = $("#envSelect").val();
             $('#my-breadcrumb').find("li").remove();
             breadcrumb.push(path);
@@ -42,6 +45,7 @@
              * @return {[type]}     [description]
              */
             $("#envSelect").change(function() {
+                window.localStorage.env = $(this).find("option:selected").text().trim();
                 $('#my-breadcrumb').find("li").remove();
                 breadcrumb.push($(this).val());
             });
@@ -102,7 +106,7 @@
                 localStorage.removeItem('configFileInfo');
                 var path = $(this).attr("data"); //得到全路径
                 //获取文件
-                $.post('/file/getFile/', { filePath: path }, function(res) {
+                $.post('/file/getFile/' + window.localStorage.env, { filePath: path }, function(res) {
                     if (res.status == 200) {
                         //封装到localStorage
                         saveConfigFileInfo(res);
@@ -118,7 +122,7 @@
                     } else {
                         layer.msg('系统异常，请联系管理员。');
                     }
-                },'json');
+                }, 'json');
             });
 
             /**
@@ -145,7 +149,7 @@
                             shadeClose: false,
                             content: $("#file-dialog"), //捕获的元素
                             yes: function() {
-                                $.post('/file/renameFile/', {
+                                $.post('/file/renameFile/' + window.localStorage.env, {
                                     parentDir: parentDir,
                                     newName: $("#fileName").val(),
                                     oldName: oldName
@@ -191,7 +195,7 @@
                             shadeClose: false,
                             content: $("#dir-dialog"), //捕获的元素
                             yes: function() {
-                                $.post('/dir/renameDir/', {
+                                $.post('/dir/renameDir/' + window.localStorage.env, {
                                     parentDir: parentDir,
                                     newName: $("#dirName").val(),
                                     oldName: oldName
@@ -226,7 +230,7 @@
                 } else {
                     var $select = $tmp.filter(':checked');
                     if ($select.attr("isdir") == "true") {
-                        $.post('/dir/deleteDir/', {
+                        $.post('/dir/deleteDir/' + window.localStorage.env, {
                             dirPath: $select.attr('data')
                         }, function(res) {
                             layer.msg(res.info);
@@ -238,7 +242,7 @@
                             }
                         }, 'json');
                     } else {
-                        $.post('/file/deleteFile/', {
+                        $.post('/file/deleteFile/' + window.localStorage.env, {
                             filePath: $select.attr('data')
                         }, function(res) {
                             layer.msg(res.info);
@@ -289,7 +293,7 @@
                     content: $("#dir-dialog"), //捕获的元素
                     yes: function() {
                         //进行新增操作
-                        $.post('/dir/addDir/', {
+                        $.post('/dir/addDir/' + window.localStorage.env, {
                             dirPath: dirPath + "/" + $("#dirName").val()
                         }, function(res) {
                             layer.msg(res.info);
@@ -325,7 +329,7 @@
             //post request
             "processing": true,
             "ajax": {
-                "url": "/dir/scan/",
+                "url": "/dir/scan/" + window.localStorage.env,
                 "dataSrc": "infos",
                 "type": "POST",
                 "data": {
