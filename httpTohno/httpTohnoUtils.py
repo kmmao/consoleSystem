@@ -65,7 +65,7 @@ class httpTohnoUtils:
 			severUrlInfo = sever_url_info.objects.get(name__exact=self.env)
 			httpClient = httplib.HTTPConnection(severUrlInfo.url, int(severUrlInfo.port), timeout=int(severUrlInfo.out_time))
 			httpClient.request("POST", self.method, json.JSONEncoder().encode(self.params), headers)
-
+			print '传递的数据%s'%json.JSONEncoder().encode(self.params)
 			response = httpClient.getresponse()
 			#print "状态=%s"%(response.status)
 			#print "结果=%s"%(response.reason)

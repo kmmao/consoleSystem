@@ -63,4 +63,11 @@ class TestHttpTohno(TestCase):
 		envObj = sever_url_info.objects.all()
 		print type(envObj)
 
+	def test_jsonList(self):
+		list1 = [['1',2],['2',3]]
+		dic = {}
+		dic['data'] = list1
+		#print list1
+		print json.dumps(list1)
+
 

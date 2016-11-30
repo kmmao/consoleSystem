@@ -14,7 +14,7 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from console.models import Student, sever_url_info
+from console.models import Student, sever_url_info, templates_file_info
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
 from httpTohno.requestDict import requestDict
@@ -82,6 +82,30 @@ def fileHandle(request,action,env):
 			jsonData = httpTohnoUtils(params, methodEnum.file_delete,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 
+def tpHandle(request,action):
+	try:
+		if request.is_ajax() and request.method == 'POST':
+			if action == 'get':
+				return HttpResponse(templates_file_info.objects.get(id=request.POST['id']).toJSON())
+			if action == 'save':
+				fileInfo = json.loads(request.POST['fileInfo'])
+				jsonDataDict = {}
+				jsonDataDict['code'] = 0
+				jsonDataDict['msg'] = '处理成功'
+				tp = templates_file_info()
+				tp.name = fileInfo['fileName']
+				tp.content = fileInfo['fileContent']
+				if len(fileInfo['id']) > 0:
+					tp.id = fileInfo['id']
+				tp.save()
+				return HttpResponse(json.dumps(jsonDataDict))
+	except Exception,e:
+		print 'tpHandle-exception:%s'%e
+		jsonDataDict['code'] = -1
+		jsonDataDict['msg'] = '异常：%s'%e
+		return HttpResponse(json.dumps(jsonDataDict))
+
+
 class fileIframe(TemplateView):
 	template_name = 'console/config/fileIframe.html'
 
@@ -104,6 +128,18 @@ def getServerUrlInfo(request,env):
 	#obj = sever_url_info.objects.get(name__exact='qa')
 	# list = serializers.serialize("json", sever_url_info.objects.all())
 	# return  HttpResponse(list)
+
+def getTplist(request):
+	"""
+	:param request:
+	:return: 返回模板文件列表
+	"""
+	listSet = []
+	dic = {}
+	for obj in templates_file_info.objects.all():
+		listSet.append([obj.name,obj.id])
+	dic['data'] = listSet
+	return HttpResponse(json.dumps(dic))
 
 
 class HomePageView(TemplateView):

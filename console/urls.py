@@ -16,12 +16,10 @@ Including another URLconf
 """
 from __future__ import unicode_literals
 
-from django.conf.urls import url, include
+from django.conf.urls import url
 
-from console import admin
-from console.views import HomePageView, FormHorizontalView, FormInlineView, PaginationView, FormWithFilesView, \
-    DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView, showRealStudents, indexView, \
-    configFileManage, templatesManage,test,dir, fileHandle, fileIframe, getServerUrlInfo
+from console.views import indexView,configFileManage, templatesManage,test,dir, fileHandle, fileIframe, getServerUrlInfo, getTplist, \
+    tpHandle
 
 urlpatterns = [
     url(r'^dir/(?P<action>\w+)/(?P<env>\w+)$',dir),
@@ -32,6 +30,8 @@ urlpatterns = [
     url(r'^$', indexView.as_view(), name='indexView'),
     url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
     url(r'^templatesManage$', templatesManage.as_view(), name='templatesManage'),
+    url(r'^getTplist/$', getTplist),
+    url(r'^tp/(?P<action>\w+)/$',tpHandle),
     # url(r'^home$', HomePageView.as_view(), name='home'),
     # url(r'^formset$', DefaultFormsetView.as_view(), name='formset_default'),
     # url(r'^form$', DefaultFormView.as_view(), name='form_default'),

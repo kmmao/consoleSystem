@@ -41,7 +41,6 @@
          */
         initData: function() {
             dirPath = parent.$('#my-breadcrumb').breadcrumb().extractPwd(parent.$('#my-breadcrumb').children('li'));
-            console.log(dirPath);
             jsonData = getConfigFileInfo();
             if (window.localStorage.isEditForFile == 'true') {
                 //文件名只读
@@ -128,6 +127,10 @@
              * @return {[type]}     [description]
              */
             $(document).on('click', '#addRow', function() {
+                if (jsonData['syncfile']['infos'] == null) {
+                    jsonData['syncfile']['infos'] = new Array();
+                }
+                console.log('asdf')
                 jsonData['syncfile']['infos'].push({
                     'host': serverUrlInfos[0], //默认第一个URL地址--（这里要处理下，如果没有地址的情况下要怎么处理）
                     'file': ''
@@ -249,6 +252,9 @@
                         jsonData['content'] = $('#fileContent').val();
                         jsonData['backupcount'] = $('#backupcount').val();
                         console.log('填写文件：' + JSON.stringify(jsonData));
+
+                        form.validate().settings.ignore = ":disabled,:hidden";
+                        return form.valid();
                     }
                     //关联主机-下一步
                     if (currentIndex == 1) {
@@ -259,44 +265,54 @@
                     }
                     //下发执行（确认）-下一步
                     if (currentIndex == 2 && newIndex == 3) {
-                        //处理转换
-                        //Integer.parseInt(String)
-                        if (jsonData['backupcount'] == '') {
-                            jsonData['backupcount'] = 5;
-                        } else {
-                            jsonData['backupcount'] = Number(jsonData['backupcount']);
-                        }
-                        if (dirPath == '/') {
-                            jsonData['file'] = dirPath + jsonData['file'];
-                        } else {
-                            jsonData['file'] = dirPath + "/" + jsonData['file'];
-                        }
-                        console.log(jsonData['file']);
-                        //请求下发数据，并返回数据，展示
+                        form.validate().settings.ignore = ":disabled,:hidden";
+                        if (form.valid()) {
+                            //处理转换
+                            //Integer.parseInt(String)
+                            if (jsonData['backupcount'] == '') {
+                                jsonData['backupcount'] = 5;
+                            } else {
+                                jsonData['backupcount'] = Number(jsonData['backupcount']);
+                            }
+                            if (dirPath == '/') {
+                                jsonData['file'] = dirPath + jsonData['file'];
+                            } else {
+                                jsonData['file'] = dirPath + "/" + jsonData['file'];
+                            }
+                            console.log(jsonData['file']);
+                            //请求下发数据，并返回数据，展示
 
-                        jsonData['content'] = BASE64.encoder(jsonData['content']);
+                            jsonData['content'] = BASE64.encoder(jsonData['content']);
 
-                        if (window.localStorage.isEditForFile == 'true') {
-                            $.post('/console/file/updateFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
-                                //layer.msg(res.info);
-                                $("#loading").remove();
-                                $("#opinfo").html(res.info);
-                            }, 'json');
+                            delete jsonData['backupfile'];
+
+                            if (window.localStorage.isEditForFile == 'true') {
+                                $.post('/console/file/updateFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
+                                    //layer.msg(res.info);
+                                    $("#loading").remove();
+                                    $("#opinfo").html(res.info);
+                                }, 'json');
+                            } else {
+                                $.post('/console/file/createFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
+                                    //layer.msg(res.info);
+                                    $("#loading").remove();
+                                    $("#opinfo").html(res.info);
+                                }, 'json');
+                            }
+                            console.log('下发执行（确认）：' + JSON.stringify(jsonData));
                         } else {
-                            $.post('/console/file/createFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
-                                //layer.msg(res.info);
-                                $("#loading").remove();
-                                $("#opinfo").html(res.info);
-                            }, 'json');
+                            return form.valid();
                         }
-                        console.log('下发执行（确认）：' + JSON.stringify(jsonData));
                     }
                     //执行层内容展示
                     if (currentIndex == 3) {
-
+                        if (currentIndex != newIndex) {
+                            layer.msg("已执行下发，不能再进行其他操作。");
+                            return false;
+                        }
                     }
-                    form.validate().settings.ignore = ":disabled,:hidden";
-                    return form.valid();
+
+                    return true;
                 },
                 /**
                  * [onFinishing 完成前的验证]
