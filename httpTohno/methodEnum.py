@@ -43,4 +43,6 @@ class methodEnum(Enum):
 	dir_rename = '/dir?action=rename'
 	# 目录浏览
 	dir_scan = '/dir?action=scan'
+	# serverInfoList
+	server_infos = '/syncinfo?action=get'
 

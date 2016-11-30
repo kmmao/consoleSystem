@@ -44,10 +44,12 @@
             console.log(dirPath);
             jsonData = getConfigFileInfo();
             if (window.localStorage.isEditForFile == 'true') {
+                //文件名只读
+                $('#fileName').attr('readonly', 'readonly');
                 delete jsonData['status'];
                 //delete jsonData['backupfiles'];
                 $("#fileName").val(jsonData['file'].split('/').pop());
-                console.log(jsonData['file']);
+                //console.log(jsonData['file']);
                 $('#fileContent').val(jsonData['content']);
                 $('#backupcount').val(jsonData['backupcount']);
                 //备份文件显示
@@ -61,19 +63,20 @@
                 });
                 if (backupfilesLst != '') {
                     //去除无
-                    $("backupfilesLst").find('li').remove();
+                    $("#backupfilesLst").find('li').remove();
                     //更新列表
-                    $("backupfilesLst").find('a').after(backupfilesLst);
+                    $("#backupfilesLst").find('a').after(backupfilesLst);
                 }
             } else {
                 $("#showContent").html('模板文件');
             }
             //初始化下拉列表
-            $.post('/getServerUrlInfo', function(res) {
-                serverUrlInfos = res;
+            $.post('/getServerUrlInfo/' + window.localStorage.env, function(res) {
+                serverUrlInfos = res.split('|');
+                console.log(serverUrlInfos);
                 initTableEdit(jsonData['syncfile']['infos']);
                 //console.log(serverUrlInfos);
-            }, 'json');
+            });
         },
         /**
          * layout
@@ -87,17 +90,37 @@
         domEvent: function() {
             $(document).on('click', '.backupfileClick', function(event) {
                 event.preventDefault();
+                var backupfile = $(this).html().trim();
                 /* Act on the event */
-                $.$.post('/file/getFileBackup/' + window.localStorage.env, { filePath: $(this).attr('fileName'), backupfile: $(this).html().trim() }, function(data, textStatus, xhr) {
+                $.post('/file/getFileBackup/' + window.localStorage.env, { filePath: $(this).attr('fileName'), backupfile: backupfile }, function(data, textStatus, xhr) {
+                    $('#showBackupFileContent').val(data['content']);
                     //取得备份文件数据，并弹窗展现
-                    // layer.open({
-                    //     type: 2,
-                    //     area: ['700px', '530px'],
-                    //     fixed: false, //不固定
-                    //     maxmin: true,
-                    //     content: 'test/iframe.html'
-                    // });
-                });
+                    layer.open({
+                        type: 1,
+                        title: backupfile, //不显示标题
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['600px', '400px'],
+                        closeBtn: 0, //不显示关闭按钮
+                        content: $('#showBackupContent'),
+                        btn: ['导入', '取消'],
+                        moveType: 1,
+                        resize: false,
+                        yes: function() {
+                            //进行确认导入
+                            layer.confirm('确认导入？', {
+                                btn: ['导入', '取消'] //按钮
+                            }, function() {
+                                $("#fileContent").val($('#showBackupFileContent').val());
+                                layer.closeAll();
+                            }, function() {
+                                layer.closeAll();
+                            });
+                        },
+                        cancel: function() {
+                            layer.closeAll();
+                        }
+                    });
+                }, 'json');
             });
             /**
              * [添加行]
@@ -106,7 +129,7 @@
              */
             $(document).on('click', '#addRow', function() {
                 jsonData['syncfile']['infos'].push({
-                    'host': serverUrlInfos[0].fields.url, //默认第一个URL地址--（这里要处理下，如果没有地址的情况下要怎么处理）
+                    'host': serverUrlInfos[0], //默认第一个URL地址--（这里要处理下，如果没有地址的情况下要怎么处理）
                     'file': ''
                 });
                 initTableEdit(jsonData['syncfile']['infos']);
@@ -238,7 +261,11 @@
                     if (currentIndex == 2 && newIndex == 3) {
                         //处理转换
                         //Integer.parseInt(String)
-                        jsonData['backupcount'] = Number(jsonData['backupcount']);
+                        if (jsonData['backupcount'] == '') {
+                            jsonData['backupcount'] = 5;
+                        } else {
+                            jsonData['backupcount'] = Number(jsonData['backupcount']);
+                        }
                         if (dirPath == '/') {
                             jsonData['file'] = dirPath + jsonData['file'];
                         } else {
@@ -246,6 +273,9 @@
                         }
                         console.log(jsonData['file']);
                         //请求下发数据，并返回数据，展示
+
+                        jsonData['content'] = BASE64.encoder(jsonData['content']);
+
                         if (window.localStorage.isEditForFile == 'true') {
                             $.post('/file/updateFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
                                 //layer.msg(res.info);
@@ -420,12 +450,9 @@
         } else {
             selectTemp = "<select>";
         }
-        if (typeof(serverUrlInfos) == 'undefined') {
-
-        }
         // 添加选项
         for (var i = serverUrlInfos.length - 1; i >= 0; i--) {
-            var url = serverUrlInfos[i].fields.url;
+            var url = serverUrlInfos[i];
             if (select == url) {
                 selectTemp += "<option selected='selected' value='" + i + "'>" + url + "</option>";
             } else {

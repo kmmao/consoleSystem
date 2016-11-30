@@ -27,13 +27,8 @@
                 <div class="col-md-4">
                     <div class="list-group" id="backupfilesLst">
                         <a href="#" id="showContent" class="list-group-item active">
-						    
-						</a>
-						<li class="list-group-item">无</li>
-                        <!-- <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                        <a href="#" class="list-group-item">Morbi leo risus</a>
-                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                        <a href="#" class="list-group-item">Vestibulum at eros</a> -->
+                        </a>
+                        <li class="list-group-item">无</li>
                     </div>
                 </div>
             </div>
@@ -43,7 +38,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">备份版本数量</div>
-                            <input id='backupcount' name="backupcount" class="required digits form-control" type="text" placeholder="不填默认为5">
+                            <input id='backupcount' name="backupcount" class="form-control" type="text" placeholder="不填默认为5">
                         </div>
                     </div>
                 </div>
@@ -122,6 +117,10 @@
         </section>
     </div>
 </form>
+<div id="showBackupContent" style="display: none;">
+    <textarea class="form-control" id="showBackupFileContent" readonly="readonly" rows="10">
+    </textarea>
+</div>
 {% endblock %} {% block self_script %}
 <script src="{% bootstrap_jquery_steps_url %}jquery.steps.js"></script>
 <script src="{% bootstrap_jquery_validate_url %}jquery.validate.js"></script>

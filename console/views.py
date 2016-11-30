@@ -61,12 +61,12 @@ def fileHandle(request,action,env):
 			return HttpResponse(jsonData)
 		if action == 'createFile':
 			params = requestDict().fileCreateDict(json.loads(request.POST['configFileInfo']))
-			params['content'] = base64.b64encode(params['content'])
+			#params['content'] = base64.b64encode(params['content'])
 			jsonData = httpTohnoUtils(params, methodEnum.file_create,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'updateFile':
 			params = requestDict().fileUpdateDict(json.loads(request.POST['configFileInfo']))
-			params['content'] = base64.b64encode(params['content'])
+			#params['content'] = base64.b64encode(params['content'])
 			jsonData = httpTohnoUtils(params, methodEnum.file_update,env).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'getFile':
@@ -94,10 +94,16 @@ def showRealStudents(request):
     list = Student.objects.all()
     return render_to_response('console/other/student.html', {'students': list})
 
-def getServerUrlInfo(request):
+def getServerUrlInfo(request,env):
+	jsonData = httpTohnoUtils(None, methodEnum.server_infos, env).httpTohonWithGet()
+	res = set()
+	for item in jsonData['hostinfos']:
+			res.add(item['groupname'])
+			res.update(item['hosts'])
+	return HttpResponse('|'.join(res))
 	#obj = sever_url_info.objects.get(name__exact='qa')
-	list = serializers.serialize("json", sever_url_info.objects.all())
-	return  HttpResponse(list)
+	# list = serializers.serialize("json", sever_url_info.objects.all())
+	# return  HttpResponse(list)
 
 
 class HomePageView(TemplateView):

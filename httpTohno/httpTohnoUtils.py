@@ -22,7 +22,6 @@ __mtime__ = '2016/11/19'
 import httplib,json
 
 from console.models import sever_url_info
-from consoleSystem.settings import TOHNO_HTTP_URL, TOHNO_HTTP_PORT, TOHNO_HTTP_OUTTIME
 from httpTohno.methodEnum import methodEnum
 import base64
 
@@ -33,11 +32,33 @@ class httpTohnoUtils:
 		self.method = method
 		self.env = env
 		pass
+	def httpTohonWithGet(self):
+		httpClient = None
+		try:
+			severUrlInfo = sever_url_info.objects.get(name__exact=self.env)
+			httpClient = httplib.HTTPConnection(severUrlInfo.url, int(severUrlInfo.port),
+												timeout=int(severUrlInfo.out_time))
+			httpClient.request('GET', self.method)
+
+			# response是HTTPResponse对象
+			response = httpClient.getresponse()
+			jsonData = json.loads(response.read())
+			if not jsonData["hostinfos"]:
+				jsonData["hostinfos"] = []
+			jsonData['status'] = response.status
+			return jsonData
+		except Exception, e:
+			print e
+		finally:
+			if httpClient:
+				httpClient.close()
+
 	def httpTohnoWithPost(self):
 		"""
 		:param method: action name ex: /dir?action=scan
 		:param params: json string ex:{"dir": "/"}
 		"""
+		httpClient = None
 		try:
 			headers = {'Content-Type': 'application/json'}
 
@@ -51,6 +72,10 @@ class httpTohnoUtils:
 			#print response.read()
 			#print "头信息=%s"%(response.getheaders())  # 获取头信息
 			jsonData = json.loads(response.read())
+			print 'response.read=%s'%jsonData
+			#500错误
+			# if jsonData.status == 500:
+			# 	return json.dumps(jsonData)
 			if(self.method == methodEnum.dir_scan):
 				if not jsonData["infos"] :
 					jsonData["infos"] = []
@@ -58,9 +83,10 @@ class httpTohnoUtils:
 				if jsonData['content'] != '':
 					jsonData['content'] = base64.b64decode(jsonData['content'])
 			jsonData['status'] = response.status
+			print 'fainl jsonData=%s'%json.dumps(jsonData)
 			return json.dumps(jsonData)
 		except Exception, e:
-			print e
+			print 'httpTohnoWithPost-exception=%s'%e
 		finally:
 			if httpClient:
 				httpClient.close()

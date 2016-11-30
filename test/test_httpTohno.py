@@ -25,7 +25,7 @@ from django.test import TestCase
 from console.models import sever_url_info
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
-import json
+import json,sqlite3,os
 from httpTohno.requestDict import requestDict
 
 
@@ -37,6 +37,13 @@ class TestHttpTohno(TestCase):
 		httpTohnoWithPost = httpTohnoUtils(params,methodEnum.file_get)
 		jsonData = httpTohnoWithPost.httpTohnoWithPost()
 		print "JSON反馈信息=%s"%jsonData
+
+	def test_httpWithGet(self):
+		BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+		cx = sqlite3.connect(os.path.join(BASE_DIR,'.','consoleDb'))
+		jsonData = httpTohnoUtils('', methodEnum.server_infos, r'dev').httpTohonWithGet()
+		print 'jsonData=%s'%jsonData
+
 	def test_methodEmum(self):
 		print methodEnum.file_create
 

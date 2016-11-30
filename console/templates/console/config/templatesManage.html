@@ -1,8 +1,75 @@
 {% extends 'console/base.html' %}
 {% load bootstrap3 %}
 
-{% block title %}模版管理{% endblock %}
+{% block title %}模板管理{% endblock %}
 
 {% block content %}
-    This is <em>django</em> for <strong>模版管理</strong>.
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    模板管理
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="toolbar "><a class="btn btn-primary data-title" id="addDir" href="javascript:void(0)"><i class="fa fa-folder"></i> 文件夹添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)" id="dirRename"><i class="fa fa-folder"></i> 文件夹重命名</a>&nbsp;&nbsp;<a class="btn btn-primary" href="javascript:void(0)" id="addFile"><i class="fa fa-file"></i> 文件添加</a>&nbsp;&nbsp;<a class="btn btn-success" href="javascript:void(0)" id="fileRename"><i class="fa fa-file"></i> 文件重命名</a>&nbsp;&nbsp;<a class="btn btn-danger" href="javascript:void(0)" id="delete"><i class="fa fa-trash-o"></i> 删除</a></div><br/>
+                    <div class="col-xs-2">
+                        <select class="form-control" id="envSelect">
+                            {% for serverUrlInfo in serverUrlInfos %}
+                            <option value="{{ serverUrlInfo.default_path }}">
+                                {{ serverUrlInfo.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <ul class="breadcrumb" id="my-breadcrumb">
+                        </ul>
+                    </div>
+                    <br/>
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-configFileManage">
+                        <thead>
+                            <tr>
+                                <th style="width:30px; padding:10px 0 10px 8px"><!-- <input type="checkbox" id="checkAll"> --></th>
+                                <th>目录及文件</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <div id="dir-dialog" style="display:none;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <div class="form-group">
+                    <label>文件夹名</label>
+                    <input class="form-control" id="dirName">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="file-dialog" style="display:none;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <div class="form-group">
+                    <label>文件名</label>
+                    <input class="form-control" id="fileName">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block base_extra_script %}
+    <script src="/static/bootstrap-breadcrumb/bootstrap-breadcrumb.js"></script>
+{% endblock %}
+{% block self_script %}
+    <script src="/static/dist/js/configFileManage.js"></script>
 {% endblock %}

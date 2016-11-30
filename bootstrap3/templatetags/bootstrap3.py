@@ -229,11 +229,14 @@ def bootstrap_css():
         {% bootstrap_css %}
     """
     rendered_urls = render_link_tag(
-        bootstrap_css_url(), integrity=INTEGRITY['css'])
-    if bootstrap_theme_url():
-        rendered_urls.append(
-            render_link_tag(bootstrap_css_url(), integrity=INTEGRITY['theme']))
+        bootstrap_css_url())
     return mark_safe(''.join([url for url in rendered_urls]))
+# rendered_urls = render_link_tag(
+#         bootstrap_css_url(), integrity=INTEGRITY['css'])
+#     if bootstrap_theme_url():
+#         rendered_urls.append(
+#             render_link_tag(bootstrap_css_url(), integrity=INTEGRITY['theme']))
+#     return mark_safe(''.join([url for url in rendered_urls]))
 
 
 @register.simple_tag

@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^dir/(?P<action>\w+)/(?P<env>\w+)$',dir),
     url(r'^file/(?P<action>\w+)/(?P<env>\w+)$',fileHandle),
 	url(r'^fileIframe$', fileIframe.as_view(),name='fileIframe'),
-    url(r'^getServerUrlInfo$',getServerUrlInfo),
+    url(r'^getServerUrlInfo/(?P<env>\w+)$',getServerUrlInfo),
     url(r'^test$', test),
     url(r'^$', indexView.as_view(), name='indexView'),
     url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
