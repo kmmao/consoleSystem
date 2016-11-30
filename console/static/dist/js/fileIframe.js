@@ -71,7 +71,7 @@
                 $("#showContent").html('模板文件');
             }
             //初始化下拉列表
-            $.post('/getServerUrlInfo/' + window.localStorage.env, function(res) {
+            $.post('/console/getServerUrlInfo/' + window.localStorage.env, function(res) {
                 serverUrlInfos = res.split('|');
                 console.log(serverUrlInfos);
                 initTableEdit(jsonData['syncfile']['infos']);
@@ -92,7 +92,7 @@
                 event.preventDefault();
                 var backupfile = $(this).html().trim();
                 /* Act on the event */
-                $.post('/file/getFileBackup/' + window.localStorage.env, { filePath: $(this).attr('fileName'), backupfile: backupfile }, function(data, textStatus, xhr) {
+                $.post('/console/file/getFileBackup/' + window.localStorage.env, { filePath: $(this).attr('fileName'), backupfile: backupfile }, function(data, textStatus, xhr) {
                     $('#showBackupFileContent').val(data['content']);
                     //取得备份文件数据，并弹窗展现
                     layer.open({
@@ -277,13 +277,13 @@
                         jsonData['content'] = BASE64.encoder(jsonData['content']);
 
                         if (window.localStorage.isEditForFile == 'true') {
-                            $.post('/file/updateFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
+                            $.post('/console/file/updateFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
                                 //layer.msg(res.info);
                                 $("#loading").remove();
                                 $("#opinfo").html(res.info);
                             }, 'json');
                         } else {
-                            $.post('/file/createFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
+                            $.post('/console/file/createFile/' + window.localStorage.env, { configFileInfo: JSON.stringify(jsonData) }, function(res) {
                                 //layer.msg(res.info);
                                 $("#loading").remove();
                                 $("#opinfo").html(res.info);
