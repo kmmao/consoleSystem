@@ -7,20 +7,6 @@
 (function($) {
     var jsonData, serverUrlInfos, dirPath = '',
         index = parent.layer.getFrameIndex(window.name); //获取窗口索引;
-    // var jsonData = {
-    //     "file": "/wms/hello",
-    //     "content": "helooasdasdsadasda",
-    //     "backupcount": 5,
-    //     "syncfile": {
-    //         "infos": [{
-    //             "host": "192.168.250.178",
-    //             "file": "/home/testhello",
-    //         }, {
-    //             "host": "192.168.250.278",
-    //             "file": "/home/testlo"
-    //         }]
-    //     }
-    // };
     /**
      * [fileIframe 主体内容]
      * @type {Object}
@@ -56,8 +42,6 @@
                 //封装备份文件列表
                 var backupfilesLst = '';
                 $.each(jsonData['backupfiles'], function(i, val) {
-                    // alert(i);
-                    // alert(val);
                     backupfilesLst += '<a href="javascript:void(0)" fileName="' + jsonData['file'] + '" class="list-group-item backupfileClick">' + val + '</a>';
                 });
                 if (backupfilesLst != '') {
@@ -68,6 +52,18 @@
                 }
             } else {
                 $("#showContent").html('模板文件');
+                $.post('/console/tp/getTpList/', function(data, textStatus, xhr) {
+                    var tpFilesList = '';
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            tpFilesList += '<a href="javascript:void(0)" fileId="' + data[i]['pk'] + '" class="list-group-item tpfileClick">' + data[i]['fields']['name'] + '</a>';
+                        }
+                        //去除无
+                        $("#backupfilesLst").find('li').remove();
+                        //更新列表
+                        $("#backupfilesLst").find('a').after(tpFilesList);
+                    }
+                },'json');
             }
             //初始化下拉列表
             $.post('/console/getServerUrlInfo/' + window.localStorage.env, function(res) {
@@ -87,6 +83,60 @@
          * base event
          */
         domEvent: function() {
+            /**
+             * [模块文件点击事件]
+             * @param  {[type]} event)        {                                        event.preventDefault();                                                       $.post('/console/tp/get/', {                    id: $(this).attr('fileId')                } [description]
+             * @param  {[type]} function(res) {                                                                   var unicode [description]
+             * @param  {[type]} btn:          ['导入'         [description]
+             * @param  {[type]} '取消']         [description]
+             * @param  {[type]} moveType:     1             [description]
+             * @param  {[type]} resize:       false         [description]
+             * @param  {[type]} yes:          function(     [description]
+             * @return {[type]}               [description]
+             */
+            $(document).on('click', '.tpfileClick', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                $.post('/console/tp/get/', {
+                    id: $(this).attr('fileId')
+                }, function(res) {
+                    $('#showBackupFileContent').val(res.content);
+                    //展示内容
+                    layer.open({
+                        type: 1,
+                        title: res.name, //不显示标题
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['600px', '400px'],
+                        closeBtn: 0, //不显示关闭按钮
+                        content: $('#showBackupContent'),
+                        btn: ['导入', '取消'],
+                        moveType: 1,
+                        resize: false,
+                        yes: function() {
+                            //进行确认导入
+                            layer.confirm('确认导入？', {
+                                btn: ['导入', '取消'] //按钮
+                            }, function() {
+                                $("#fileContent").val($('#showBackupFileContent').val());
+                                layer.closeAll();
+                            }, function() {
+                                layer.closeAll();
+                            });
+                        },
+                        cancel: function() {
+                            layer.closeAll();
+                        }
+                    });
+                }, 'json');
+            });
+            /**
+             * [获取备份文件]
+             * @param  {[type]} event)         {                                 event.preventDefault();                                                                 var                                                       backupfile [description]
+             * @param  {[type]} function(data, textStatus,   xhr) {                                           $('#showBackupFileContent').val(data['content']);                                                                                                                        layer.open({                                         type: 1,                                       title: backupfile,                         skin: 'layui-layer-rim',                         area: ['600px', '400px'],                        closeBtn: 0,                         content: $('#showBackupContent'),                        btn: ['导入', '取消'],                        moveType: 1,                        resize: false,                        yes: function() {                                                        layer.confirm('确认导入？', {                                btn: ['导入', '取消']                             } [description]
+             * @param  {[type]} function()     {                                                                                                                         $("#fileContent").val($('#showBackupFileContent').val());                                                                    layer.closeAll();                                   } [description]
+             * @param  {[type]} function(      [description]
+             * @return {[type]}                [description]
+             */
             $(document).on('click', '.backupfileClick', function(event) {
                 event.preventDefault();
                 var backupfile = $(this).html().trim();

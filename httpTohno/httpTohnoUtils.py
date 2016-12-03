@@ -20,10 +20,16 @@ __mtime__ = '2016/11/19'
                   ┗┻┛  ┗┻┛
 """
 import httplib,json
+import logging
 
 from console.models import sever_url_info
 from httpTohno.methodEnum import methodEnum
 import base64
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+logger = logging.getLogger('httpTohno')
 
 
 class httpTohnoUtils:
@@ -48,7 +54,7 @@ class httpTohnoUtils:
 			jsonData['status'] = response.status
 			return jsonData
 		except Exception, e:
-			print e
+			logger.error('httpTohonWithGet：%s' % e)
 		finally:
 			if httpClient:
 				httpClient.close()
@@ -65,14 +71,14 @@ class httpTohnoUtils:
 			severUrlInfo = sever_url_info.objects.get(name__exact=self.env)
 			httpClient = httplib.HTTPConnection(severUrlInfo.url, int(severUrlInfo.port), timeout=int(severUrlInfo.out_time))
 			httpClient.request("POST", self.method, json.JSONEncoder().encode(self.params), headers)
-			print '传递的数据%s'%json.JSONEncoder().encode(self.params)
+			logger.info('request data = %s' % json.JSONEncoder().encode(self.params))
 			response = httpClient.getresponse()
 			#print "状态=%s"%(response.status)
 			#print "结果=%s"%(response.reason)
 			#print response.read()
 			#print "头信息=%s"%(response.getheaders())  # 获取头信息
 			jsonData = json.loads(response.read())
-			print 'response.read=%s'%jsonData
+			logger.info('response.read = %s' % jsonData)
 			#500错误
 			# if jsonData.status == 500:
 			# 	return json.dumps(jsonData)
@@ -83,10 +89,10 @@ class httpTohnoUtils:
 				if jsonData['content'] != '':
 					jsonData['content'] = base64.b64decode(jsonData['content'])
 			jsonData['status'] = response.status
-			print 'fainl jsonData=%s'%json.dumps(jsonData)
+			logger.info('fainl jsonData = %s' % json.dumps(jsonData))
 			return json.dumps(jsonData)
 		except Exception, e:
-			print 'httpTohnoWithPost-exception=%s'%e
+			logger.error('httpTohnoWithPost-exception=%s' % e)
 		finally:
 			if httpClient:
 				httpClient.close()

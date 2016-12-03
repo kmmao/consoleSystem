@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import json
+import logging
 
 from django.core import serializers
 from django.core.files.storage import default_storage
@@ -14,6 +15,7 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
+from console.CJsonEncoder import CJsonEncoder
 from console.models import Student, sever_url_info, templates_file_info
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
@@ -29,7 +31,7 @@ class FakeField(object):
 
 
 fieldfile = FieldFile(None, FakeField, 'dummy.txt')
-
+logger = logging.getLogger('console')
 
 def test(request):
     return HttpResponse('abc')
@@ -83,27 +85,47 @@ def fileHandle(request,action,env):
 			return HttpResponse(jsonData)
 
 def tpHandle(request,action):
-	try:
 		if request.is_ajax() and request.method == 'POST':
 			if action == 'get':
-				return HttpResponse(templates_file_info.objects.get(id=request.POST['id']).toJSON())
+				objDict = templates_file_info.objects.get(id=request.POST['id']).toDict()
+				objDict['content'] = base64.b64decode(objDict['content'])
+				#print json.dumps(objDict,cls=CJsonEncoder)
+				return HttpResponse(json.dumps(objDict,cls=CJsonEncoder))
+			if action == 'getTpList':
+				list = serializers.serialize("json", templates_file_info.objects.all())
+				return  HttpResponse(list)
 			if action == 'save':
-				fileInfo = json.loads(request.POST['fileInfo'])
 				jsonDataDict = {}
-				jsonDataDict['code'] = 0
-				jsonDataDict['msg'] = '处理成功'
-				tp = templates_file_info()
-				tp.name = fileInfo['fileName']
-				tp.content = fileInfo['fileContent']
-				if len(fileInfo['id']) > 0:
-					tp.id = fileInfo['id']
-				tp.save()
-				return HttpResponse(json.dumps(jsonDataDict))
-	except Exception,e:
-		print 'tpHandle-exception:%s'%e
-		jsonDataDict['code'] = -1
-		jsonDataDict['msg'] = '异常：%s'%e
-		return HttpResponse(json.dumps(jsonDataDict))
+				try:
+					fileInfo = json.loads(request.POST['fileInfo'])
+					jsonDataDict['code'] = 0
+					jsonDataDict['msg'] = '处理成功'
+					tp = templates_file_info()
+					tp.name = fileInfo['fileName']
+					tp.content = fileInfo['fileContent']
+					if len(fileInfo['id']) > 0:
+						tp.id = fileInfo['id']
+					tp.save()
+					return HttpResponse(json.dumps(jsonDataDict))
+				except Exception,e:
+					logging.error('tpHandle-exception:%s' % e)
+					jsonDataDict['code'] = -1
+					jsonDataDict['msg'] = '异常：%s'%e
+					return HttpResponse(json.dumps(jsonDataDict))
+			if action == 'delete':
+				jsonDataDict = {}
+				try:
+					jsonDataDict['code'] = 0
+					jsonDataDict['msg'] = '处理成功'
+					tp = templates_file_info()
+					tp.id = request.POST['id']
+					tp.delete()
+					return HttpResponse(json.dumps(jsonDataDict))
+				except Exception,e:
+					logging.error('tpHandle-exception:%s' % e)
+					jsonDataDict['code'] = -1
+					jsonDataDict['msg'] = '异常：%s' % e
+					return HttpResponse(json.dumps(jsonDataDict))
 
 
 class fileIframe(TemplateView):
@@ -137,7 +159,7 @@ def getTplist(request):
 	listSet = []
 	dic = {}
 	for obj in templates_file_info.objects.all():
-		listSet.append([obj.name,obj.id])
+		listSet.append([obj.name,obj.modify_time.strftime('%Y-%m-%d %H:%M:%S'),obj.id])
 	dic['data'] = listSet
 	return HttpResponse(json.dumps(dic))
 

@@ -59,7 +59,14 @@ class templates_file_info(models.Model):
     name = models.CharField(max_length=512)
     content = CompressedTextField()
     modify_by = models.CharField(max_length=64)
+    modify_time = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.name
 
     def toJSON(self):
         import json
         return json.dumps(dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]]))
+
+    def toDict(self):
+        return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])

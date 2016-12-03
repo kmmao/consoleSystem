@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 
 import os
 import sys
+import logging
+import django.utils.log
+import logging.handlers
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -36,7 +39,7 @@ ALLOWED_HOSTS = ['*']
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Europe/Amsterdam'
+TIME_ZONE = 'Asia/Shanghai'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -51,7 +54,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/static/"
@@ -143,26 +146,105 @@ INSTALLED_APPS = (
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+       'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}  #日志格式
+    },
     'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
     },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR,'.', 'log/all.log'),     #日志输出文件
+            'maxBytes': 1024*1024*5,                  #文件大小
+            'backupCount': 5,                         #备份份数
+            'formatter':'standard',                   #使用哪种formatters日志格式
+        },
+        'error': {
+            'level':'ERROR',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR,'.', 'log/error.log'),
+            'maxBytes':1024*1024*5,
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        'request_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR,'.', 'log/script.log'),
+            'maxBytes': 1024*1024*5,
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'scprits_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':os.path.join(BASE_DIR,'.', 'log/script.log'),
+            'maxBytes': 1024*1024*5,
+            'backupCount': 5,
+            'formatter':'standard',
         }
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+        'django': {
+            'handlers': ['default', 'console'],
+            'level': 'DEBUG',
+            'propagate': False
         },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'scripts': {
+            'handlers': ['scprits_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'console': {
+            'handlers': ['default', 'error'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'httpTohno':{
+            'handlers': ['default', 'error'],
+            'level': 'DEBUG',
+            'propagate': True
+        }
     }
+    # 'version': 1,
+    # 'disable_existing_loggers': False,
+    # 'filters': {
+    #     'require_debug_false': {
+    #         '()': 'django.utils.log.RequireDebugFalse'
+    #     }
+    # },
+    # 'handlers': {
+    #     'mail_admins': {
+    #         'level': 'ERROR',
+    #         'filters': ['require_debug_false'],
+    #         'class': 'django.utils.log.AdminEmailHandler'
+    #     }
+    # },
+    # 'loggers': {
+    #     'django.request': {
+    #         'handlers': ['mail_admins'],
+    #         'level': 'ERROR',
+    #         'propagate': True,
+    #     },
+    # }
 }
 
 # Settings for django-bootstrap3
