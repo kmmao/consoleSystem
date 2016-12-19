@@ -5,7 +5,8 @@
  */
 
 (function($) {
-    var jsonData, serverUrlInfos, dirPath = '',
+    var jsonData, tableData = new Array(),
+        serverUrlInfos, dirPath = '',
         index = parent.layer.getFrameIndex(window.name); //获取窗口索引;
     /**
      * [fileIframe 主体内容]
@@ -28,6 +29,8 @@
         initData: function() {
             dirPath = parent.$('#my-breadcrumb').breadcrumb().extractPwd(parent.$('#my-breadcrumb').children('li'));
             jsonData = getConfigFileInfo();
+            //处理文件列表
+            infosHandle();
             if (window.localStorage.isEditForFile == 'true') {
                 //文件名只读
                 $('#fileName').attr('readonly', 'readonly');
@@ -56,21 +59,20 @@
                     var tpFilesList = '';
                     if (data.length > 0) {
                         for (var i = 0; i < data.length; i++) {
-                            tpFilesList += '<a href="javascript:void(0)" fileId="' + data[i]['pk'] + '" class="list-group-item tpfileClick">' + data[i]['fields']['name'] + '</a>';
+                            tpFilesList += '<a href="javascript:void(0)" fileId="' + data[i]['id'] + '" class="list-group-item tpfileClick">' + data[i]['name'] + '</a>';
                         }
                         //去除无
                         $("#backupfilesLst").find('li').remove();
                         //更新列表
                         $("#backupfilesLst").find('a').after(tpFilesList);
                     }
-                },'json');
+                }, 'json');
             }
             //初始化下拉列表
             $.post('/console/getServerUrlInfo/' + window.localStorage.env, function(res) {
                 serverUrlInfos = res.split('|');
-                console.log(serverUrlInfos);
-                initTableEdit(jsonData['syncfile']['infos']);
                 //console.log(serverUrlInfos);
+                initTableEdit(tableData);
             });
         },
         /**
@@ -177,15 +179,13 @@
              * @return {[type]}     [description]
              */
             $(document).on('click', '#addRow', function() {
-                if (jsonData['syncfile']['infos'] == null) {
-                    jsonData['syncfile']['infos'] = new Array();
-                }
-                console.log('asdf')
-                jsonData['syncfile']['infos'].push({
-                    'host': serverUrlInfos[0], //默认第一个URL地址--（这里要处理下，如果没有地址的情况下要怎么处理）
-                    'file': ''
+                var serverUrlInfo = serverUrlInfos[0].split(':');
+                tableData.push({
+                    'host': serverUrlInfo[1], //默认第一个URL地址--（这里要处理下，如果没有地址的情况下要怎么处理）
+                    'file': '',
+                    'modeltype':serverUrlInfo[0]
                 });
-                initTableEdit(jsonData['syncfile']['infos']);
+                initTableEdit(tableData);
             });
 
             /**
@@ -199,8 +199,9 @@
                 var obj = {
                     'host': $(this).parents('tr').find('.indexSelectIp').find("option:selected").text(),
                     'file': $(this).val(),
+                    'modeltype':$(this).parents('tr').find('.indexSelectIp').find("option:selected").attr('modeltype')
                 };
-                jsonData['syncfile']['infos'].splice(index, 1, obj);
+                tableData.splice(index, 1, obj);
             });
 
             /**
@@ -214,8 +215,9 @@
                 var obj = {
                     'host': $(this).find("option:selected").text(),
                     'file': $(this).parents('tr').find('.indexSelect').val(),
+                    'modeltype':$(this).find("option:selected").attr('modeltype')
                 };
-                jsonData['syncfile']['infos'].splice(index, 1, obj);
+                tableData.splice(index, 1, obj);
             });
 
             /**
@@ -225,8 +227,8 @@
              */
             $(document).on('click', '.delRow', function() {
                 var index = $(this).parents('tr').find('.indexSelect').attr('indexvalue');
-                jsonData['syncfile']['infos'].splice(index, 1);
-                initTableEdit(jsonData['syncfile']['infos']);
+                tableData.splice(index, 1);
+                initTableEdit(tableData);
             });
 
             /**
@@ -310,7 +312,7 @@
                     if (currentIndex == 1) {
                         $('#showFileName').val(jsonData['file']);
                         $('#showFileContent').val(jsonData['content']);
-                        initTableFinal(jsonData['syncfile']['infos']);
+                        initTableFinal(tableData);
                         console.log('关联主机：' + JSON.stringify(jsonData));
                     }
                     //下发执行（确认）-下一步
@@ -329,7 +331,10 @@
                             } else {
                                 jsonData['file'] = dirPath + "/" + jsonData['file'];
                             }
-                            console.log(jsonData['file']);
+                            //封装回到jsonData
+                            convJsonData();
+                            //console.log(jsonData);
+                            //console.log(jsonData['file']);
                             //请求下发数据，并返回数据，展示
 
                             jsonData['content'] = BASE64.encoder(jsonData['content']);
@@ -502,6 +507,48 @@
     }
 
     /**
+     * [infosHandle 处理infos数据]
+     * @param  {[type]} infos [description]
+     * @return {[type]}       [description]
+     */
+    function infosHandle() {
+        $.each(jsonData['syncfile']['infos'], function(index, val) {
+            var tableItemData = {};
+            tableItemData['host'] = val['host'];
+            tableItemData['file'] = val['file'];
+            tableItemData['modeltype'] = 'file';
+            tableData.push(tableItemData);
+        });
+        $.each(jsonData['synczookeeper']['infos'], function(index, val) {
+            var tableItemData = {};
+            tableItemData['host'] = val['name'];
+            tableItemData['file'] = val['zkpath'];
+            tableItemData['modeltype'] = 'zk';
+            tableData.push(tableItemData);
+        });
+        //console.log(tableData);
+    }
+
+    function convJsonData() {
+        syncfiles = new Array();
+        synczookeepers = new Array();
+        $.each(tableData, function(index, val) {
+            if (val['modeltype'] == 'file') {
+                delete val['modeltype'];
+                syncfiles.push(val);
+            } else if (val['modeltype'] == 'zk') {
+                delete val['modeltype'];
+                var synczookeeper = {};
+                synczookeeper['name'] = val['host'];
+                synczookeeper['zkpath'] = val['file'];
+                synczookeepers.push(synczookeeper);
+            }
+        });
+        jsonData['syncfile']['infos'] = syncfiles;
+        jsonData['synczookeeper']['infos'] = synczookeepers;
+    }
+
+    /**
      * [createSelect 生成select]
      * @param  {[type]} options  [description]
      * @param  {[type]} select   [description]
@@ -519,10 +566,11 @@
         // 添加选项
         for (var i = serverUrlInfos.length - 1; i >= 0; i--) {
             var url = serverUrlInfos[i];
-            if (select == url) {
-                selectTemp += "<option selected='selected' value='" + i + "'>" + url + "</option>";
+            serverUrlInfo = url.split(':');
+            if (select == serverUrlInfo[1]) {
+                selectTemp += "<option selected='selected' modeltype = '" + serverUrlInfo[0] + "' value='" + i + "'>" + serverUrlInfo[1] + "</option>";
             } else {
-                selectTemp += "<option value='" + i + "'>" + url + "</option>";
+                selectTemp += "<option modeltype = '" + serverUrlInfo[0] + "' value='" + i + "'>" + serverUrlInfo[1] + "</option>";
             }
 
         }

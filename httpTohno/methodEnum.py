@@ -20,9 +20,7 @@ __mtime__ = '2016/11/19'
                   ┗┻┛  ┗┻┛
 """
 
-from enum import Enum
-
-class methodEnum(Enum):
+class methodEnum(object):
 	# 文件创建
 	file_create = '/file?action=create'
 	# 文件更新
@@ -45,4 +43,12 @@ class methodEnum(Enum):
 	dir_scan = '/dir?action=scan'
 	# serverInfoList
 	server_infos = '/syncinfo?action=get'
+	# server_url_infos  - shiva
+	server_url_infos = '/getServerUrlInfos'
+	# server_uru_info - shiva
+	server_url_info_get = '/getServerUrlInfo'
 
+	# templateFile - shiva
+	templateFile = '/templateFile'
+	#templateFileList - shiva
+	templateFileList = '/templateFileList'

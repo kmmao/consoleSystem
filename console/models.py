@@ -51,8 +51,8 @@ class sever_url_info(models.Model):
     name = models.CharField(max_length=64)
     url = models.CharField(max_length=64)
     default_path = models.CharField(max_length=64)
-    port = models.CharField(max_length=64)
-    out_time = models.CharField(max_length=64)
+    port = models.IntegerField()
+    out_time = models.IntegerField()
 
 #templates_file_info
 class templates_file_info(models.Model):

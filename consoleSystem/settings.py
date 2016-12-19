@@ -20,15 +20,15 @@ ADMINS = ()
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': ':memory:',
-        'NAME':os.path.join(BASE_DIR,'.','consoleDb'),
+        #'NAME':os.path.join(BASE_DIR,'.','consoleDb'),
     }
 }
 
-TOHNO_HTTP_URL = r'192.168.250.62'
-TOHNO_HTTP_PORT = 9191
-TOHNO_HTTP_OUTTIME = 30
+SHIVA_URL = r'127.0.0.1'
+SHIVA_PORT = 5000
+SHIVA_OUTTIME = 30
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts

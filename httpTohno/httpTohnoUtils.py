@@ -33,21 +33,24 @@ logger = logging.getLogger('httpTohno')
 
 
 class httpTohnoUtils:
-	def __init__(self,params,method,env):
+	def __init__(self,params,method,env,url='localhost',port=5000,out_time=30):
 		self.params = params
 		self.method = method
 		self.env = env
+		self.url = url
+		self.port = port
+		self.out_time = out_time
 		pass
 	def httpTohonWithGet(self):
 		httpClient = None
 		try:
-			severUrlInfo = sever_url_info.objects.get(name__exact=self.env)
-			httpClient = httplib.HTTPConnection(severUrlInfo.url, int(severUrlInfo.port),
-												timeout=int(severUrlInfo.out_time))
+			httpClient = httplib.HTTPConnection(self.url, self.port,timeout=self.out_time)
 			httpClient.request('GET', self.method)
 
 			# response是HTTPResponse对象
 			response = httpClient.getresponse()
+			if self.env == 'shiva':
+				return json.loads(response.read())
 			jsonData = json.loads(response.read())
 			if not jsonData["hostinfos"]:
 				jsonData["hostinfos"] = []
@@ -67,9 +70,7 @@ class httpTohnoUtils:
 		httpClient = None
 		try:
 			headers = {'Content-Type': 'application/json'}
-
-			severUrlInfo = sever_url_info.objects.get(name__exact=self.env)
-			httpClient = httplib.HTTPConnection(severUrlInfo.url, int(severUrlInfo.port), timeout=int(severUrlInfo.out_time))
+			httpClient = httplib.HTTPConnection(self.url, self.port, timeout=self.out_time)
 			httpClient.request("POST", self.method, json.JSONEncoder().encode(self.params), headers)
 			logger.info('request data = %s' % json.JSONEncoder().encode(self.params))
 			response = httpClient.getresponse()
@@ -77,6 +78,8 @@ class httpTohnoUtils:
 			#print "结果=%s"%(response.reason)
 			#print response.read()
 			#print "头信息=%s"%(response.getheaders())  # 获取头信息
+			if self.env == 'shiva':
+				return json.loads(response.read())
 			jsonData = json.loads(response.read())
 			logger.info('response.read = %s' % jsonData)
 			#500错误
@@ -92,6 +95,7 @@ class httpTohnoUtils:
 			logger.info('fainl jsonData = %s' % json.dumps(jsonData))
 			return json.dumps(jsonData)
 		except Exception, e:
+			print e
 			logger.error('httpTohnoWithPost-exception=%s' % e)
 		finally:
 			if httpClient:

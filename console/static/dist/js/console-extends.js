@@ -46,6 +46,9 @@ function getConfigFileInfo(){
 			"backupcount":0,
 			"syncfile":{
 				"infos":new Array()
+			},
+			"synczookeeper":{
+				"infos":new Array()
 			}
 		};
 	}else{

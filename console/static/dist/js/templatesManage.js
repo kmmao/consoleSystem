@@ -163,7 +163,7 @@
      */
     function fileSave() {
         if (form.valid()) {
-            layer.load(1, {
+            var layerLoad = layer.load(1, {
                 shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
             var jsonData = $("#fileForm").serializeObject();
@@ -176,6 +176,8 @@
                         initTable();
                         layer.closeAll();
                     }, 1000);
+                }else{
+                    layer.close(layerLoad);
                 }
             }, 'json');
         } else {
