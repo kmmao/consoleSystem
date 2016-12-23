@@ -16,8 +16,8 @@ from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 
-from console.models import Student, sever_url_info, templates_file_info
-from consoleSystem.settings import SHIVA_URL, SHIVA_OUTTIME, SHIVA_PORT
+from console.models import Student
+from consoleSystem.settings import SHIVA_URL, SHIVA_OUTTIME, SHIVA_PORT, SHIVA_VERSION
 from httpTohno.HttpHelper import HttpHelper
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
@@ -35,7 +35,8 @@ class FakeField(object):
 fieldfile = FieldFile(None, FakeField, 'dummy.txt')
 logger = logging.getLogger('console')
 
-__shiva_url = 'http://%s:%s'%(SHIVA_URL,SHIVA_PORT)
+#http://[hostname]/shiva/api/v1.0/templateFileList
+__shiva_url = 'http://%s:%s%s'%(SHIVA_URL,SHIVA_PORT,SHIVA_VERSION)
 
 def test(request):
 	return HttpResponse('abc')
@@ -179,8 +180,8 @@ def showRealStudents(request):
 	return render_to_response('console/other/student.html', {'students': list})
 
 def getServerUrlInfo(request,env):
-	serverUrlInfo = httpTohnoUtils({'env':env}, methodEnum.server_url_info_get, 'shiva', SHIVA_URL,SHIVA_PORT,
-								   SHIVA_OUTTIME).httpTohnoWithPost()
+	url = str('%s%s' % (__shiva_url, methodEnum.server_url_info_get))
+	serverUrlInfo = HttpHelper().url(url).headers().post(json.dumps({'env': env}), HttpHelper().getData)
 	jsonData = httpTohnoUtils(None, methodEnum.server_infos, env,serverUrlInfo[0]['url'],
 							  serverUrlInfo[0]['port'],serverUrlInfo[0]['out_time']).httpTohonWithGet()
 	res = set()
@@ -232,7 +233,8 @@ class configFileManage(TemplateView):
 
 	def get_context_data(self,**kwargs):
 		context = super(configFileManage, self).get_context_data(**kwargs)
-		jsonData = httpTohnoUtils(None, methodEnum.server_url_infos, 'shiva', SHIVA_URL,SHIVA_PORT, SHIVA_OUTTIME).httpTohonWithGet()
+		url = 'http://%s:%s%s%s' % (SHIVA_URL, SHIVA_PORT, SHIVA_VERSION,methodEnum.server_url_infos)
+		jsonData = HttpHelper().url(url).get(func=HttpHelper().getData)
 		context['serverUrlInfos'] = jsonData
 		return context
 
