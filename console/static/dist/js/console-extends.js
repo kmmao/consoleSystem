@@ -12,10 +12,10 @@ var storage = window.localStorage;
  * [showStorage 展示所有本地存储的数据]
  * @return {[type]} [description]
  */
-function showStorage() {
-    for (var i = storage.length - 1; i >= 0; i--) {
-        console.log(storage.key(i) + ":" + storage.getItem(storage.key(i)));
-    }
+function showStorage(){
+	for (var i = storage.length - 1; i >= 0; i--) {
+		console.log(storage.key(i)+":"+storage.getItem(storage.key(i)));
+	}
 }
 
 /**
@@ -36,25 +36,25 @@ function showStorage() {
         }
     };
  */
-function getConfigFileInfo() {
-    var configFileInfo = window.localStorage.configFileInfo;
-    if (typeof(configFileInfo) == 'undefined') {
-        //新增
-        configFileInfo = {
-            "file": "",
-            "content": "",
-            "backupcount": 0,
-            "syncfile": {
-                "infos": new Array()
-            },
-            "synczookeeper": {
-                "infos": new Array()
-            }
-        };
-    } else {
-        configFileInfo = JSON.parse(configFileInfo);
-    }
-    return configFileInfo;
+function getConfigFileInfo(){
+	var configFileInfo = window.localStorage.configFileInfo;
+	if(typeof(configFileInfo) == 'undefined'){
+		//新增
+		configFileInfo = {
+			"file":"",
+			"content":"",
+			"backupcount":0,
+			"syncfile":{
+				"infos":new Array()
+			},
+			"synczookeeper":{
+				"infos":new Array()
+			}
+		};
+	}else{
+		configFileInfo = JSON.parse(configFileInfo);
+	}
+	return configFileInfo;
 }
 
 /**
@@ -62,8 +62,8 @@ function getConfigFileInfo() {
  * @param  {[type]} configFileInfo [description]
  * @return {[type]}                [description]
  */
-function saveConfigFileInfo(configFileInfo) {
-    window.localStorage.configFileInfo = JSON.stringify(configFileInfo);
+function saveConfigFileInfo(configFileInfo){
+	window.localStorage.configFileInfo = JSON.stringify(configFileInfo);
 }
 
 /**
@@ -71,23 +71,22 @@ function saveConfigFileInfo(configFileInfo) {
  * @type {Object}
  */
 $.event.special.valuechange = {
-    teardown: function(namespaces) {
-        $(this).unbind('.valuechange');
-    },
-    handler: function(e) {
-        $.event.special.valuechange.triggerChanged($(this));
-    },
-    add: function(obj) {
-        $(this).on('keyup.valuechange cut.valuechange paste.valuechange input.valuechange', obj.selector, $.event.special.valuechange.handler)
-    },
-    triggerChanged: function(element) {
-        var current = element[0].contentEditable === 'true' ? element.html() : element.val(),
-            previous = typeof element.data('previous') === 'undefined' ? element[0].defaultValue : element.data('previous')
-        if (current !== previous) {
-            element.trigger('valuechange', [element.data('previous')])
-            element.data('previous', current)
-        }
-    }
+	teardown:function(namespaces){
+		$(this).unbind('.valuechange');
+	},
+	handler:function(e){
+		$.event.special.valuechange.triggerChanged($(this));
+	},
+	add:function(obj){
+		$(this).on('keyup.valuechange cut.valuechange paste.valuechange input.valuechange',obj.selector,$.event.special.valuechange.handler)
+	},
+	triggerChanged:function(element){
+		var current = element[0].contentEditable === 'true' ? element.html() :element.val(),previous = typeof element.data('previous') === 'undefined' ? element[0].defaultValue :element.data('previous')
+		if(current !== previous){
+			element.trigger('valuechange',[element.data('previous')])
+			element.data('previous',current)
+		}
+	}
 }
 
 //调用如下
@@ -103,28 +102,47 @@ $.event.special.valuechange = {
  * [serializeObject serializeArray]
  * @return {[type]} [description]
  */
-$.fn.serializeObject = function() {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name]) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
-};
+$.fn.serializeObject = function()    
+{    
+   var o = {};    
+   var a = this.serializeArray();    
+   $.each(a, function() {    
+       if (o[this.name]) {    
+           if (!o[this.name].push) {    
+               o[this.name] = [o[this.name]];    
+           }    
+           o[this.name].push(this.value || '');    
+       } else {    
+           o[this.name] = this.value || '';    
+       }    
+   });    
+   return o;    
+};  
 
-/**
- * [isEmpty 是否为空]
- * @return {Boolean} [description]
- */
-String.prototype.isEmpty = function() {
-    var s1 = this.replace(/[\r\n]/g, '').replace(/[ ]/g, ''),
-        s2 = (s1 == '') ? true : false;
-    return s2;
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

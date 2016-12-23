@@ -183,7 +183,7 @@
                 tableData.push({
                     'host': serverUrlInfo[1], //默认第一个URL地址--（这里要处理下，如果没有地址的情况下要怎么处理）
                     'file': '',
-                    'modeltype': serverUrlInfo[0]
+                    'modeltype':serverUrlInfo[0]
                 });
                 initTableEdit(tableData);
             });
@@ -199,7 +199,7 @@
                 var obj = {
                     'host': $(this).parents('tr').find('.indexSelectIp').find("option:selected").text(),
                     'file': $(this).val(),
-                    'modeltype': $(this).parents('tr').find('.indexSelectIp').find("option:selected").attr('modeltype')
+                    'modeltype':$(this).parents('tr').find('.indexSelectIp').find("option:selected").attr('modeltype')
                 };
                 tableData.splice(index, 1, obj);
             });
@@ -215,7 +215,7 @@
                 var obj = {
                     'host': $(this).find("option:selected").text(),
                     'file': $(this).parents('tr').find('.indexSelect').val(),
-                    'modeltype': $(this).find("option:selected").attr('modeltype')
+                    'modeltype':$(this).find("option:selected").attr('modeltype')
                 };
                 tableData.splice(index, 1, obj);
             });
@@ -386,14 +386,9 @@
                  * @return {[type]}              [description]
                  */
                 onFinished: function(event, currentIndex) {
-                    //如果内容没反馈，不进行窗口关闭
-                    if (!$("#opinfo").html().isEmpty()) {
-                        parent.layer.close(index);
-                        parent.$('#my-breadcrumb').breadcrumb().pop(0);
-                        //layer.msg(JSON.stringify(jsonData));
-                    }else{
-                        layer.msg('正在执行下发...');
-                    }
+                    parent.layer.close(index);
+                    parent.$('#my-breadcrumb').breadcrumb().pop(0);
+                    //layer.msg(JSON.stringify(jsonData));
                 }
             });
         }

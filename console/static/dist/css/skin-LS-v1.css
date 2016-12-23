@@ -1,0 +1,371 @@
+/**
+ * 文件主要用于“自动化运维平台”样式控制
+ * 文件创建时间：2016/12/21
+ * 作者：wangxj
+ * 联系方式：wangxj@linesum.com
+ */
+body {
+  background-color: #faf5f0;
+}
+#wrapper {
+  padding: 0 3%;
+}
+/* 导航 [begin] */
+.navbar {
+  background: #d11723;
+  background: -moz-linear-gradient(top, #d71724, #ca1622);
+  background: -webkit-gradient(linear, 0 0, 0 bottom, from(#d71724), to(#ca1622));
+  background: -o-linear-gradient(top, #d71724, #ca1622);
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr=#d71724, endColorstr=#ca1622);
+  line-height: 50px;
+  margin: 0 0 0 -4%;
+  min-height: 50px;
+  padding: 0 4%;
+  width: 107.2%;
+}
+.navbar .navbar-brand {
+  height: 50px;
+  padding: 0 5px;
+}
+.navbar .navbar-top-links li a {
+  border-bottom: none;
+  color: #fff;
+  margin-bottom: 0;
+  padding: 0 10px;
+}
+.navbar .nav .open > a,
+.navbar .nav .open > a:focus,
+.navbar .nav .open > a:hover {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: none;
+  color: #ca1622;
+  position: relative;
+  z-index: 10000;
+}
+.navbar .navbar-top-links .dropdown {
+  height: 49px;
+}
+.navbar .navbar-top-links .dropdown-menu li a {
+  color: #4e4e4e;
+}
+.navbar .dropdown-menu {
+  border-radius: 0;
+  margin-top: 0;
+}
+.navbar .navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.navbar-toggle {
+  margin-top: 10px;
+  padding: 7px;
+}
+.navbar-toggle .icon-bar {
+  width: 18px;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+/* 导航 [end] */
+/* 左侧菜单 [begin] */
+.sidebar {
+  background: rgba(0, 0, 0, 0) url("../images/bg-repeat-y.png") repeat-y scroll right 0;
+  float: left;
+  margin-top: 0;
+  min-height: 95%;
+  padding-bottom: 0.3%;
+  width: 179px;
+  /*左侧菜单search [begin] */
+  /*左侧菜单search [end] */
+}
+.sidebar .nav .sidebar-search {
+  border-bottom: 1px solid #dfdfdf;
+  padding: 13px;
+}
+.sidebar .custom-search-form {
+  width: 100%;
+}
+.sidebar .form-control {
+  border: 1px solid #dfdfdf;
+  border-right: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  float: left;
+  font-family: "Microsoft YaHei", "Arial", "SimHei", "SimSun", "sans-serif";
+  font-size: 14px;
+  padding-left: 4.6%;
+  height: 26px;
+  line-height: 26px;
+  width: 80%;
+}
+.sidebar .input-group-btn {
+  display: inline-block;
+  width: 20%;
+}
+.sidebar .input-group-btn .btn {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 26px;
+  line-height: 12px;
+  min-width: inherit;
+  padding: 0;
+  width: 100%;
+}
+.sidebar .input-group-btn .btn .icon {
+  background-position: 1px -80px;
+  height: 20px;
+  width: 18px;
+}
+.sidebar .ui-autocomplete {
+  border: 1px solid #dfdfdf;
+  background-color: #fff;
+  width: 7.7% !important;
+  padding: 5px 0;
+}
+.sidebar .ui-autocomplete .ui-menu-item {
+  padding-left: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+.sidebar .ui-autocomplete .ui-menu-item:hover {
+  background-color: #ca1622;
+  color: #fff;
+}
+.sidebar .nav li {
+  border-bottom: none;
+}
+.nav li > a {
+  border-bottom: 1px solid #dfdfdf;
+  margin-bottom: 4px;
+  padding: 9px 0;
+}
+.nav li > a:focus,
+.nav li > a:hover {
+  background: none;
+  color: #4e4e4e;
+}
+.nav .nav-icon {
+  background-position: -1px -42px;
+  height: 11px;
+  margin-left: 10px;
+  margin-right: 5px;
+  vertical-align: -1px;
+  width: 11px;
+}
+.nav .active a {
+  border: none;
+}
+.nav .active .nav-icon {
+  background-position: -2px -1px;
+}
+.sidebar .nav-second-level li a {
+  border: none;
+  margin: 0;
+  padding: 7px 0 7px 25px;
+}
+.sidebar .nav-second-level li a:hover {
+  color: #ca1622;
+}
+.sidebar .nav-second-level li a.active {
+  background-color: #ca1622;
+  color: #fff;
+}
+/* 左侧菜单 [end] */
+#page-wrapper {
+  margin-left: 189px;
+}
+/* 按钮 [begin] */
+.btn {
+  border-radius: 0;
+}
+.emphasize-btn.focus,
+.emphasize-btn:focus,
+.emphasize-btn:hover {
+  background-color: #ca1622;
+  color: #fff;
+  text-decoration: underline;
+}
+.gray-gradient-btn.focus,
+.gray-gradient-btn:focus,
+.gray-gradient-btn:hover {
+  background-color: #ddd;
+  color: #4e4e4e;
+  text-decoration: underline;
+}
+/* 按钮 [end] */
+/* 页码 [begin] */
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  border-color: #ca1622;
+  color: #ca1622;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  background-color: #ca1622;
+  color: #fff;
+}
+/* 页码 [end] */
+/* 页面布局 - 共用 [begin] */
+.toolbar {
+  margin: 12px 0;
+}
+.toolbar .btn {
+  margin-right: 10px;
+}
+div.dataTables_length label {
+  line-height: 22px;
+}
+/* 进度条 */
+.wizard > .steps a,
+.wizard > .steps a:hover,
+.wizard > .steps a:active {
+  font-size: 14px;
+}
+.wizard > .steps .number {
+  font-size: 14px;
+}
+.wizard > .steps .done a,
+.wizard > .steps .done a:hover,
+.wizard > .steps .done a:active {
+  background-color: #faf5f0;
+  color: #4e4e4e;
+}
+.wizard > .steps .current a,
+.wizard > .steps .current a:hover,
+.wizard > .steps .current a:active {
+  background-color: #faefe4;
+  color: #141414;
+}
+.wizard > .steps .error a,
+.wizard > .steps .error a:hover,
+.wizard > .steps .error a:active {
+  background-color: #ca1622;
+  color: #fff;
+}
+.wizard > .content {
+  background-color: #fff;
+  border: none;
+}
+.wizard > .content > .body {
+  padding: 0;
+}
+/* 表格 */
+.table th {
+  font-size: 14px;
+  padding: 7px 0;
+}
+.table td {
+  font-size: 12px;
+  padding: 2px 10px;
+}
+/* 错误提示 */
+.wizard > .content > .body input.error {
+  background: none;
+  border-color: #ca1622;
+}
+/* 页面布局 - 共用 [end] */
+/* 表单元素样式 [begin] */
+.form-control {
+  border-radius: 0;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 0 0 5px;
+}
+select.form-control {
+  height: 22px;
+  line-height: 22px;
+  width: 158px;
+}
+/* 表单元素样式 [begin] */
+/* 页面布局 - 配置文件管理 [begin] */
+.breadcrumb {
+  border-radius: 0;
+  height: 42px;
+  padding: 10px;
+}
+.breadcrumb .configFile {
+  float: left;
+  margin-right: 5px;
+}
+.breadcrumb ul {
+  float: left;
+}
+.breadcrumb ul li {
+  float: left;
+  height: 22px;
+  line-height: 22px;
+  margin-right: 5px;
+}
+.breadcrumb ul li:after {
+  content: "/";
+  margin-left: 5px;
+}
+.breadcrumb ul li:first-child:after {
+  content: " ";
+  margin-left: 0;
+}
+.breadcrumb:after {
+  content: " ";
+  padding: 1px;
+}
+.backupfilesLst {
+  font-size: 12px;
+  padding-left: 10px;
+}
+.backupfilesLst .list-group-item.active,
+.backupfilesLst .list-group-item.active:focus,
+.backupfilesLst .list-group-item.active:hover {
+  background-color: #f7f7f7;
+  border: 1px solid #dfdfdf;
+  color: #141414;
+}
+.backupfilesLst .list-group-item {
+  padding-left: 10px;
+}
+/* 页面布局 - 配置文件管理 [end] */
+/* 页面布局 - 模板管理 [begin] */
+.dialog-content {
+  background-color: #fff;
+  padding: 10px;
+}
+.dialog-content .row {
+  margin: 0;
+}
+.dialog-content .input-group .input-group-addon {
+  border-radius: 0;
+  font-size: 12px;
+  padding: 7px 14px;
+}
+.dialog-content .input-group .form-control {
+  height: 36px;
+  padding-left: 10px;
+}
+/* 页面布局 - 模板管理 [end] */
+@media all and (max-width: 768px) {
+  .sidebar {
+    background: none;
+    background-color: #fffbf7;
+    float: none;
+    width: auto;
+  }
+  #page-wrapper {
+    margin-left: 0;
+  }
+  .navbar-top-links .dropdown-user {
+    left: 0;
+  }
+  .sidebar .form-control,
+  .sidebar .input-group-btn .btn {
+    height: 32px;
+  }
+}

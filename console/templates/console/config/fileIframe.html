@@ -2,7 +2,9 @@
 <link href="{% bootstrap_jquery_steps_url %}normalize.css" rel="stylesheet" type="text/css">
 <link href="{% bootstrap_jquery_steps_url %}main.css" rel="stylesheet" type="text/css">
 <link href="{% bootstrap_jquery_steps_url %}jquery.steps.css" rel="stylesheet" type="text/css"> {% endblock %} {% block bootstrap3_content %}
-<form id="file-form" role="form" action="#">
+    <link href="/static/dist/css/skin-LS-v1.css" rel="stylesheet">
+
+<form id="file-form" role="form" action="#" class="dialog-content">
     <div>
         <h3>填写文件</h3>
         <section>
@@ -24,7 +26,7 @@
                         <textarea id="fileContent" class="form-control required" name="fileContent" rows="18" placeholder="请输入内容"></textarea>
                     </div>
                 </div>
-                <div class="col-md-4" style="overflow-y:auto;overflow-x:auto;height:400px;">
+                <div class="col-md-4 backupfilesLst">
                     <div class="list-group" id="backupfilesLst">
                         <a href="#" id="showContent" class="list-group-item active">
                         </a>
