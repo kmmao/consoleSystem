@@ -52,3 +52,7 @@ class methodEnum(object):
 	templateFile = '/templateFile'
 	#templateFileList - shiva
 	templateFileList = '/templateFileList'
+	#hostlist - shiva
+	hostlist = '/hostlist'
+	#host
+	host = '/host'

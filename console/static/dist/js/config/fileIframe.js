@@ -337,7 +337,7 @@
                             //console.log(jsonData['file']);
                             //请求下发数据，并返回数据，展示
 
-                            jsonData['content'] = BASE64.encoder(jsonData['content']);
+                            //jsonData['content'] = BASE64.encoder(jsonData['content']);
 
                             delete jsonData['backupfile'];
 

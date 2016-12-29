@@ -1,0 +1,103 @@
+/*dialog begin*/
+.dialog-shade{
+	background-color:#000;
+	display:none;
+	filter:alpha(opacity=50);
+	left:0;
+	opacity:0.5;
+	position:absolute;
+	top:0;
+	z-index:999
+}
+.dialog{
+	background-color:#fff;
+	border:2px solid #dfdfdf;
+	display:none;
+	padding:0;
+	position:fixed;
+	z-index:999;
+}
+.delete-dialog{
+	width: 362px;
+}
+.dialog .dialog-titlebar,.dialog .dialog-titlebar{
+	background-color:#fafafa;
+	border-bottom:1px solid #dfdfdf;
+	height:34px;
+	line-height:34px;
+	margin-top:1px;
+	padding:0 10px;
+}
+.dialog .dialog-title,.dialog .dialog-title{
+	color:#ca1622;
+	float:left;
+	font-size:14px;
+	font-weight:bold;
+}
+.dialog .dialog-close{
+	background-position:-60px -634px;
+	cursor:pointer;
+	float:right;
+	height:12px;
+	margin-top:11px;
+	width:13px;
+}
+.dialog .dialog-close:hover{
+	background-position:-90px -634px;
+}
+.dialog-content{
+	background-color:#fff;
+}
+.dialog-content .prompt{
+	font-size: 14px;
+	padding: 26px 0 8px;
+	text-align: center;
+}
+.dialog .btn-wrap{
+	margin:0 auto 28px;
+	overflow:hidden;
+	text-align:center;
+	width:auto;
+}
+.dialog .btn-wrap a{
+	display:inline-block;
+	height:20px;
+	line-height:20px;
+	padding:0 10px;
+	text-align:center;
+	min-width:24px;
+}
+.dialog .red-btn{
+	background:-moz-linear-gradient(top,#ff3d5b,#fc2c41);
+	background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ff3d5b), to(#fc2c41));
+	background:-o-linear-gradient(top,#ff3d5b,#fc2c41);
+	filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=#ff3d5b,endColorstr=#fc2c41);
+	border:1px solid #db1b29;
+	color: #fff;
+	margin-right:8px;
+}
+.dialog .info-bg {
+    background-color: #f5f7f7;
+    color: #4e4e4e;
+    margin-top: 11px;
+    padding: 11px 0;
+}
+.dialog .info-table {
+    color: #4e4e4e;
+    margin: 0 auto;
+    max-width: 318px;
+}
+.dialog .info-table td {
+    line-height: 21px;
+    vertical-align: top;
+    max-width:250px;
+}
+.dialog .info-table .label {
+	float:none;
+    text-align: right;
+}
+.dialog .info-table .item{
+	display:inline-block;
+	max-width:250px;
+}
+/*dialog end*/

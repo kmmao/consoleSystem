@@ -1,0 +1,23 @@
+{% extends 'console/base.html' %}
+{% load bootstrap3 %}
+{% block title %}主机概览{% endblock %}
+{% block content %}
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="toolbar">
+            <a class="btn emphasize-btn red-gradient-btn" href="javascript:void(0)" id="addHost">
+                新增主机
+            </a>
+        </div>
+        <br/>
+        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-hostList">
+        </table>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+{% endblock %}
+{% block self_script %}
+<script src="/static/dist/js/host/hostManage.js"></script>
+{% endblock %}

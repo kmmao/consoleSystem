@@ -44,7 +44,7 @@
             form.validate({
                 errorPlacement: function errorPlacement(error, element) {
                     layer.tips(error.html(), element, {
-                        tips: [1, '#3595CC'],
+                        tips: [1, '#CA1622'],
                         time: 2000,
                         tipsMore: true
                     });

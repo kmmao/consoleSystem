@@ -1,30 +1,28 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import base64
+import datetime
 import json
 import logging
-
-import datetime
 import time
-from django.core.files.storage import default_storage
 
+from django.contrib import messages
+from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.fields.files import FieldFile
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
-from django.contrib import messages
 
 from console.models import Student
-from consoleSystem.settings import SHIVA_URL, SHIVA_OUTTIME, SHIVA_PORT, SHIVA_VERSION
+from consoleSystem.settings import SHIVA_URL, SHIVA_PORT, SHIVA_VERSION
 from httpTohno.HttpHelper import HttpHelper
 from httpTohno.httpTohnoUtils import httpTohnoUtils
 from httpTohno.methodEnum import methodEnum
 from httpTohno.requestDict import requestDict
 from .forms import ContactForm, FilesForm, ContactFormSet
-
-import base64
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
@@ -35,16 +33,27 @@ class FakeField(object):
 fieldfile = FieldFile(None, FakeField, 'dummy.txt')
 logger = logging.getLogger('console')
 
-#http://[hostname]/shiva/api/v1.0/templateFileList
-__shiva_url = 'http://%s:%s%s'%(SHIVA_URL,SHIVA_PORT,SHIVA_VERSION)
+# http://[hostname]/shiva/api/v1.0/templateFileList
+__shiva_url = 'http://%s:%s%s' % (SHIVA_URL, SHIVA_PORT, SHIVA_VERSION)
 
-def test(request):
-	return HttpResponse('abc')
 
-def dir(request,action,env):
+def host(request, action):
+	try:
+		if action == 'manage':
+			url = '%s%s' % (__shiva_url, methodEnum.hostlist)
+			return HttpResponse(HttpHelper().url(url).get())
+		if action == 'save':
+			url = '%s%s' % (__shiva_url, methodEnum.host)
+			jsonDataDict = {'code': 0, 'msg': '处理成功'}
+			return
+	except Exception, e:
+		logger.error('host>exception>info:%s' % e)
+
+
+def dir(request, action, env):
 	if request.is_ajax() and request.method == 'POST':
 		url = str('%s%s' % (__shiva_url, methodEnum.server_url_info_get))
-		severUrlInfo = HttpHelper().url(url).headers().post(json.dumps({'env':env}),HttpHelper().getData)
+		severUrlInfo = json.loads(HttpHelper().url(url).headers().post(json.dumps({'env': env})))
 		kwargs = {
 			'env': env,
 			'url': severUrlInfo[0]['url'],
@@ -53,25 +62,27 @@ def dir(request,action,env):
 		}
 		if action == 'scan':
 			params = requestDict().dirScanDict(request.POST['dirPath'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_scan,**kwargs).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_scan, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'addDir':
 			params = requestDict().dirCreateDict(request.POST['dirPath'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_create,**kwargs).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_create, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'deleteDir':
 			params = requestDict().dirDeleteDict(request.POST['dirPath'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_delete,**kwargs).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.dir_delete, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'renameDir':
-			params = requestDict().dirRenameDict(request.POST['parentDir'],request.POST['newName'],request.POST['oldName'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_rename,**kwargs).httpTohnoWithPost()
+			params = requestDict().dirRenameDict(request.POST['parentDir'], request.POST['newName'],
+												 request.POST['oldName'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_rename, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 
-def fileHandle(request,action,env):
+
+def fileHandle(request, action, env):
 	if request.is_ajax() and request.method == 'POST':
 		url = str('%s%s' % (__shiva_url, methodEnum.server_url_info_get))
-		severUrlInfo = HttpHelper().url(url).headers().post(json.dumps({'env': env}), HttpHelper().getData)
+		severUrlInfo = json.loads(HttpHelper().url(url).headers().post(json.dumps({'env': env})))
 		kwargs = {
 			'env': env,
 			'url': severUrlInfo[0]['url'],
@@ -79,45 +90,51 @@ def fileHandle(request,action,env):
 			'out_time': severUrlInfo[0]['out_time']
 		}
 		if action == 'renameFile':
-			params = requestDict().fileRenameDict(request.POST['parentDir'], request.POST['newName'],request.POST['oldName'])
-			jsonData = httpTohnoUtils(params, methodEnum.dir_rename,**kwargs).httpTohnoWithPost()
+			params = requestDict().fileRenameDict(request.POST['parentDir'], request.POST['newName'],
+												  request.POST['oldName'])
+			jsonData = httpTohnoUtils(params, methodEnum.dir_rename, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'createFile':
-			params = requestDict().fileCreateDict(json.loads(request.POST['configFileInfo']))
-			jsonData = httpTohnoUtils(params, methodEnum.file_create,**kwargs).httpTohnoWithPost()
+			configFileInfo = json.loads(request.POST['configFileInfo'])
+			configFileInfo['content'] = base64.b64encode(configFileInfo['content'])
+			params = requestDict().fileCreateDict(configFileInfo)
+			jsonData = httpTohnoUtils(params, methodEnum.file_create, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'updateFile':
-			params = requestDict().fileUpdateDict(json.loads(request.POST['configFileInfo']))
-			jsonData = httpTohnoUtils(params, methodEnum.file_update,**kwargs).httpTohnoWithPost()
+			configFileInfo = json.loads(request.POST['configFileInfo'])
+			configFileInfo['content'] = base64.b64encode(configFileInfo['content'])
+			params = requestDict().fileUpdateDict(configFileInfo)
+			jsonData = httpTohnoUtils(params, methodEnum.file_update, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'getFile':
 			params = requestDict().fileGetDict(request.POST['filePath'])
-			jsonData = httpTohnoUtils(params, methodEnum.file_get,**kwargs).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.file_get, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'getFileBackup':
-			params = requestDict().fileGetBackupDict(request.POST['filePath'],request.POST['backupfile'])
-			jsonData = httpTohnoUtils(params, methodEnum.file_backupget,**kwargs).httpTohnoWithPost()
+			params = requestDict().fileGetBackupDict(request.POST['filePath'], request.POST['backupfile'])
+			jsonData = httpTohnoUtils(params, methodEnum.file_backupget, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 		if action == 'deleteFile':
 			params = requestDict().fileDeleteDict(request.POST['filePath'])
-			jsonData = httpTohnoUtils(params, methodEnum.file_delete,**kwargs).httpTohnoWithPost()
+			jsonData = httpTohnoUtils(params, methodEnum.file_delete, **kwargs).httpTohnoWithPost()
 			return HttpResponse(jsonData)
 
-def tpHandle(request,action):
+
+def tpHandle(request, action):
 	if request.is_ajax() and request.method == 'POST':
 		if action == 'get':
 			try:
-				url = str('%s%s/%s' % (__shiva_url, methodEnum.templateFile,request.POST['id']))
-				obj = HttpHelper().url(url).get(func=HttpHelper().getData)
+				url = str('%s%s/%s' % (__shiva_url, methodEnum.templateFile, request.POST['id']))
+				obj = json.loads(HttpHelper().url(url).get())
 				obj[0]['content'] = base64.b64decode(obj[0]['content'])
 				return HttpResponse(json.dumps(obj[0]))
-			except Exception,e:
+			except Exception, e:
 				logging.error('tpHandle>get>exception:%s' % e)
 		if action == 'getTpList':
 			try:
-				data = HttpHelper().url('%s%s' % (__shiva_url, methodEnum.templateFileList)).get(func=HttpHelper().getData)
-				return HttpResponse(json.dumps(data))
-			except Exception,e:
+				data = HttpHelper().url('%s%s' % (__shiva_url, methodEnum.templateFileList)).get()
+				return HttpResponse(data)
+			except Exception, e:
 				logging.error('tpHandle>getTpList>exception:%s' % e)
 		if action == 'save':
 			jsonDataDict = {}
@@ -131,23 +148,23 @@ def tpHandle(request,action):
 				requestData['modify_time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 				if len(fileInfo['id']) > 0:
 					requestData['id'] = fileInfo['id']
-					url = str('%s%s/%s' % (__shiva_url, methodEnum.templateFile,fileInfo['id']))
-					rowCount = HttpHelper().url(url).headers().put(json.dumps(requestData),func=HttpHelper().getData)
+					url = str('%s%s/%s' % (__shiva_url, methodEnum.templateFile, fileInfo['id']))
+					rowCount = HttpHelper().url(url).headers().put(json.dumps(requestData))
 					if not rowCount:
 						jsonDataDict['code'] = -1
 						jsonDataDict['msg'] = '系统异常，请联系管理员'
 					return HttpResponse(json.dumps(jsonDataDict))
 				else:
 					url = str('%s%s' % (__shiva_url, methodEnum.templateFile))
-					rowCount = HttpHelper().url(url).headers().post(json.dumps(requestData), func=HttpHelper().getData)
+					rowCount = HttpHelper().url(url).headers().post(json.dumps(requestData))
 					if not rowCount:
 						jsonDataDict['code'] = -1
 						jsonDataDict['msg'] = '系统异常，请联系管理员'
 					return HttpResponse(json.dumps(jsonDataDict))
-			except Exception,e:
+			except Exception, e:
 				logging.error('tpHandle>save>exception:%s' % e)
 				jsonDataDict['code'] = -1
-				jsonDataDict['msg'] = '异常：%s'%e
+				jsonDataDict['msg'] = '异常：%s' % e
 				return HttpResponse(json.dumps(jsonDataDict))
 		if action == 'delete':
 			jsonDataDict = {}
@@ -155,12 +172,12 @@ def tpHandle(request,action):
 				url = '%s%s/%s' % (__shiva_url, methodEnum.templateFile, request.POST['id'])
 				jsonDataDict['code'] = 0
 				jsonDataDict['msg'] = '处理成功'
-				rowCount = HttpHelper().url(url).delete(None,func=HttpHelper().getData)
+				rowCount = HttpHelper().url(url).delete(None)
 				if not rowCount:
 					jsonDataDict['code'] = -1
 					jsonDataDict['msg'] = '系统异常，请联系管理员'
 				return HttpResponse(json.dumps(jsonDataDict))
-			except Exception,e:
+			except Exception, e:
 				logging.error('tpHandle-exception:%s' % e)
 				jsonDataDict['code'] = -1
 				jsonDataDict['msg'] = '异常：%s' % e
@@ -175,28 +192,32 @@ class fileIframe(TemplateView):
 		messages.info(self.request, 'hello http://example.com')
 		return context
 
+
 def showRealStudents(request):
 	list = Student.objects.all()
 	return render_to_response('console/other/student.html', {'students': list})
 
-def getServerUrlInfo(request,env):
+
+def getServerUrlInfo(request, env):
 	url = str('%s%s' % (__shiva_url, methodEnum.server_url_info_get))
-	serverUrlInfo = HttpHelper().url(url).headers().post(json.dumps({'env': env}), HttpHelper().getData)
-	jsonData = httpTohnoUtils(None, methodEnum.server_infos, env,serverUrlInfo[0]['url'],
-							  serverUrlInfo[0]['port'],serverUrlInfo[0]['out_time']).httpTohonWithGet()
+	serverUrlInfo = json.loads(HttpHelper().url(url).headers().post(json.dumps({'env': env})))
+	jsonData = httpTohnoUtils(None, methodEnum.server_infos, env, serverUrlInfo[0]['url'],
+							  serverUrlInfo[0]['port'], serverUrlInfo[0]['out_time']).httpTohonWithGet()
 	res = set()
 	for item in jsonData['hostinfos']:
 		if item['groupname']:
 			res.add('file:%s' % item['groupname'])
 		if item['hosts']:
-			res.update(map(conventForFile,item['hosts']))
+			res.update(map(conventForFile, item['hosts']))
 	for item in jsonData['zkinfos']:
 		if item['zkname']:
 			res.add('zk:%s' % item['zkname'])
 	return HttpResponse('|'.join(res))
 
+
 def conventForFile(x):
 	return 'file:%s' % x
+
 
 def getTplist(request):
 	"""
@@ -205,16 +226,17 @@ def getTplist(request):
 	"""
 	try:
 		url = '%s%s' % (__shiva_url, methodEnum.templateFileList)
-		data = HttpHelper().url(url).get(func=HttpHelper().getData)
+		data = json.loads(HttpHelper().url(url).get())
 		listSet = []
 		dic = {}
-		for obj in data:#%Y-%m-%d %H:%M:%S
-			listSet.append([obj['name'],datetime.datetime.strptime(obj['modify_time'], "%a, %d %b %Y %H:%M:%S GMT").
-						   strftime('%Y-%m-%d %H:%M:%S'),obj['id']])
+		for obj in data:  # %Y-%m-%d %H:%M:%S
+			listSet.append([obj['name'], datetime.datetime.strptime(obj['modify_time'], "%a, %d %b %Y %H:%M:%S GMT").
+						   strftime('%Y-%m-%d %H:%M:%S'), obj['id']])
 		dic['data'] = listSet
 		return HttpResponse(json.dumps(dic))
-	except Exception,e:
+	except Exception, e:
 		logging.error('getTplist>exception:%s' % e)
+
 
 class HomePageView(TemplateView):
 	template_name = 'console/other/home.html'
@@ -224,23 +246,42 @@ class HomePageView(TemplateView):
 		messages.info(self.request, 'hello http://example.com')
 		return context
 
+
 class indexView(FormView):
 	template_name = 'console/index.html'
 	form_class = ContactFormSet
 
+
+class hostEdit(TemplateView):
+	template_name = 'console/host/hostEdit.html'
+	form_class = ContactFormSet
+
+
 class configFileManage(TemplateView):
 	template_name = 'console/config/configFileManage.html'
 
-	def get_context_data(self,**kwargs):
+	def get_context_data(self, **kwargs):
 		context = super(configFileManage, self).get_context_data(**kwargs)
-		url = 'http://%s:%s%s%s' % (SHIVA_URL, SHIVA_PORT, SHIVA_VERSION,methodEnum.server_url_infos)
-		jsonData = HttpHelper().url(url).get(func=HttpHelper().getData)
+		url = 'http://%s:%s%s%s' % (SHIVA_URL, SHIVA_PORT, SHIVA_VERSION, methodEnum.server_url_infos)
+		jsonData = json.loads(HttpHelper().url(url).get())
 		context['serverUrlInfos'] = jsonData
 		return context
+
 
 class templatesManage(TemplateView):
 	template_name = 'console/config/templatesManage.html'
 	form_class = ContactFormSet
+
+
+class hostManage(TemplateView):
+	template_name = 'console/host/hostManage.html'
+	form_class = ContactFormSet
+
+
+class hostgroupManage(TemplateView):
+	template_name = 'console/hostgroup/hostgroupManage.html'
+	form_class = ContactFormSet
+
 
 class DefaultFormsetView(FormView):
 	template_name = 'console/other/formset.html'

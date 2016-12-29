@@ -1,0 +1,396 @@
+/*自动化运维平台1 [begin] */
+/*左侧菜单search [begin] */
+.form-control {
+  border: 1px solid #dfdfdf;
+  border-right: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  float: left;
+  font-family: "Microsoft YaHei", "Arial", "SimHei", "SimSun", "sans-serif";
+  font-size: 14px;
+  padding-left: 4.6%;
+  height: 26px;
+  line-height: 26px;
+  width: 74%;
+}
+.input-group-btn {
+  display: inline-block;
+  width: 20%;
+}
+.input-group-btn .btn {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  min-width: inherit;
+  padding: 0;
+  width: 100%;
+}
+.input-group-btn .btn .icon {
+  background-position: 1px -80px;
+  height: 20px;
+  width: 18px;
+}
+.ui-autocomplete {
+  border: 1px solid #dfdfdf;
+  background-color: #fff;
+  width: 7.7% !important;
+  padding: 5px 0;
+}
+.ui-autocomplete .ui-menu-item {
+  padding-left: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+.ui-autocomplete .ui-menu-item:hover {
+  background-color: #ca1622;
+  color: #fff;
+}
+/*左侧菜单search [end] */
+.marginTop {
+  margin-top: 10px;
+}
+.operation-btn input[type="checkbox"] {
+  display: inline-block;
+}
+.manageList-table td {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.manageList-table .serialNumber {
+  text-align: center;
+  width: 4.8%;
+}
+.manageList-table .ipAdress {
+  text-align: center;
+  width: 11.2%;
+}
+.manageList-table .list {
+  max-width: 1200px;
+  width: 84%;
+}
+.layui-layer-page .layui-layer-content {
+  height: auto !important;
+}
+.add-dialog {
+  display: none;
+  width: 706px;
+}
+.add-dialog .operation-bar {
+  height: 44px;
+  margin: 20px auto 0;
+  width: 92%;
+}
+.add-dialog .operation-bar .red-gradient-btn {
+  height: 28px;
+  line-height: 28px;
+  padding: 0 15px;
+}
+.add-dialog .manageList-table {
+  margin: 0 28px;
+  width: 92%;
+}
+.add-dialog .manageList-table td {
+  padding: 8px;
+}
+.add-dialog .manageList-table .ipAdress {
+  width: 140px;
+}
+.add-dialog .manageList-table .list {
+  max-width: 332px;
+  width: 334px;
+}
+.add-dialog .manageList-table .operation {
+  width: 124px;
+}
+.add-dialog .fm-text {
+  width: 96%;
+}
+.add-dialog .fm-textarea {
+  height: 60px;
+  width: 97%;
+}
+.edit-dialog {
+  display: none;
+  width: 706px;
+}
+.edit-dialog .manageList-table {
+  margin: 20px 28px 0 28px;
+  width: 92%;
+}
+.edit-dialog .manageList-table td {
+  padding: 8px;
+}
+.edit-dialog .manageList-table .ipAdress {
+  width: 140px;
+}
+.edit-dialog .manageList-table .list {
+  max-width: 332px;
+  width: 334px;
+}
+.edit-dialog .manageList-table .operation {
+  width: 124px;
+}
+.edit-dialog .fm-text {
+  width: 96%;
+}
+.edit-dialog .fm-textarea {
+  height: 60px;
+  width: 97%;
+}
+.list-cnt {
+  height: 82px;
+  overflow: hidden;
+  position: relative;
+}
+.list-cnt::after {
+  content: "  ... ";
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  position: absolute;
+  padding-left: 12px;
+  bottom: 0;
+  right: 0;
+  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(#ffffff), color-stop(50%, #fefefe));
+  background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #fefefe);
+  background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #fefefe);
+  background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #fefefe);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #fefefe);
+}
+tr:hover .list-cnt::after {
+  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(#ffffff), color-stop(50%, #f4f4f4));
+  background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #f4f4f4);
+  background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #f4f4f4);
+  background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #f4f4f4);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #f4f4f4);
+}
+/*自动化运维平台1 [end]*/
+/*主机概览 [begin]*/
+.hostList-table .hostName {
+  width: 11.5%;
+}
+.hostList-table .ip {
+  text-align: center;
+  width: 9.5%;
+}
+.hostList-table .CPUModel {
+  width: 26.8%;
+}
+.hostList-table .memorySize {
+  width: 8.3%;
+}
+.hostList-table .edition {
+  width: 15.4%;
+}
+.hostList-table .person {
+  width: 8.8%;
+}
+.hostList-table .type {
+  width: 10.2%;
+}
+/*主机概览 [end]*/
+/*主机概览_新增主机 [begin]*/
+.hostForm {
+  overflow: hidden;
+}
+.hostForm .addHost-wrap {
+  margin: 43px 0 0 55px;
+}
+.hostForm .addHost-wrap li {
+  height: 34px;
+  line-height: 34px;
+  margin-bottom: 16px;
+}
+.hostForm .addHost-wrap label {
+  float: left;
+  font-size: 16px;
+  text-align: right;
+  margin-right: 10px;
+  min-width: 140px;
+}
+.hostForm .addHost-wrap .fm-text {
+  border: 1px solid #dbe0e6;
+  border-top: 1px solid #aaadb2;
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+  width: 229px;
+}
+.hostForm .addHost-wrap .fm-select {
+  border: 1px solid #dbe0e6;
+  border-top: 1px solid #aaadb2;
+  font-size: 14px;
+  height: 34px;
+  line-height: 34px;
+  width: 236px;
+}
+.hostForm .addHost-wrap .fm-select option {
+  min-height: 34px;
+  line-height: 34px !important;
+}
+.hostForm .selectator_element {
+  border: 1px solid #dbe0e6;
+  border-top: 1px solid #aaadb2;
+}
+.hostForm .selectator_options li.selectator_option {
+  margin-bottom: 0;
+  padding: 0;
+}
+.hostForm .selectator_element.multiple {
+  max-height: 34px;
+  min-width: 236px;
+  width: auto !important;
+}
+.hostForm .btn-wrap {
+  margin: 60px 0 20px 195px;
+  text-align: left;
+}
+.hostForm .btn-wrap a {
+  font-size: 14px;
+  margin: 0 10px;
+  min-width: 32px;
+  height: 30px;
+  line-height: 30px;
+}
+/*主机概览_新增主机 [end]*/
+/*主机概览_编辑主机 [begin]*/
+.editHostForm .formError {
+  margin-top: 7px !important;
+}
+.editHostForm .prompt {
+  font-size: 14px;
+  margin-left: 205px;
+}
+.editHostForm .btn-wrap {
+  margin-left: 267px;
+}
+.editHostForm .toggle-wrap li {
+  display: none;
+}
+.editHostForm .toggle-wrap li:nth-child(1),
+.editHostForm .toggle-wrap li:nth-child(2),
+.editHostForm .toggle-wrap li:nth-child(3),
+.editHostForm .toggle-wrap li:nth-child(4) {
+  display: block;
+}
+/*主机概览_编辑主机 [end]*/
+/*主机概览_基本信息 [begin]*/
+.infoDetail {
+  margin-left: 33px;
+}
+.infoDetail .infoItem {
+  min-width: 215px;
+}
+.seniorInfo {
+  margin-left: 50px;
+}
+.seniorInfo dt {
+  color: #141414;
+  font-weight: bold;
+  margin: 27px 0 7px;
+}
+.seniorInfo .infoItem {
+  min-width: 28.7%;
+}
+.seniorInfo .infoItem .label {
+  min-width: 98px;
+  text-align: right;
+}
+.seniorInfo .specialItem {
+  width: 71%;
+}
+.seniorInfo .specialItem .item {
+  position: relative;
+  width: 85%;
+}
+.seniorInfo .specialItem .dataTables_wrapper {
+  position: absolute;
+  width: 100%;
+}
+.seniorInfo .diskInfo-table td {
+  width: 20%;
+}
+/*主机概览_基本信息 [end]*/
+/*主机概览_基本信息 [end]*/
+.groupHostForm .addHost-wrap li {
+  height: auto;
+}
+.groupHostForm .addHost-wrap .fm-text {
+  width: 295px;
+}
+.groupHostForm .addHost-wrap .fm-textarea {
+  font-size: 14px;
+  height: 100px;
+  overflow-y: scroll;
+  width: 290px;
+}
+.groupHostForm .addHost-wrap .selectBtn {
+  margin-bottom: 18px;
+}
+.groupHostForm .addHost-wrap .selectBtn a {
+  font-size: 14px;
+}
+.select-dialog {
+  display: none;
+  width: 695px;
+}
+.select-dialog .search-wrap {
+  line-height: 22px;
+  overflow: hidden;
+  padding: 17px 0 20px;
+  width: auto !important;
+}
+.select-dialog .search-wrap .label {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.select-dialog .search-wrap .fm-text {
+  float: left;
+  height: 20px;
+  margin-top: 2px;
+  margin-left: 30px;
+  padding-left: 5px;
+}
+.select-dialog .search-wrap .fm-text-s {
+  width: 90px;
+}
+.select-dialog .search-wrap .btn-wrap {
+  margin: 0 0 0 20px;
+}
+.select-dialog .search-wrap .emphasize-btn {
+  background: #ed2438;
+  background: -moz-linear-gradient(top, #fe2b43, #db1b29);
+  background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fe2b43), to(#db1b29));
+  background: -o-linear-gradient(top, #fe2b43, #db1b29);
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr=#fe2b43, endColorstr=#db1b29);
+  border: none;
+  color: #fff;
+  height: 26px;
+  line-height: 26px;
+  min-width: 36px;
+}
+.select-dialog .dataTables_wrapper {
+  margin: 0 12px;
+}
+.select-dialog .groupHostList-table .serialNumber {
+  width: 8.2%;
+}
+.select-dialog .groupHostList-table .ip {
+  width: 18.4%;
+}
+.select-dialog .groupHostList-table .hostName {
+  width: 31.8%;
+}
+.select-dialog .groupHostList-table .state,
+.select-dialog .groupHostList-table .person {
+  width: 20.8%;
+}
+.select-dialog .groupHostList-table th.serialNumber .fm-checkbox {
+  margin-left: 17px;
+}
+.select-dialog .groupHostList-table td.state {
+  text-align: left;
+}
+/*主机概览_基本信息 [end]*/

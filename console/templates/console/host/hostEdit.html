@@ -1,0 +1,93 @@
+{% extends 'console/base.html' %}
+{% load bootstrap3 %}
+{% block title %}新增主机{% endblock %}
+{% block base_extra_head %}
+    <link href="/static/dist/css/automatic-platform.css" rel="stylesheet">
+    <link href="/static/dist/css/content-common.css" rel="stylesheet">
+    <link href="/static/dist/css/dialog.css" rel="stylesheet">
+    <link href="/static/dist/css/global.css" rel="stylesheet">
+    <link href="/static/dist/css/head-common.css" rel="stylesheet">
+    <link href="/static/dist/js/selectator-master/fm.selectator.jquery.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="" class="hostForm" id="hostForm">
+                <ul class="addHost-wrap">
+                    <li>
+                        <label>外网IP：</label>
+                        <input type="text" name="out_ip" class="fm-text"/>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>root密码：</label>
+                        <input type="text" name="root_pwd" class="fm-text"/>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>负责人：</label>
+                        <div>
+                            <select id="selectID" class="fm-select" name="leader" multiple>
+                                <option value="刘凯" class="option_eight">刘凯</option>
+                                <option value="庄志勇" class="option_nine">庄志勇</option>
+                                <option value="陈思远" class="option_eight">陈思远</option>
+                            </select>
+                            <input id="activate_selectator" type="hidden">
+                        </div>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>设备类型：</label>
+                        <select name="device_type" id="" class="fm-select">
+                            <option value="0">自建机器</option>
+                            <option value="1">华云</option>
+                            <option value="2">阿里云</option>
+                        </select>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>SSH端口：</label>
+                        <input type="text" name="ssh_port" class="fm-text"/>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>状态：</label>
+                        <select name="status" id="" class="fm-select">
+                            <option value="0">在线</option>
+                            <option value="1">离线</option>
+                        </select>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>上架时间：</label>
+                        <input type="text" name="register_date" class="fm-text Wdate"
+                               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00',maxDate:'#F{$dp.$D(\'dateEnd\')}'})"
+                               id="dateStart" name="dateStart" value=""/>
+                        <div class="f-clear"></div>
+                    </li>
+                    <li>
+                        <label>到期时间：</label>
+                        <input type="text" name="expire_date" class="fm-text Wdate"
+                               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd 23:59:59',minDate:'#F{$dp.$D(\'dateStart\')}'})"
+                               id="dateEnd" name="dateEnd" value=""/>
+                        <div class="f-clear"></div>
+                    </li>
+                </ul>
+                <div class="btn-wrap">
+                    <a href="javascript:void(0)" class="btn red-gradient-btn" id="save">保存</a>
+                    <a href="javascript:void(0)" class="btn gray-gradient-btn" id="cancel">取消</a>
+                </div>
+            </form>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+{% endblock %}
+{% block self_script %}
+    <script src="{% bootstrap_jquery_validate_url %}jquery.validate.js"></script>
+    <script src="{% bootstrap_jquery_validate_url %}jquery.metadata.js"></script>
+    <script src="/static/dist/js/selectator-master/fm.selectator.jquery.js"></script>
+    <script src="/static/dist/js/my97/WdatePicker.js"></script>
+    <script src="/static/dist/js/host/hostEdit.js"></script>
+{% endblock %}

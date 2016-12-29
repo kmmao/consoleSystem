@@ -18,28 +18,33 @@ from __future__ import unicode_literals
 
 from django.conf.urls import url
 
-from console.views import indexView,configFileManage, templatesManage,test,dir, fileHandle, fileIframe, getServerUrlInfo, getTplist, \
-    tpHandle
+from console.views import indexView, configFileManage, templatesManage, dir, fileHandle, fileIframe, \
+	getServerUrlInfo, getTplist, tpHandle, host, hostManage, HomePageView, DefaultFormsetView, DefaultFormView, \
+	DefaultFormByFieldView, FormHorizontalView, FormInlineView, FormWithFilesView, \
+	PaginationView, MiscView, hostEdit,hostgroupManage
 
 urlpatterns = [
-    url(r'^dir/(?P<action>\w+)/(?P<env>\w+)$',dir),
-    url(r'^file/(?P<action>\w+)/(?P<env>\w+)$',fileHandle),
-	url(r'^fileIframe$', fileIframe.as_view(),name='fileIframe'),
-    url(r'^getServerUrlInfo/(?P<env>\w+)$',getServerUrlInfo),
-    url(r'^test$', test),
-    url(r'^$', indexView.as_view(), name='indexView'),
-    url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
-    url(r'^templatesManage$', templatesManage.as_view(), name='templatesManage'),
-    url(r'^getTplist/$', getTplist),
-    url(r'^tp/(?P<action>\w+)/$',tpHandle),
-    # url(r'^home$', HomePageView.as_view(), name='home'),
-    # url(r'^formset$', DefaultFormsetView.as_view(), name='formset_default'),
-    # url(r'^form$', DefaultFormView.as_view(), name='form_default'),
-    # url(r'^form_by_field$', DefaultFormByFieldView.as_view(), name='form_by_field'),
-    # url(r'^form_horizontal$', FormHorizontalView.as_view(), name='form_horizontal'),
-    # url(r'^form_inline$', FormInlineView.as_view(), name='form_inline'),
-    # url(r'^form_with_files$', FormWithFilesView.as_view(), name='form_with_files'),
-    # url(r'^pagination$', PaginationView.as_view(), name='pagination'),
-    # url(r'^misc$', MiscView.as_view(), name='misc'),
-    # url(r'^showRealStudents/$', showRealStudents),
+	url(r'^host/(?P<action>\w+)/$', host),
+	url(r'^dir/(?P<action>\w+)/(?P<env>\w+)$', dir),
+	url(r'^file/(?P<action>\w+)/(?P<env>\w+)$', fileHandle),
+	url(r'^fileIframe$', fileIframe.as_view(), name='fileIframe'),
+	url(r'^tp/(?P<action>\w+)/$', tpHandle),
+	url(r'^getServerUrlInfo/(?P<env>\w+)$', getServerUrlInfo),
+	url(r'^$', indexView.as_view(), name='indexView'),
+	url(r'^hostManage$', hostManage.as_view(), name='hostManage'),
+	url(r'^hostgroupManage$', hostgroupManage.as_view(), name='hostgroupManage'),
+	url(r'^hostEdit$',hostEdit.as_view()),
+	url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
+	url(r'^templatesManage$', templatesManage.as_view(), name='templatesManage'),
+	url(r'^getTplist/$', getTplist),
+	url(r'^home$', HomePageView.as_view(), name='home'),
+	url(r'^formset$', DefaultFormsetView.as_view(), name='formset_default'),
+	url(r'^form$', DefaultFormView.as_view(), name='form_default'),
+	url(r'^form_by_field$', DefaultFormByFieldView.as_view(), name='form_by_field'),
+	url(r'^form_horizontal$', FormHorizontalView.as_view(), name='form_horizontal'),
+	url(r'^form_inline$', FormInlineView.as_view(), name='form_inline'),
+	url(r'^form_with_files$', FormWithFilesView.as_view(), name='form_with_files'),
+	url(r'^pagination$', PaginationView.as_view(), name='pagination'),
+	url(r'^misc$', MiscView.as_view(), name='misc'),
+	# url(r'^showRealStudents/$', showRealStudents),
 ]

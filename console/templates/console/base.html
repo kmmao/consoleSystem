@@ -66,7 +66,7 @@
                <!--  <li>
                     <a href="{% url 'indexView' %}"><i class="fa fa-dashboard fa-fw"></i> 自动化运维平台</a>
                 </li> -->
-                <li>
+                <li class="active">
                     <a href="#">
                         <span class="icon nav-icon"></span>配置文件管理
                     </a>
@@ -76,6 +76,53 @@
                         </li>
                         <li>
                             <a href="{% url 'templatesManage' %}">模版管理</a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="hostManage_li">
+                    <a href="#">
+                        <span class="icon nav-icon"></span>主机管理
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{% url 'hostManage' %}" id="hostManage_a">主机概览</a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="hostgroupManage_li">
+                    <a href="#">
+                        <span class="icon nav-icon"></span>分组管理
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{% url 'hostManage' %}" id="hostgroupManage_a">分组概览</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon nav-icon"></span>内网检测
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://192.168.250.171:8000/disconf/" target="_blank">内网检测列表配置</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon nav-icon"></span>ZK可视化
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://192.168.250.62:9090" target="_blank">开发环境（qa）</a>
+                        </li>
+                        <li>
+                            <a href="http://192.168.250.62:9091" target="_blank">性能测试环境</a>
+                        </li>
+                        <li>
+                            <a href="http://114.67.58.173:9090" target="_blank">生产环境</a>
                         </li>
                     </ul>
                 </li>

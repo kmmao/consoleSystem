@@ -27,7 +27,7 @@ DATABASES = {
 	}
 }
 
-SHIVA_URL = r'192.168.250.239'
+SHIVA_URL = r'127.0.0.1'
 SHIVA_VERSION = r'/shiva/api/v1.0'
 SHIVA_PORT = 5000
 SHIVA_OUTTIME = 30
@@ -138,7 +138,6 @@ INSTALLED_APPS = (
 
 	'bootstrap3',
 	'console',
-	'test',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -202,27 +201,27 @@ LOGGING = {
 	},
 	'loggers': {
 		'django': {
-			'handlers': ['default', 'console'],
+			'handlers': ['default'],
 			'level': 'DEBUG',
 			'propagate': False
 		},
 		'django.request': {
-			'handlers': ['request_handler'],
+			'handlers': ['request_handler','console'],
 			'level': 'DEBUG',
 			'propagate': False,
 		},
 		'scripts': {
-			'handlers': ['scprits_handler'],
-			'level': 'INFO',
+			'handlers': ['scprits_handler','console'],
+			'level': 'DEBUG',
 			'propagate': False
 		},
 		'console': {
-			'handlers': ['default', 'error'],
+			'handlers': ['default', 'error','console'],
 			'level': 'DEBUG',
 			'propagate': True
 		},
 		'httpTohno': {
-			'handlers': ['default', 'error'],
+			'handlers': ['default', 'error','console'],
 			'level': 'DEBUG',
 			'propagate': True
 		}

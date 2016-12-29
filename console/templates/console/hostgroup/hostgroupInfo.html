@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>分组概览-分组具体信息</title> 		
+
+	    <!-- MetisMenu CSS -->
+	    <link href="../datatable/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+	    <!-- DataTables CSS -->
+	    <link href="../datatable/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+	    <!-- DataTables Responsive CSS -->
+	    <link href="../datatable/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+	    <!-- Custom CSS -->
+	    <link href="../datatable/dist/css/sb-admin-2.css" rel="stylesheet">
+
+	    <!-- Custom Fonts -->
+    	<link href="../datatable/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<link type="text/css" rel="stylesheet" href="../css/global.css" />
+		<link type="text/css" rel="stylesheet" href="../css/dialog.css" />
+		<!--实际开发中不需要引入dialog.css-->
+		<link type="text/css" rel="stylesheet" href="../css/head-common.css" />
+		<link type="text/css" rel="stylesheet" href="../css/content-common.css" />
+		<link type="text/css" rel="stylesheet" href="../css/automatic-platform.css" />
+		<script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../layer/layer.js"></script>
+
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-link">
+				<div class="header-wrap">
+					<div class="f-fl">
+						<span class="welcome-user">
+							您好！<a href="#">violet</a>
+						</span>
+						<span class="logout-link">
+							<a href="#" class="red">退出</a>
+						</span>
+					</div>
+					<div class="f-clear"></div>
+				</div>
+			</div>
+			<div class="nav-bg">
+				<div class="header-wrap">
+					<a href="#" class="f-fl logo">
+						<img src="../images/logo.png" alt="自动化运维平台Logo" title="回到首页">
+					</a>
+					<div class="f-clear"></div>
+				</div>
+			</div>
+		</div>
+		<div class="content left-nav-bg">
+			<div class="left-nav" id="sideBar">
+				<div class="sidebar">
+	                <ul>
+	                    <li class="sidebar-search">
+	                    	<div class="ui-widget input-group custom-search-form">
+								<input id="tags" class="ui-autocomplete-input form-control" placeholder="搜索" autocomplete="off">
+								<span class="input-group-btn">
+	                                <button class="btn btn-default" type="button" id="searchBtn">
+	                                    <i class="icon"></i>
+	                                </button>
+	                            </span>
+	                            <div class="f-clear"></div>
+							</div>
+	                        <!-- /input-group -->
+	                    </li>                       
+	                </ul>
+	                <dl><!--展开项才有：class="active"-->
+					 	<dt>
+					 		主机管理
+					 	</dt>
+					 	<dd><!--选中项：class="crt"-->
+					 		<a href="#">主机概览</a>
+					 	</dd>
+					</dl>
+					<dl class="active"><!--展开项才有：class="active"-->
+					 	<dt>
+					 		分组管理
+					 	</dt>
+					 	<dd class="crt"><!--选中项：class="crt"-->
+					 		<a href="#">分组概览</a>
+					 	</dd>
+					</dl>
+	            </div>				 				
+			</div>				 	
+			<div class="right-cnt">
+				<div class="crumb-wrap">
+					当前位置：
+					<a href="#">分组管理</a>
+					 &gt;
+					<a href="#">分组概览</a>
+					 &gt; 
+					<span class="red">分组具体信息</span>
+				</div>
+				<div class="content-wrap">
+					<div class="f-clear"></div>
+					<div class="operationBtn-bar">
+						<a href="hostgroupAdd.html" class="operationBtn red-gradient-btn" id="">编辑</a>
+						<a href="#" class="operationBtn gray-gradient-btn" id="">删除</a>
+					</div>
+					<div class="operation-bar marginTop">
+						<div class="operation-btn">							
+							<a href="#" class="gray-gradient-btn" id="selectBtn">从CMDB中筛选主机</a>
+						</div>
+						<div class="f-clear"></div>
+					</div>
+
+					<table class="table groupDetailList-table" id="dataTables-example"></table> 
+				</div>
+				<!-- 从CMDB中筛选主机 开始 -->
+				<div class="dialog-cnt-wrap select-dialog" id="selectDialog">
+					<div class="search-wrap">
+						<input type="text" class="fm-text" id="" placeholder="根据关键词过滤">
+						<div class="btn-wrap f-fl">
+							<a href="javascript:void(0);" class="emphasize-btn" id="giftSearchBtn">
+								搜索
+							</a>
+						</div>
+					</div>
+					<table class="table groupHostList-table" id="dataTables-select"></table> 
+
+					<div class="btn-wrap">
+						<a href="javascript:void(0);" id="saveBtn" class="red-btn">
+							确定
+						</a>
+						<a href="javascript:void(0);" id="cancelBtn" class="gray-gradient-btn">
+							取消
+						</a>
+					</div>
+				</div>
+				<!-- 从CMDB中筛选主机 结束 -->
+			</div>
+			<div class="f-clear"></div>
+		</div>
+		<div class="footer">
+			<div class="copyright color-4e">
+				Copyright © 2016 乐商云集（厦门）供应链有限公司 版权所有
+			</div>
+			<div class="footer-link color-4e">
+				
+			</div>
+		</div>
+		<script type="text/javascript" src="../js/layout.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+	    <script src="../datatable/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	    <!-- Metis Menu Plugin JavaScript -->
+	    <script src="../datatable/vendor/metisMenu/metisMenu.min.js"></script>
+
+	    <!-- DataTables JavaScript -->
+	    <script src="../datatable/vendor/datatables/js/jquery.dataTables.min.js"></script>
+	    <script src="../datatable/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	    <script src="../datatable/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+	    <!-- Custom Theme JavaScript -->
+	    <script src="../datatable/dist/js/sb-admin-2.js"></script>
+
+		<!--search 插件 -->
+		<script type="text/javascript" src="../search/jquery-ui.js"></script>
+
+		
+		<script>
+			$( function() {
+				var availableTags = [
+					"主机概览",
+					"分组概览"
+				];
+				$( "#tags" ).autocomplete({
+					source: availableTags
+				});
+			} );
+
+		</script>
+		<script>
+
+			var dataSet = [
+				['123.123.123.123','test-styem','上线'],
+				['168.123.241.123','test-styem','上线'],
+				['123.123.123.123','test-styem','上线'],
+				['123.123.123.123','test-styem','上线']		    
+			];
+			 
+			$(document).ready(function() {
+
+			    $('#dataTables-example').dataTable( {
+			        "data": dataSet,
+			        "dom": 'rtp',
+			        "columns": [
+			            {"title":"IP","class":"ip"},
+			            {"title":"主机名","class":"hostName"},
+			            {"title":"运营状态","class":"state"}
+			        ]
+			    });
+			});
+
+		</script>
+		<script type="text/javascript">
+			var selectBtnContent = $('#selectDialog');
+			$("#selectBtn").click(function(){
+				var index = layer.open({
+					type: 1,
+					title:'从CMDB中筛选主机',
+					area:['auto','auto'],
+					shadeClose: false, //开启遮罩关闭
+					content: selectBtnContent
+				});
+
+				$("#cancelBtn").click(function(){
+					//关闭页面自己
+					layer.close(index); //再执行关闭   
+				});
+			})			
+		</script>
+		<script>
+			var dataSet = [
+				['<input type="checkbox" class="fm-checkbox" />','123.123.123.123','test-styem','上线','小张'],
+				['<input type="checkbox" class="fm-checkbox" />','168.123.241.123','test-styem','上线','小李'],
+				['<input type="checkbox" class="fm-checkbox" />','123.123.123.123','test-styem','上线','smeiy'],
+				['<input type="checkbox" class="fm-checkbox" />','123.123.123.123','test-styem','上线','老王']		    
+			];
+			 
+			$(document).ready(function() {
+
+			    $('#dataTables-select').dataTable( {
+			        "data": dataSet,
+			        "dom": 'rt',
+			        "columns": [
+			       		{"title":"<input type='checkbox' class='fm-checkbox'/>","class":"serialNumber",},
+			            {"title":"IP","class":"ip"},
+			            {"title":"主机名","class":"hostName"},
+			            {"title":"运营状态","class":"state"},
+			            {"title":"运营负责人","class":"person"}		            
+			        ]
+			    });
+			});
+
+		</script>
+	</body>
+</html>

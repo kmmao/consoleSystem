@@ -85,41 +85,39 @@ class HttpHelper:
 		urllib2.install_opener(opener)
 		return self
 
-	def getData(self,data):
-		return json.loads(data)
-
 	# 处理response
-	def __handleResponse(self, request, func):
+	def __handleResponse(self, request):
 		try:
 			if self.__reqTimeOut == 0:
 				res = urllib2.urlopen(request)
 			else:
 				res = urllib2.urlopen(request, timeout=self.__reqTimeOut)
-			return func(res.read())
+			return res.read()
 		except urllib2.HTTPError, e:
 			print e.code
+			return e.read()
 
 	# get请求
-	def get(self, func):
+	def get(self):
 		request = self.__buildGetRequest()
-		return self.__handleResponse(request, func)
+		return self.__handleResponse(request)
 
 	# post请求
-	def post(self, postData, func):
+	def post(self, postData):
 		request = self.__buildPostPutDeleteRequest(postData=postData)
-		return self.__handleResponse(request, func)
+		return self.__handleResponse(request)
 
 	# put请求
-	def put(self, putData, func):
+	def put(self, putData):
 		request = self.__buildPostPutDeleteRequest(postData=putData)
 		request.get_method = lambda: 'PUT'
-		return self.__handleResponse(request, func)
+		return self.__handleResponse(request)
 
 	# delete请求
-	def delete(self, putData, func):
+	def delete(self, putData):
 		request = self.__buildPostPutDeleteRequest(postData=putData)
 		request.get_method = lambda: 'DELETE'
-		return self.__handleResponse(request, func)
+		return self.__handleResponse(request)
 
 if __name__ == '__main__':
 	def getData(data):
@@ -128,7 +126,7 @@ if __name__ == '__main__':
 	httpHelper = HttpHelper()
 	url_shiva = 'http://127.0.0.1:5000/templateFile/1'
 	# 简单的get请求
-	httpHelper.url(url=url_shiva).get(func=getData)
+	httpHelper.url(url=url_shiva).get()
 	# post请求
 	# httpHelper.debug() \
 	# 	.url(url_shiva) \

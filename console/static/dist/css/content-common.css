@@ -1,0 +1,335 @@
+/**
+Author: zhangtt;
+Date: 2016-12-20;
+Mail: zhangtt@linesum.com;
+*/
+/*系统首页 begin*/
+.indexContent {
+  margin: 0 auto;
+}
+.indexContent .wrap {
+  width: 100%;
+  position: absolute;
+  top: 79px;
+  overflow: hidden;
+}
+.indexContent .img-wrap {
+  width: 1920px;
+  width: 1200px;
+  position: relative;
+  left: -960px;
+  margin-left: 50%;
+}
+.indexContent .leftBg {
+  background-color: #fff;
+  float: left;
+  width: 22.5%;
+}
+.indexContent .rightBg {
+  border-color: transparent transparent #fafafa;
+  border-style: solid;
+  border-width: 0 0 899px 590px;
+  box-sizing: border-box;
+  float: left;
+  width: 77.5%;
+}
+/*系统首页 end*/
+/*系统404页面 begin*/
+.errorInfo-wrap {
+  margin: 0 auto;
+  text-align: center;
+  width: 762px;
+}
+.errorInfo-wrap .errorPmt {
+  color: #999;
+  font-family: "黑体", "Microsoft YaHei";
+  font-size: 24px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+.errorInfo-wrap .errorBtn,
+.sorry-wrap .errorBtn {
+  background-color: #cf1723;
+  border-bottom: 5px solid #8b030c;
+  border-radius: 4px 4px 6px 6px;
+  color: #fff;
+  display: inline-block;
+  font-size: 24px;
+  height: 41px;
+  line-height: 41px;
+  margin-bottom: 20px;
+  margin-top: 45px;
+  padding: 0 26px;
+}
+/*系统404页面 end*/
+/* content begin */
+.content {
+  height: auto;
+  overflow: hidden;
+  position: relative;
+}
+.right-cnt {
+  float: left;
+  width: 1017px;
+}
+.content-wrap {
+  background-color: #fff;
+  min-height: 570px;
+  padding: 0 10px;
+}
+.content-wrap .btn-wrap {
+  margin: 20px auto;
+  overflow: hidden;
+  text-align: center;
+  width: auto;
+}
+.content-wrap .btn-wrap a {
+  font-size: 12px;
+  margin: 0 5px;
+}
+/* content end */
+/*pms baseInfo begin*/
+.baseInfo {
+  margin-top: 20px;
+}
+.baseInfo .infoItem {
+  float: left;
+  line-height: 22px;
+  min-width: 33%;
+}
+.baseInfo .line-li .infoItem {
+  width: auto;
+}
+.baseInfo li {
+  margin-bottom: 10px;
+}
+.baseInfo .label {
+  color: #4e4e4e;
+  float: left;
+  line-height: 22px;
+  margin-right: 3px;
+}
+.baseInfo .item {
+  float: left;
+}
+.baseInfo .fm-text {
+  float: left;
+  line-height: 22px;
+}
+.baseInfo .fm-textarea {
+  height: 62px;
+  margin-left: 111px;
+  margin-top: 10px;
+  width: 350px;
+}
+/*pms baseInfo end*/
+.table-none {
+  border: 1px solid #dfdfdf;
+  border-top: none;
+  color: #4e4e4e;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  margin-top: -10px;
+  margin-right: 1px;
+  text-align: center;
+  padding: 10px 0;
+}
+/* table base css begin */
+.table {
+  border: 1px solid #dfdfdf;
+  border-right: none;
+  display: inline-table;
+  margin: 0 auto 0.3%;
+  width: 100%;
+}
+.table th {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #dfdfdf;
+  font-size: 14px;
+  width: auto;
+  line-height: 18px;
+  padding: 7px 0;
+  text-align: center !important;
+}
+.table th:last-child {
+  border-right: 1px solid #dfdfdf;
+}
+.table tr:nth-child(2n+1) {
+  background-color: #fcfcfc;
+}
+.table tr:hover {
+  background-color: #f5f5f5;
+}
+.table td {
+  border: 1px solid #dfdfdf;
+  border-top: none;
+  color: #4e4e4e;
+  line-height: 20px;
+  padding: 2px 4px;
+  vertical-align: middle;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.table td.amount,
+.table td.price,
+.table td.stock,
+.table td.sum,
+.table td.fee {
+  text-align: right;
+}
+.table .serialNumber,
+.table .state,
+.table .time,
+.table .size,
+.table .operation {
+  text-align: center;
+}
+.table .time {
+  width: 73px;
+}
+.table .operation {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.table .operation .blue {
+  margin: 0 5px;
+}
+.table .sku {
+  width: 82px;
+}
+.table .amount {
+  width: 58px;
+}
+.table .sum,
+.table .fee {
+  width: 110px;
+}
+.table-wrap {
+  border-right: 1px solid #dfdfdf;
+  box-sizing: border-box;
+  overflow-x: auto;
+  width: 100%;
+}
+/* table base css end */
+/*dialog begin*/
+.dialog-content .prompt {
+  font-size: 14px;
+  padding: 26px 0 8px;
+  text-align: center;
+}
+.dialog .hd,
+.dialog-content .hd {
+  height: height;
+  line-height: height;
+  margin-left: 0;
+  margin-right: 0;
+}
+.dialog .info-bg,
+.dialog-content .info-bg {
+  background-color: #f5f7f7;
+  color: #4e4e4e;
+  margin-top: 11px;
+  padding: 11px 0;
+}
+.dialog .info-table,
+.dialog-content .info-table {
+  color: #4e4e4e;
+  margin: 0 auto;
+  max-width: 318px;
+}
+.dialog .info-table td,
+.dialog-content .info-table td {
+  line-height: 21px;
+  vertical-align: top;
+  max-width: 250px;
+}
+.dialog .info-table .label,
+.dialog-content .info-table .label {
+  float: none;
+  text-align: right;
+}
+.dialog .info-table .item,
+.dialog-content .info-table .item {
+  display: inline-block;
+  max-width: 250px;
+}
+.dialog .btn-wrap {
+  margin: 20px 0;
+}
+.dialog .btn,
+.dialog .btn-wrap a {
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 9px;
+  min-width: 26px;
+}
+.dialog-yScroll {
+  overflow-y: auto;
+  max-height: 400px;
+}
+.layui-layer-content .table {
+  width: auto;
+}
+.dialog-content .search-wrap .fm-submit {
+  box-sizing: border-box;
+  font-size: 12px;
+  height: 24px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/*dialog end*/
+/*VerticalCentering begin*/
+.f-vh-center {
+  display: table;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  table-layout: fixed;
+  text-align: center;
+  border-collapse: separate;
+}
+.f-vh-center a,
+.f-vh-center span {
+  display: table-cell;
+  _display: block;
+  *position: absolute;
+  text-align: center;
+  *top: 50%;
+  _top: 51%;
+  vertical-align: middle;
+}
+.f-vh-center img {
+  *position: relative;
+  *top: -50%;
+  *left: -50%;
+}
+.pro-info img {
+  max-height: 80px;
+  max-width: 80px;
+}
+/*VerticalCentering end*/
+/* * * for which screen equal to or bigger than 1230px and smaller than 1564px * * */
+@media screen and (min-width: 1230px) and (max-width: 1564px) {
+  /* content begin */
+  .right-cnt {
+    width: 88.7%;
+  }
+  .table td {
+    padding: 2px 6px;
+  }
+  /* content end */
+}
+/* * * for which screen equal to or bigger than 1565px * * */
+@media screen and (min-width: 1565px) {
+  /* content begin */
+  .right-cnt {
+    width: 89.7%;
+  }
+  .table td {
+    padding: 2px 10px;
+  }
+  /* content end */
+}
