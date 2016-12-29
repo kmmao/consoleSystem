@@ -21,7 +21,7 @@ from django.conf.urls import url
 from console.views import indexView, configFileManage, templatesManage, dir, fileHandle, fileIframe, \
 	getServerUrlInfo, getTplist, tpHandle, host, hostManage, HomePageView, DefaultFormsetView, DefaultFormView, \
 	DefaultFormByFieldView, FormHorizontalView, FormInlineView, FormWithFilesView, \
-	PaginationView, MiscView, hostEdit,hostgroupManage
+	PaginationView, MiscView, hostEdit,hostgroupManage, hostInfo,hostgroupAdd,hostgroupInfo
 
 urlpatterns = [
 	url(r'^host/(?P<action>\w+)/$', host),
@@ -32,7 +32,10 @@ urlpatterns = [
 	url(r'^getServerUrlInfo/(?P<env>\w+)$', getServerUrlInfo),
 	url(r'^$', indexView.as_view(), name='indexView'),
 	url(r'^hostManage$', hostManage.as_view(), name='hostManage'),
+	url(r'^hostInfo$', hostInfo.as_view(), name='hostInfo'),
 	url(r'^hostgroupManage$', hostgroupManage.as_view(), name='hostgroupManage'),
+	url(r'^hostgroupAdd$', hostgroupAdd.as_view(), name='hostgroupAdd'),
+	url(r'^hostgroupInfo$', hostgroupInfo.as_view(), name='hostgroupInfo'),
 	url(r'^hostEdit$',hostEdit.as_view()),
 	url(r'^configFileManage$', configFileManage.as_view(), name='configFileManage'),
 	url(r'^templatesManage$', templatesManage.as_view(), name='templatesManage'),

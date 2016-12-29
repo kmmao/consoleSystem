@@ -1,23 +1,207 @@
-{% extends 'console/base.html' %}
-{% load bootstrap3 %}
-{% block title %}主机概览{% endblock %}
-{% block content %}
-<!-- /.row -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="toolbar">
-            <a class="btn emphasize-btn red-gradient-btn" href="javascript:void(0)" id="addHost">
-                新增主机
-            </a>
-        </div>
-        <br/>
-        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-hostList">
-        </table>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>主机概览</title>
+	    <!-- MetisMenu CSS -->
+	    <link href="/static/dist/datatable/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-{% endblock %}
-{% block self_script %}
-<script src="/static/dist/js/host/hostManage.js"></script>
-{% endblock %}
+	    <!-- DataTables CSS -->
+	    <link href="/static/dist/datatable/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+	    <!-- DataTables Responsive CSS -->
+	    <link href="/static/dist/datatable/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+	    <!-- Custom CSS -->
+	    <link href="/static/dist/datatable/dist/css/sb-admin-2.css" rel="stylesheet">
+
+	    <!-- Custom Fonts -->
+    	<link href="/static/dist/datatable/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/global.css" />
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/head-common.css" />
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/content-common.css" />
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/automatic-platform.css" />
+		<script type="text/javascript" src="/static/dist/js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="/static/dist/layer/layer.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header-link">
+				<div class="header-wrap">
+					<div class="f-fl">
+						<span class="welcome-user">
+							您好！<a href="#">violet</a>
+						</span>
+						<span class="logout-link">
+							<a href="#" class="red">退出</a>
+						</span>
+					</div>
+					<div class="f-clear"></div>
+				</div>
+			</div>
+			<div class="nav-bg">
+				<div class="header-wrap">
+					<a href="#" class="f-fl logo">
+						<img src="/static/dist/images/logo.png" alt="自动化运维平台Logo" title="回到首页">
+					</a>
+					<div class="f-clear"></div>
+				</div>
+			</div>
+		</div>
+		<div class="content left-nav-bg">
+			<div class="left-nav" id="sideBar">
+				<div class="sidebar">
+	                <ul>
+	                    <li class="sidebar-search">
+	                    	<div class="ui-widget input-group custom-search-form">
+								<input id="tags" class="ui-autocomplete-input form-control" placeholder="搜索" autocomplete="off">
+								<span class="input-group-btn">
+	                                <button class="btn btn-default" type="button" id="searchBtn">
+	                                    <i class="icon"></i>
+	                                </button>
+	                            </span>
+	                            <div class="f-clear"></div>
+							</div>
+	                        <!-- /input-group -->
+	                    </li>
+	                </ul>
+	                <dl><!--展开项才有：class="active"-->
+    <dt>
+        配置文件管理
+    </dt>
+    <dd><!--选中项：class="crt"-->
+        <a href="/console/configFileManage">配置文件管理</a>
+    </dd>
+    <dd><!--选中项：class="crt"-->
+        <a href="/console/templatesManage">模版管理</a>
+    </dd>
+</dl>
+<dl class="active"><!--展开项才有：class="active"-->
+    <dt>
+        主机管理
+    </dt>
+    <dd class="crt"><!--选中项：class="crt"-->
+        <a href="/console/hostManage">主机概览</a>
+    </dd>
+</dl>
+<dl><!--展开项才有：class="active"-->
+    <dt>
+        分组管理
+    </dt>
+    <dd><!--选中项：class="crt"-->
+        <a href="/console/hostgroupManage">分组概览</a>
+    </dd>
+</dl>
+<dl><!--展开项才有：class="active"-->
+    <dt>
+        内网检测
+    </dt>
+    <dd><!--选中项：class="crt"-->
+        <a href="http://192.168.250.171:8000/disconf/">内网检测列表配置</a>
+    </dd>
+</dl>
+<dl><!--展开项才有：class="active"-->
+    <dt>
+        ZK可视化
+    </dt>
+    <dd><!--选中项：class="crt"-->
+        <a href="http://192.168.250.62:9090" target="_blank">开发环境（qa）</a>
+    </dd>
+    <dd><!--选中项：class="crt"-->
+        <a href="http://192.168.250.62:9091" target="_blank">性能测试环境</a>
+    </dd>
+    <dd><!--选中项：class="crt"-->
+        <a href="http://114.67.58.173:9090" target="_blank">生产环境</a>
+    </dd>
+</dl>
+	            </div>
+			</div>
+			<div class="right-cnt">
+				<div class="crumb-wrap">
+					当前位置：
+					<a href="#">主机管理</a>
+					 &gt;
+					<span class="red">主机概览</span>
+				</div>
+				<div class="content-wrap">
+					<div class="f-clear"></div>
+					<div class="operation-bar marginTop">
+						<div class="operation-btn">
+							<a href="/console/hostEdit" class="red-gradient-btn" id="addBtn">添加主机</a>
+						</div>
+						<div class="f-clear"></div>
+					</div>
+
+					<table class="table hostList-table" id="dataTables-example"></table>
+				</div>
+
+			</div>
+			<div class="f-clear"></div>
+		</div>
+		<div class="footer">
+			<div class="copyright color-4e">
+				Copyright © 2016 乐商云集（厦门）供应链有限公司 版权所有
+			</div>
+			<div class="footer-link color-4e">
+			</div>
+		</div>
+		<script type="text/javascript" src="/static/dist/js/layout.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+	    <script src="/static/dist/datatable/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	    <!-- Metis Menu Plugin JavaScript -->
+	    <script src="/static/dist/datatable/vendor/metisMenu/metisMenu.min.js"></script>
+
+	    <!-- DataTables JavaScript -->
+	    <script src="/static/dist/datatable/vendor/datatables/js/jquery.dataTables.min.js"></script>
+	    <script src="/static/dist/datatable/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	    <script src="/static/dist/datatable/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+	    <!-- Custom Theme JavaScript -->
+	    <script src="/static/dist/datatable/dist/js/sb-admin-2.js"></script>
+
+		<!--search 插件 -->
+		<script type="text/javascript" src="/static/dist/search/jquery-ui.js"></script>
+
+		<script>
+			$( function() {
+				var availableTags = [
+					"主机概览",
+					"分组概览"
+				];
+				$( "#tags" ).autocomplete({
+					source: availableTags
+				});
+			} );
+		</script>
+		 <script>
+
+		var dataSet = [
+			['<a href="/console/hostInfo" class="blue">erp-qa</a>','123.123.123.123','123.123.123.123','Intel(R) Xeon(R) CPU L5639 @ 2.13GHz','128MB','CentOS 6.7 Final','小徐','阿里云'],
+		    ['<a href="#" class="blue">erp-qa</a>','123.123.123.123','123.123.123.123','Intel(R) Xeon(R) CPU L5639 @ 2.13GHz','258MB','CentOS 6.7 Final','小徐','阿里云'],
+		    ['<a href="#" class="blue">erp-qafgfdghf</a>','123.123.123.123','123.123.123.123','Intel(R) Xeon(R) CPU L5639 @ 2.13GHz','258MB','CentOS 6.7 Final','小徐','阿里云'],
+		    ['<a href="#" class="blue">erp-qa</a>','123.123.123.123','123.123.123.123','Intel(R) Xeon(R) CPU L5639 @ 2.13GHz','258MB','CentOS 6.7 Final','小徐','阿里云']
+		];
+
+		$(document).ready(function() {
+
+		    $('#dataTables-example').dataTable( {
+		        "data": dataSet,
+		        "dom": 'rtp',
+		        "columns": [
+		            { "title":"主机名称","class":"hostName"},
+		            { "title":"外网IP","class":"ip",},
+		            { "title":"内网IP","class":"ip"},
+		            { "title":"CPU型号","class":"CPUModel"},
+		            { "title":"内存大小","class":"memorySize"},
+		            { "title":"操作系统版本","class":"edition"},
+		            { "title":"运维负责人","class":"person"},
+		            { "title":"机器类型","class":"type"},
+		        ]
+		    });
+		});
+
+	</script>
+	</body>
+</html>

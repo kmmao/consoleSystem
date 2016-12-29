@@ -4,26 +4,26 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>分组概览_分组添加主机</title>
 	    <!-- MetisMenu CSS -->
-	    <link href="../datatable/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+	    <link href="/static/dist/datatable/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 	   
 	    <!-- DataTables CSS -->
-	    <link href="../datatable/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+	    <link href="/static/dist/datatable/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
 
 	    <!-- DataTables Responsive CSS -->
-	    <link href="../datatable/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+	    <link href="/static/dist/datatable/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
 
 	    <!-- Custom CSS -->
-	    <link href="../datatable/dist/css/sb-admin-2.css" rel="stylesheet">
+	    <link href="/static/dist/datatable/dist/css/sb-admin-2.css" rel="stylesheet">
 
 	    <!-- Custom Fonts -->
-    	<link href="../datatable/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
+    	<link href="/static/dist/datatable/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
 
-		<link type="text/css" rel="stylesheet" href="../css/global.css" />
-		<link type="text/css" rel="stylesheet" href="../css/head-common.css" />
-		<link type="text/css" rel="stylesheet" href="../css/content-common.css" />
-		<link type="text/css" rel="stylesheet" href="../css/automatic-platform.css" />
-		<script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
-		<script type="text/javascript" src="../layer/layer.js"></script>
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/global.css" />
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/head-common.css" />
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/content-common.css" />
+		<link type="text/css" rel="stylesheet" href="/static/dist/css/automatic-platform.css" />
+		<script type="text/javascript" src="/static/dist/js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="/static/dist/layer/layer.js"></script>
 	</head>
 	<body>
 		<div class="header">
@@ -43,7 +43,7 @@
 			<div class="nav-bg">
 				<div class="header-wrap">
 					<a href="#" class="f-fl logo">
-						<img src="../images/logo.png" alt="自动化运维平台Logo" title="回到首页">
+						<img src="/static/dist/images/logo.png" alt="自动化运维平台Logo" title="回到首页">
 					</a>
 					<div class="f-clear"></div>
 				</div>
@@ -66,22 +66,57 @@
 	                        <!-- /input-group -->
 	                    </li>                       
 	                </ul>
-	                <dl class="active"><!--展开项才有：class="active"-->
-					 	<dt>
-					 		主机管理
-					 	</dt>
-					 	<dd class="crt"><!--选中项：class="crt"-->
-					 		<a href="#">主机概览</a>
-					 	</dd>
-					</dl>
-					<dl><!--展开项才有：class="active"-->
-					 	<dt>
-					 		分组管理
-					 	</dt>
-					 	<dd><!--选中项：class="crt"-->
-					 		<a href="#">分组概览</a>
-					 	</dd>
-					</dl>
+	                <dl><!--展开项才有：class="active"-->
+ 	<dt>
+ 		配置文件管理
+ 	</dt>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="/console/configFileManage">配置文件管理</a>
+ 	</dd>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="/console/templatesManage">模版管理</a>
+ 	</dd>
+</dl>
+<dl><!--展开项才有：class="active"-->
+ 	<dt>
+ 		主机管理
+ 	</dt>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="/console/hostManage">主机概览</a>
+ 	</dd>
+</dl>
+<dl class="active"><!--展开项才有：class="active"-->
+ 	<dt>
+ 		分组管理
+ 	</dt>
+ 	<dd class="crt"><!--选中项：class="crt"-->
+ 		<a href="/console/hostgroupManage">分组概览</a>
+ 	</dd>
+</dl
+<dl><!--展开项才有：class="active"-->
+ 	<dt>
+ 		内网检测
+ 	</dt>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="http://192.168.250.171:8000/disconf/">内网检测列表配置</a>
+ 	</dd>
+</dl>
+<dl><!--展开项才有：class="active"-->
+ 	<dt>
+ 		ZK可视化
+ 	</dt>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="http://192.168.250.62:9090" target="_blank">开发环境（qa）</a>
+ 	</dd>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="http://192.168.250.62:9091" target="_blank">性能测试环境</a>
+ 	</dd>
+ 	<dd><!--选中项：class="crt"-->
+ 		<a href="http://114.67.58.173:9090" target="_blank">生产环境</a>
+ 	</dd>
+</dl>
+
+
 	            </div>				 				
 			</div>				 	
 			<div class="right-cnt">
@@ -154,23 +189,23 @@
 			<div class="footer-link color-4e">				
 			</div>
 		</div>
-		<script type="text/javascript" src="../js/layout.js"></script>
+		<script type="text/javascript" src="/static/dist/js/layout.js"></script>
 		<!-- Bootstrap Core JavaScript -->
-	    <script src="../datatable/vendor/bootstrap/js/bootstrap.min.js"></script>
+	    <script src="/static/dist/datatable/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 	    <!-- Metis Menu Plugin JavaScript -->
-	    <script src="../datatable/vendor/metisMenu/metisMenu.min.js"></script>
+	    <script src="/static/dist/datatable/vendor/metisMenu/metisMenu.min.js"></script>
 	  
 	    <!-- Custom Theme JavaScript -->
-	    <script src="../datatable/dist/js/sb-admin-2.js"></script>
+	    <script src="/static/dist/datatable/dist/js/sb-admin-2.js"></script>
 
 		<!--search 插件 -->
-		<script type="text/javascript" src="../search/jquery-ui.js"></script>
+		<script type="text/javascript" src="/static/dist/search/jquery-ui.js"></script>
 
 		<!-- DataTables JavaScript -->
-	    <script src="../datatable/vendor/datatables/js/jquery.dataTables.min.js"></script>
-	    <script src="../datatable/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-	    <script src="../datatable/vendor/datatables-responsive/dataTables.responsive.js"></script>
+	    <script src="/static/dist/datatable/vendor/datatables/js/jquery.dataTables.min.js"></script>
+	    <script src="/static/dist/datatable/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+	    <script src="/static/dist/datatable/vendor/datatables-responsive/dataTables.responsive.js"></script>
 		
 		<script>
 			$( function() {

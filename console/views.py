@@ -256,6 +256,10 @@ class hostEdit(TemplateView):
 	template_name = 'console/host/hostEdit.html'
 	form_class = ContactFormSet
 
+class hostInfo(TemplateView):
+	template_name = 'console/host/hostInfo.html'
+	form_class = ContactFormSet
+
 
 class configFileManage(TemplateView):
 	template_name = 'console/config/configFileManage.html'
@@ -275,6 +279,14 @@ class templatesManage(TemplateView):
 
 class hostManage(TemplateView):
 	template_name = 'console/host/hostManage.html'
+	form_class = ContactFormSet
+
+class hostgroupAdd(TemplateView):
+	template_name = 'console/hostgroup/hostgroupAdd.html'
+	form_class = ContactFormSet
+
+class hostgroupInfo(TemplateView):
+	template_name = 'console/hostgroup/hostgroupInfo.html'
 	form_class = ContactFormSet
 
 
